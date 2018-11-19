@@ -13,6 +13,7 @@
 		AF001BEB21985AC900716B7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BE921985AC900716B7A /* Main.storyboard */; };
 		AF001BED21985ACB00716B7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF001BEC21985ACB00716B7A /* Assets.xcassets */; };
 		AF001BF021985ACB00716B7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BEE21985ACB00716B7A /* LaunchScreen.storyboard */; };
+		AF04DF2B21A26D2700F49887 /* TopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF04DF2A21A26D2700F49887 /* TopListViewController.swift */; };
 		AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		AF001BEC21985ACB00716B7A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AF001BEF21985ACB00716B7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AF001BF121985ACB00716B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF04DF2A21A26D2700F49887 /* TopListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListViewController.swift; sourceTree = "<group>"; };
 		AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		ECF05F2682C0C44B1DDD2985 /* Pods-MangoPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,15 +73,32 @@
 		AF001BE421985AC900716B7A /* MangoPractice */ = {
 			isa = PBXGroup;
 			children = (
+				AF04DF2D21A26E9B00F49887 /* ViewController */,
+				AF04DF2C21A26E8400F49887 /* Model */,
 				AF001BE521985AC900716B7A /* AppDelegate.swift */,
-				AF001BE721985AC900716B7A /* ViewController.swift */,
-				AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */,
-				AF001BE921985AC900716B7A /* Main.storyboard */,
 				AF001BEC21985ACB00716B7A /* Assets.xcassets */,
 				AF001BEE21985ACB00716B7A /* LaunchScreen.storyboard */,
 				AF001BF121985ACB00716B7A /* Info.plist */,
 			);
 			path = MangoPractice;
+			sourceTree = "<group>";
+		};
+		AF04DF2C21A26E8400F49887 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AF001BE921985AC900716B7A /* Main.storyboard */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AF04DF2D21A26E9B00F49887 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AF001BE721985AC900716B7A /* ViewController.swift */,
+				AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */,
+				AF04DF2A21A26D2700F49887 /* TopListViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		BB01472B057D5088C184CF85 /* Pods */ = {
@@ -211,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF04DF2B21A26D2700F49887 /* TopListViewController.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,
 				AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */,
