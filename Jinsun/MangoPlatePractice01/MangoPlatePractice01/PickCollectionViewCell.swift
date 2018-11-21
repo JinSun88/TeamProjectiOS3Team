@@ -9,6 +9,7 @@
 import UIKit
 
 class PickCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet weak var imageVIew: UIImageView!
     
     @IBOutlet weak var textLabel: UILabel!

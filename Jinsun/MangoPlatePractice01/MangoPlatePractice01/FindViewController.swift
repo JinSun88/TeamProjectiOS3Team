@@ -71,6 +71,9 @@ class FindViewController: UIViewController {
         
     }
     
+    @IBAction func unwindToFindViewController(_ unwindSegue: UIStoryboardSegue) {
+    }
+    
     
 
 
@@ -89,21 +92,9 @@ extension FindViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let cell = collectionView.cellForItem(at: indexPath)
-//        cell?.layer.borderColor = UIColor.gray.cgColor
-//        cell?.layer.borderWidth = 2
-//        let cell = cellDataItem[indexPath.row]
-//        let viewController1 = storyboard?.instantiateViewController(withIdentifier: "1")
-//        let viewController2 = storyboard?.instantiateViewController(withIdentifier: "2")
-//
-//        if cell.ID == "1" {
-//        self.navigationController?.pushViewController(viewController1!, animated: true)
-//        } else if cell.ID == "2" {
-//        self.navigationController?.pushViewController(viewController2!, animated: true)
-//        }
-    }
-    
-    @IBAction func unwindToFindViewController(_ unwindSegue: UIStoryboardSegue) {
+        
+        performSegue(withIdentifier: "ShowDetail", sender: self)
+        
     }
     
     

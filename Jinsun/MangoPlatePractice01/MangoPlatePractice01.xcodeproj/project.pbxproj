@@ -12,6 +12,10 @@
 		A099E6D82199C69600DDCD23 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A099E6D62199C69600DDCD23 /* Main.storyboard */; };
 		A099E6DA2199C69A00DDCD23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A099E6D92199C69A00DDCD23 /* Assets.xcassets */; };
 		A099E6DD2199C69A00DDCD23 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A099E6DB2199C69A00DDCD23 /* LaunchScreen.storyboard */; };
+		A0BB92B421A4237F006BFA71 /* DetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB92B321A4237F006BFA71 /* DetailPageViewController.swift */; };
+		A0BB92B621A44945006BFA71 /* DetailPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB92B521A44945006BFA71 /* DetailPageCollectionViewCell.swift */; };
+		A0BB92B821A44E89006BFA71 /* FoodImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB92B721A44E89006BFA71 /* FoodImageViewController.swift */; };
+		A0BB92BA21A45293006BFA71 /* FoodImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BB92B921A45293006BFA71 /* FoodImageCollectionViewCell.swift */; };
 		A0BC5C66219EAFDE006004F1 /* FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BC5C65219EAFDE006004F1 /* FindViewController.swift */; };
 		A0BC5C68219EAFE9006004F1 /* PickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BC5C67219EAFE9006004F1 /* PickViewController.swift */; };
 		A0BC5C6A219EAFF5006004F1 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BC5C69219EAFF5006004F1 /* RegisterViewController.swift */; };
@@ -29,6 +33,10 @@
 		A099E6D92199C69A00DDCD23 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A099E6DC2199C69A00DDCD23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A099E6DE2199C69A00DDCD23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0BB92B321A4237F006BFA71 /* DetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageViewController.swift; sourceTree = "<group>"; };
+		A0BB92B521A44945006BFA71 /* DetailPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		A0BB92B721A44E89006BFA71 /* FoodImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodImageViewController.swift; sourceTree = "<group>"; };
+		A0BB92B921A45293006BFA71 /* FoodImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0BC5C65219EAFDE006004F1 /* FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindViewController.swift; sourceTree = "<group>"; };
 		A0BC5C67219EAFE9006004F1 /* PickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickViewController.swift; sourceTree = "<group>"; };
 		A0BC5C69219EAFF5006004F1 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +86,10 @@
 				A0BC5C6B219EB005006004F1 /* MyInfoViewController.swift */,
 				A06B3E1A21A2531900E42EDE /* MapViewController.swift */,
 				A099E6D62199C69600DDCD23 /* Main.storyboard */,
+				A0BB92B721A44E89006BFA71 /* FoodImageViewController.swift */,
+				A0BB92B321A4237F006BFA71 /* DetailPageViewController.swift */,
+				A0BB92B921A45293006BFA71 /* FoodImageCollectionViewCell.swift */,
+				A0BB92B521A44945006BFA71 /* DetailPageCollectionViewCell.swift */,
 				A099E6D92199C69A00DDCD23 /* Assets.xcassets */,
 				A099E6DB2199C69A00DDCD23 /* LaunchScreen.storyboard */,
 				A099E6DE2199C69A00DDCD23 /* Info.plist */,
@@ -156,15 +168,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0BB92B421A4237F006BFA71 /* DetailPageViewController.swift in Sources */,
 				A0BC5C6A219EAFF5006004F1 /* RegisterViewController.swift in Sources */,
+				A0BB92B821A44E89006BFA71 /* FoodImageViewController.swift in Sources */,
 				A0BC5C68219EAFE9006004F1 /* PickViewController.swift in Sources */,
 				A0BC5C70219EB227006004F1 /* TapBarViewController.swift in Sources */,
 				A099E6D32199C69600DDCD23 /* AppDelegate.swift in Sources */,
 				A06B3E1B21A2531900E42EDE /* MapViewController.swift in Sources */,
+				A0BB92B621A44945006BFA71 /* DetailPageCollectionViewCell.swift in Sources */,
 				A0BC5C6C219EB005006004F1 /* MyInfoViewController.swift in Sources */,
 				A0BC5C76219F1111006004F1 /* PickCollectionViewCell.swift in Sources */,
 				A0BC5C72219EDA52006004F1 /* FindCollectionViewCell.swift in Sources */,
 				A0BC5C66219EAFDE006004F1 /* FindViewController.swift in Sources */,
+				A0BB92BA21A45293006BFA71 /* FoodImageCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
