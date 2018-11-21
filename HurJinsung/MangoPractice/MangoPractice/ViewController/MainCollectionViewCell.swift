@@ -62,6 +62,5 @@ final class MainCollectionViewCell: UICollectionViewCell {
             m.top.equalTo(restaurantLocation.snp.bottom)
             m.leading.equalTo(self.contentView)
         }
-        
     }
 }
