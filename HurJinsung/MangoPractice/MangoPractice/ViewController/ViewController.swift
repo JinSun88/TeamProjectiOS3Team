@@ -84,7 +84,14 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {  // 여기엔 안써도 되는건가...
+extension ViewController: UICollectionViewDelegate {
+    // 콜렉션셀을 터치하면 상세페이지(PlateViewController)로 이동
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let destination = PlateViewController()
+        destination.pk = arrayOfCellData[indexPath.row].pk    // 선택한 셀의 pk값을 저장 
+        present(destination, animated: true)
+    }
 }
 extension ViewController: UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 셀의 사이즈 설정
@@ -114,7 +121,7 @@ extension ViewController: UICollectionViewDataSource {
     // cell 구성하기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! MainCollectionViewCell
-        cell.restaurantPicture.image = arrayOfCellData[indexPath.item].image
+        cell.restaurantPicture.image = arrayOfCellData[indexPath.item].image.first
         cell.rankingName.text = "\(arrayOfCellData[indexPath.item].ranking). \(arrayOfCellData[indexPath.item].name)"
         cell.gradePoint.text = String(arrayOfCellData[indexPath.item].gradePoint)
         cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].location)
@@ -122,11 +129,4 @@ extension ViewController: UICollectionViewDataSource {
         
         return cell
     }
-    
-    // cell 선택시 굵은 테두리 (망고에는 없음)
-    //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    //        let cell = mainCollectionView.cellForItem(at: indexPath)
-    //        cell?.layer.borderColor = UIColor.gray.cgColor
-    //        cell?.layer.borderWidth = 2
-    //    }
 }
