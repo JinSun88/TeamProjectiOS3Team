@@ -25,7 +25,6 @@ class ViewController: UIViewController {
         adScrollViewConfig()
         mainCollectionViewConfig()
     }
-    
     private func currentPlaceLabelButtonConfig() {
         // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
         view.addSubview(currentPlaceGuideLabel)
@@ -33,6 +32,7 @@ class ViewController: UIViewController {
             m.top.equalTo(view.safeAreaLayoutGuide).offset(5)
             m.leading.equalTo(view).offset(30)
         }
+        
         currentPlaceGuideLabel.text = "지금 보고 있는 지역은"
         currentPlaceGuideLabel.font = currentPlaceGuideLabel.font.withSize(10)
         
@@ -45,7 +45,6 @@ class ViewController: UIViewController {
         currentPlaceButton.setTitle("용산/숙대 ∨", for: .normal)
         currentPlaceButton.setTitleColor(.black, for: .normal)
     }
-    
     private func adScrollViewConfig() {
         // 횡스크롤 배너
         view.addSubview(adScrollView)
@@ -89,8 +88,9 @@ extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let destination = PlateViewController()
-        destination.pk = arrayOfCellData[indexPath.row].pk    // 선택한 셀의 pk값을 저장 
-        present(destination, animated: true)
+        destination.selectedColumnData = arrayOfCellData[indexPath.row] // 선택된 셀의 컬럼 데이터를 넘겨버림
+//        destination.pk = arrayOfCellData[indexPath.row].pk    // 선택한 셀의 pk값을 저장
+        present(destination, animated: true)  // 플레이트뷰 컨트롤러를 띄움
     }
 }
 extension ViewController: UICollectionViewDelegateFlowLayout {
@@ -111,7 +111,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         return CGFloat(10)
     }
 }
-
 extension ViewController: UICollectionViewDataSource {
     // cell 갯수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

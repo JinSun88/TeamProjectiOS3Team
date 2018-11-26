@@ -27,7 +27,7 @@ final class PlateCollectionViewCell: UICollectionViewCell {
         restaurantPicture.snp.makeConstraints { (m) in
             m.centerY.equalToSuperview()
             m.leading.equalToSuperview().offset(10)
-            m.width.height.equalTo(100)
+            m.width.height.equalTo(140)
         }
     }
 }

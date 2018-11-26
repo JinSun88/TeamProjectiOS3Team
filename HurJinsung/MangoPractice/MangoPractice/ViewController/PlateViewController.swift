@@ -15,7 +15,8 @@ final class PlateViewController: UIViewController {
     let downArrow = UIButton()
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData = CellData().arrayOfCellData
-    var pk = 0
+    var selectedColumnData: CellDataStruct?
+    let middleInfoBarView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,8 @@ final class PlateViewController: UIViewController {
         topGuideViewConfig()
         downArrowConfig()
         plateCollectionViewConfig()
+        middleInfoBarConfig()
+        middleButtonLabelConfig()
         
     }
     private func topGuideViewConfig() {
@@ -57,7 +60,7 @@ final class PlateViewController: UIViewController {
     }
     private func plateCollectionViewConfig() {
         // plateCollectionView Setting
-        plateCollectionView.backgroundColor = .gray
+        plateCollectionView.backgroundColor = .white
         plateCollectionView.dataSource = self
         plateCollectionView.delegate = self
         
@@ -74,49 +77,111 @@ final class PlateViewController: UIViewController {
         plateCollectionView.snp.makeConstraints { (m) in
             m.top.equalTo(topGuideView.snp.bottom).offset(10)
             m.leading.trailing.equalToSuperview()
-            m.height.equalTo(120)
+            m.height.equalTo(150)
         }
+    }
+    private func middleInfoBarConfig(){
+        let restaurantNameLabel = UILabel()
+        let restaurantViewFeedCountLabel = UILabel()
+        let restaurantGradePointLabel = UILabel()
+        
+//        middleInfoBarView.backgroundColor = .darkGray
+        view.addSubview(middleInfoBarView)
+        middleInfoBarView.snp.makeConstraints { (m) in
+        m.top.equalTo(plateCollectionView.snp.bottom).offset(10)
+            m.width.equalToSuperview()
+            m.height.equalTo(100)
+        }
+        
+//        restaurantNameLabel.backgroundColor = .red
+        restaurantNameLabel.text = selectedColumnData?.name
+        restaurantNameLabel.font = UIFont(name: "Helvetica" , size: 25)
+        middleInfoBarView.addSubview(restaurantNameLabel)
+        restaurantNameLabel.snp.makeConstraints { (m) in
+            m.leading.equalToSuperview().offset(15)
+            m.width.equalToSuperview().multipliedBy(0.7)
+            m.top.equalTo(middleInfoBarView.snp.top).inset(15)
+            m.bottom.equalTo(middleInfoBarView.snp.centerY)
+        }
+        
+//        restaurantViewFeedCountLabel.backgroundColor = .blue
+        restaurantViewFeedCountLabel.text = selectedColumnData?.viewFeedCount
+        restaurantViewFeedCountLabel.font = UIFont(name: "Helvetica" , size: 15)
+        restaurantViewFeedCountLabel.textColor = .gray
+        middleInfoBarView.addSubview(restaurantViewFeedCountLabel)
+        restaurantViewFeedCountLabel.snp.makeConstraints { (m) in
+            m.leading.equalToSuperview().offset(15)
+            m.width.equalToSuperview().multipliedBy(0.7)
+            m.bottom.equalTo(middleInfoBarView.snp.bottom).inset(15)
+            m.top.equalTo(middleInfoBarView.snp.centerY)
+        }
+        
+//        restaurantGradePointLabel.backgroundColor = .yellow
+        restaurantGradePointLabel.text = String(selectedColumnData!.gradePoint)
+        restaurantGradePointLabel.textAlignment = .right
+        restaurantGradePointLabel.font = UIFont(name: "Helvetica" , size: 40)
+        restaurantGradePointLabel.textColor = .orange
+        middleInfoBarView.addSubview(restaurantGradePointLabel)
+        restaurantGradePointLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(restaurantNameLabel)
+                m.trailing.equalToSuperview().inset(15)
+                m.height.width.equalTo(60)
+        }
+        
+    }
+    private func middleButtonLabelConfig(){
+        
+        let want2goButton = UIButton()
+        let want2goLabel = UILabel()
+        let checkInButton = UIButton()
+        let checkInLabel = UILabel()
+        let writeReviewButton = UIButton()
+        let writeReviewLabel = UILabel()
+        let uploadPicButton = UIButton()
+        let uploadPicLabel = UILabel()
+        
+        want2goButton.backgroundColor = .red
+        want2goButton.setImage(#imageLiteral(resourceName: "cooking-dinner-food-76093"), for: .normal)
+        view.addSubview(want2goButton)
+        want2goButton.snp.makeConstraints { (m) in
+            m.top.equalTo(middleInfoBarView.snp.bottom).offset(10)
+            m.leading.equalToSuperview().offset(10)
+            m.width.equalToSuperview().multipliedBy(0.25)
+            m.height.equalTo(600)
+        }
+        
+        
     }
 }
 
 extension PlateViewController: UISearchControllerDelegate {
     // 터치시 이동할 내용 들어갈 예정
 }
-
 extension PlateViewController: UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 셀의 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2.5, height: collectionView.frame.height)
+        return CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
     }
 }
-
 extension PlateViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return selectedColumnData?.image.count ?? 0
+//        return arrayOfCellData.filter { $0.pk == pk }.first?.image.count ?? 0 // 고차함수 사용예 (pk는 유닉한 값)
     }
-    
+    // 셀에 이미지 삽입
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = plateCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PlateCollectionViewCell
-        
-        print(pk)
-        
-        for i in arrayOfCellData {
-            if i.pk == pk {
-               cell.restaurantPicture.image = i.image[indexPath.row]
-            }
-        }
-        
-//        for i in arrayOfCellData {
-//            if i.pk == pk {
-//                for a in 0..<i.image.count {
-//                    cell.restaurantPicture.image = i.image[a]
-//                }
-//            }
-//        }
-//        for image in arrayOfCellData[pk].image {
-//            cell.restaurantPicture.image = image
-//        }
+        cell.restaurantPicture.image = selectedColumnData?.image[indexPath.item]
         return cell
     }
 }
 
+// 유엽군이 만든 버튼제작 func
+//var btns: [UIButton] = []
+//func createbtn(title: String, frame: CGRect, tag: Int) {
+//    let btn = UIButton()
+//    btn.frame = frame
+//    btn.tag = tag
+//    btns.append(btn)
+//    view.addSubview(btn)
+//}
