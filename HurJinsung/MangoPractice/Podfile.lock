@@ -1,16 +1,20 @@
 PODS:
   - SnapKit (4.0.1)
+  - YouTubePlayer-Swift (1.0)
 
 DEPENDENCIES:
   - SnapKit
+  - YouTubePlayer-Swift (~> 1.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - SnapKit
+    - YouTubePlayer-Swift
 
 SPEC CHECKSUMS:
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+  YouTubePlayer-Swift: ae82f4bcb504162a872b852596a9dc1fa3828c34
 
-PODFILE CHECKSUM: cd14e2a3930a880b10fdb08ac6f3fa46888c5543
+PODFILE CHECKSUM: c99b6566616444f2f30ac9bd07346d82a13673b8
 
 COCOAPODS: 1.5.3

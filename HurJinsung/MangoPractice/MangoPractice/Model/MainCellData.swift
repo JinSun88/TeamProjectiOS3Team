@@ -19,7 +19,7 @@ struct CellDataStruct {
     let gradePoint: Double
     
     // 위치값 (네이버 or Apple)
-    // 내가 즐겨찾기한 데이터인지 아닌지
+    // 내가 즐겨찾기한 데이터(가고싶다) 인지 아닌지 (Bool값)
     // 내가 등록한 데이터인지 아닌지
 }
 

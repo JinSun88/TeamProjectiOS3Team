@@ -6,6 +6,7 @@ target 'MangoPractice' do
   use_frameworks!
 
 pod 'SnapKit'
+pod 'YouTubePlayer-Swift', '~> 1.0'
   # Pods for MangoPractice
 
 end
