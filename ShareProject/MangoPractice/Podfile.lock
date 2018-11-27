@@ -5,7 +5,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
-  - SnapKit
+  - SnapKit (~> 4.0.0)
   - YouTubePlayer-Swift (~> 1.0)
 
 SPEC REPOS:
@@ -19,6 +19,6 @@ SPEC CHECKSUMS:
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   YouTubePlayer-Swift: ae82f4bcb504162a872b852596a9dc1fa3828c34
 
-PODFILE CHECKSUM: fb74edede8be1a764c6ccb7709d044be3eff57c2
+PODFILE CHECKSUM: 3613acf3e0a8c5a024f2daebdb3bd5c4a687f879
 
 COCOAPODS: 1.5.3

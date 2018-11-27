@@ -160,14 +160,13 @@ final class PlateViewController: UIViewController {
         }
         
     }
-    private func middleButtonsViewConfig(){
-        middleButtonsView.backgroundColor = .lightGray
-        scrollGuideView.addSubview(middleButtonsView)
-        middleButtonsView.snp.makeConstraints { (m) in
-            m.top.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
-        }
-        
-    }
+//    private func middleButtonsViewConfig(){   -->> 작업중
+//        middleButtonsView.backgroundColor = .lightGray
+//        scrollGuideView.addSubview(middleButtonsView)
+//        middleButtonsView.snp.makeConstraints { (m) in
+//            m.top.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
+//        }
+//    }
     private func middleButtonLabelConfig(){
         
         want2goButton.setImage(#imageLiteral(resourceName: "cooking-dinner-food-76093"), for: .normal)
