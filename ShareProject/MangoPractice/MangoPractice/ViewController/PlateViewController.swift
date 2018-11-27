@@ -6,11 +6,10 @@
 //  Copyright © 2018 Bernard Hur. All rights reserved.
 //
 
-import CoreLocation
 import UIKit
-import MapKit
 import SnapKit
 import YouTubePlayer_Swift
+import GoogleMaps
 
 final class PlateViewController: UIViewController {
     
@@ -303,14 +302,23 @@ final class PlateViewController: UIViewController {
         addressLabel.text = address
         
         // 맵뷰 셋팅
-        let mapView = MKMapView()
+        let camera = GMSCameraPosition.camera(withLatitude: 37.531299, longitude: 126.971395, zoom: 15.0)
+        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapView.isMyLocationEnabled = false
+        
+        // 맵뷰 오토레이아웃
         addressMapView.addSubview(mapView)
         mapView.snp.makeConstraints { (m) in
             m.top.equalTo(addressLabel.snp.bottom).offset(5)
             m.width.leading.bottom.equalToSuperview()
         }
         
-        
+        // 맵뷰 마커 설정
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: 37.531299, longitude: 126.971395)
+        marker.title = "\(selectedColumnData?.name ?? "여긴 어디지요?")"
+        // marker.snippet = "구지 쓸필요 없을 듯"
+        marker.map = mapView
     }
 }
 
