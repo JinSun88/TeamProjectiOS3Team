@@ -21,6 +21,7 @@ final class PlateViewController: UIViewController {
     var arrayOfCellData = CellData().arrayOfCellData
     var selectedColumnData: CellDataStruct?
     let middleInfoBarView = UIView()
+    let middleButtonsView = UIView() // 가고싶다~사진올리기 버튼들을 올리는 뷰
     let want2goButton = UIButton()
     let want2goLabel = UILabel()
     let checkInButton = UIButton()
@@ -159,6 +160,13 @@ final class PlateViewController: UIViewController {
         }
         
     }
+//    private func middleButtonsViewConfig(){   -->> 작업중
+//        middleButtonsView.backgroundColor = .lightGray
+//        scrollGuideView.addSubview(middleButtonsView)
+//        middleButtonsView.snp.makeConstraints { (m) in
+//            m.top.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
+//        }
+//    }
     private func middleButtonLabelConfig(){
         
         want2goButton.setImage(#imageLiteral(resourceName: "cooking-dinner-food-76093"), for: .normal)

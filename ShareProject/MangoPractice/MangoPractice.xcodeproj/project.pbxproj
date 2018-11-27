@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5AB6FFE8170A1FA3F466A88D /* Pods_MangoPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */; };
+		A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EF921AD0C75004D7602 /* MapViewController.swift */; };
 		AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE521985AC900716B7A /* AppDelegate.swift */; };
 		AF001BE821985AC900716B7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE721985AC900716B7A /* ViewController.swift */; };
 		AF001BEB21985AC900716B7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BE921985AC900716B7A /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MangoPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		613CEC43A6853698D5C2CAC9 /* Pods-MangoPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.release.xcconfig"; sourceTree = "<group>"; };
+		A0A32EF921AD0C75004D7602 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = MangoPractice/ViewController/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		AF001BE221985AC900716B7A /* MangoPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangoPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF001BE521985AC900716B7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF001BE721985AC900716B7A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */,
 				AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */,
 				AF04DF2A21A26D2700F49887 /* TopListViewController.swift */,
+				A0A32EF921AD0C75004D7602 /* MapViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */,
 				AF0342E921A6A70D00DC6289 /* PlateCollectionViewCell.swift in Sources */,
 				AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */,
+				A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

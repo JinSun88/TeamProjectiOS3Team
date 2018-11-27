@@ -8,11 +8,14 @@
 
 import UIKit
 import SnapKit
+import WebKit
 
 class ViewController: UIViewController {
     
     let currentPlaceGuideLabel = UILabel()
     let currentPlaceButton = UIButton()
+    let searchButton = UIButton()
+    let mapButton = UIButton()
     let adScrollView = UIScrollView()
     var adImagesArray = [UIImage]()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -24,6 +27,8 @@ class ViewController: UIViewController {
         currentPlaceLabelButtonConfig()
         adScrollViewConfig()
         mainCollectionViewConfig()
+        mapButtonConfig()
+        searchButtonConfig()
     }
     private func currentPlaceLabelButtonConfig() {
         // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
@@ -42,10 +47,44 @@ class ViewController: UIViewController {
             m.top.equalTo(currentPlaceGuideLabel.snp.bottom)
             m.leading.equalTo(currentPlaceGuideLabel)
         }
-        currentPlaceButton.setTitle("용산/숙대 ∨", for: .normal)
+        currentPlaceButton.setTitle("왕십리/성동 ∨", for: .normal)
         currentPlaceButton.setTitleColor(.black, for: .normal)
     }
+    
+    private func mapButtonConfig() {
+        let mapButtonImage = UIImage(named: "map_button")
+        view.addSubview(mapButton)
+        mapButton.setImage(mapButtonImage, for: .normal)
+        mapButton.imageView?.contentMode = .scaleAspectFit
+        
+        mapButton.snp.makeConstraints{
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.width.equalTo(70)
+            $0.height.equalTo(50)
+        }
+        
+        mapButton.addTarget(self, action: #selector(mapButtonAction), for: .touchUpInside)
+    }
+    
+    private func searchButtonConfig() {
+        let searchButtonImage = UIImage(named: "search_button")
+        view.addSubview(searchButton)
+        
+        searchButton.setImage(searchButtonImage, for: .normal)
+        searchButton.imageView?.contentMode = .scaleAspectFit
+        
+        searchButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.trailing.equalTo(mapButton.snp.leading)
+            $0.width.equalTo(43)
+            $0.height.equalTo(43)
+        }
+        
+        
+    }
     private func adScrollViewConfig() {
+        
         // 횡스크롤 배너
         view.addSubview(adScrollView)
         adScrollView.frame = CGRect(x: view.frame.origin.x, y: currentPlaceButton.bounds.maxY + 100, width: view.frame.width, height: 120)
@@ -53,8 +92,9 @@ class ViewController: UIViewController {
         adScrollView.backgroundColor = .gray
         adScrollView.isPagingEnabled = true
         
+        
         // 횡스크롤 배너에 이미지 넣기
-        adImagesArray = [#imageLiteral(resourceName: "sunset-1645103_1280"), #imageLiteral(resourceName: "banner-1686943_1280"), #imageLiteral(resourceName: "banner-1018818_1280")]
+        adImagesArray = [UIImage(named: "ad2") , UIImage(named: "ad1"), UIImage(named: "ad3")] as! [UIImage]
         for i in 0..<adImagesArray.count {
             let adView = UIImageView()
             adView.contentMode = .scaleToFill
@@ -81,6 +121,19 @@ class ViewController: UIViewController {
             m.leading.trailing.bottom.equalTo(view)
         }
     }
+    
+    //  버튼액션
+    
+    @objc func mapButtonAction(sender: UIButton!) {
+        print("mapButton tap")
+        performSegue(withIdentifier: "showMapView", sender: self)
+     
+    }
+    
+    
+    
+    
+    
 }
 
 extension ViewController: UICollectionViewDelegate {

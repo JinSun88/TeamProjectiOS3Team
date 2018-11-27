@@ -8,11 +8,14 @@
 
 import UIKit
 import SnapKit
+import WebKit
 
 class ViewController: UIViewController {
     
     let currentPlaceGuideLabel = UILabel()
     let currentPlaceButton = UIButton()
+    let searchButton = UIButton()
+    let mapButton = UIButton()
     let adScrollView = UIScrollView()
     var adImagesArray = [UIImage]()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -24,6 +27,8 @@ class ViewController: UIViewController {
         currentPlaceLabelButtonConfig()
         adScrollViewConfig()
         mainCollectionViewConfig()
+        mapButtonConfig()
+        searchButtonConfig()
     }
     private func currentPlaceLabelButtonConfig() {
         // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
@@ -42,10 +47,44 @@ class ViewController: UIViewController {
             m.top.equalTo(currentPlaceGuideLabel.snp.bottom)
             m.leading.equalTo(currentPlaceGuideLabel)
         }
-        currentPlaceButton.setTitle("용산/숙대 ∨", for: .normal)
+        currentPlaceButton.setTitle("왕십리/성동 ∨", for: .normal)
         currentPlaceButton.setTitleColor(.black, for: .normal)
     }
+    
+    private func mapButtonConfig() {
+        let mapButtonImage = UIImage(named: "map_button")
+        view.addSubview(mapButton)
+        mapButton.setImage(mapButtonImage, for: .normal)
+        mapButton.imageView?.contentMode = .scaleAspectFit
+        
+        mapButton.snp.makeConstraints{
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.width.equalTo(70)
+            $0.height.equalTo(50)
+        }
+        
+        mapButton.addTarget(self, action: #selector(mapButtonAction), for: .touchUpInside)
+    }
+    
+    private func searchButtonConfig() {
+        let searchButtonImage = UIImage(named: "search_button")
+        view.addSubview(searchButton)
+        
+        searchButton.setImage(searchButtonImage, for: .normal)
+        searchButton.imageView?.contentMode = .scaleAspectFit
+        
+        searchButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.trailing.equalTo(mapButton.snp.leading)
+            $0.width.equalTo(43)
+            $0.height.equalTo(43)
+        }
+        
+        
+    }
     private func adScrollViewConfig() {
+        
         // 횡스크롤 배너
         view.addSubview(adScrollView)
         adScrollView.frame = CGRect(x: view.frame.origin.x, y: currentPlaceButton.bounds.maxY + 100, width: view.frame.width, height: 120)
@@ -53,8 +92,9 @@ class ViewController: UIViewController {
         adScrollView.backgroundColor = .gray
         adScrollView.isPagingEnabled = true
         
+        
         // 횡스크롤 배너에 이미지 넣기
-        adImagesArray = [#imageLiteral(resourceName: "sunset-1645103_1280"), #imageLiteral(resourceName: "banner-1686943_1280"), #imageLiteral(resourceName: "banner-1018818_1280")]
+        adImagesArray = [UIImage(named: "ad2") , UIImage(named: "ad1"), UIImage(named: "ad3")] as! [UIImage]
         for i in 0..<adImagesArray.count {
             let adView = UIImageView()
             adView.contentMode = .scaleToFill
@@ -65,8 +105,52 @@ class ViewController: UIViewController {
             adScrollView.contentSize.width = adScrollView.frame.width * CGFloat((i + 1))
             
             adScrollView.addSubview(adView)
+            
+        }
+        let button1 = UIButton()
+        let button2 = UIButton()
+        let button3 = UIButton()
+        
+        button1.backgroundColor = .clear
+        adScrollView.addSubview(button1)
+        button1.frame = CGRect(x: view.frame.width * 0, y: adScrollView.bounds.origin.y, width: adScrollView.frame.width, height: adScrollView.frame.height)
+        button1.addTarget(self, action: #selector(button1Action), for: .touchUpInside)
+        
+        button2.backgroundColor = .clear
+        adScrollView.addSubview(button2)
+        button2.frame = CGRect(x: view.frame.width * 1, y: adScrollView.bounds.origin.y, width: adScrollView.frame.width, height: adScrollView.frame.height)
+        button2.addTarget(self, action: #selector(button2Action), for: .touchUpInside)
+        
+        button3.backgroundColor = .clear
+        adScrollView.addSubview(button3)
+        button3.frame = CGRect(x: view.frame.width * 2, y: adScrollView.bounds.origin.y, width: adScrollView.frame.width, height: adScrollView.frame.height)
+        button3.addTarget(self, action: #selector(button3Action), for: .touchUpInside)
+    }
+    
+    @objc func button1Action() {
+        print("button1 Actioned")
+        if let url = URL(string: "https://www.mangoplate.com/eat_deals") {
+            UIApplication.shared.open(url, options: [:])
         }
     }
+    @objc func button2Action() {
+        print("button2 Actioned")
+        if let url = URL(string: "http://www.mangoplate.com/campaigns/48?utm_source=url&utm_campaign=48&utm_medium=campaign&utm_term=v3_ios") {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+    @objc func button3Action() {
+        print("button3 Actioned")
+        
+        if let url = URL(string: "https://www.mangoplate.com/top_lists/832_wangsimni?utm_source=url&utm_campaign=832_wangsimni&utm_medium=toplist&utm_term=v3_ios") {
+            UIApplication.shared.open(url, options: [:])
+        }
+        
+    }
+        
+      
+    
+    
     private func mainCollectionViewConfig() {
         // mainCollectionView Setting
         mainCollectionView.backgroundColor = .white
@@ -81,6 +165,19 @@ class ViewController: UIViewController {
             m.leading.trailing.bottom.equalTo(view)
         }
     }
+    
+    //  맵버튼액션 맵뷰로 이동
+    
+    @objc func mapButtonAction(sender: UIButton!) {
+        print("mapButton tap")
+        performSegue(withIdentifier: "showMapView", sender: self)
+     
+    }
+    
+    
+    
+    
+    
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -129,3 +226,5 @@ extension ViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+
