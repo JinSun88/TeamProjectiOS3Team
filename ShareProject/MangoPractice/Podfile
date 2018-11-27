@@ -8,6 +8,8 @@ target 'MangoPractice' do
 pod 'SnapKit', '~> 4.0.0'
 pod 'YouTubePlayer-Swift', '~> 1.0'
 pod 'Alamofire', '~> 4.7'
+pod 'GoogleMaps'
+pod 'GooglePlaces'
 
   # Pods for MangoPractice
 

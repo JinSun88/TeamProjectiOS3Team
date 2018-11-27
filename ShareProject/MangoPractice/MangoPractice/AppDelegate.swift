@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps // 구글맵 임폴트
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        // 구글맵 사용을 위해 실제 API 키를 입력합니다. 이 키는 외부 노출 안시키는게 좋습니다.
+        GMSServices.provideAPIKey("AIzaSyD2hQFiuJNqB7OdgDLqhYREhimyhp32CIU")
         
 //            let layout = UICollectionViewFlowLayout()
 //            let home = ViewController(collectionViewLayout: layout)
