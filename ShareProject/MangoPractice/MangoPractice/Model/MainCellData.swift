@@ -17,7 +17,20 @@ struct CellDataStruct {
     let location: String
     let viewFeedCount: String
     let gradePoint: Double
+    let youTubeUrl: String?
+    let address: String?
     
+    init(pk: Int, ranking: Int, name: String, image: [UIImage], location: String, viewFeedCount: String, gradePoint: Double, youTubeUrl: String? = nil, address: String? = nil) {
+        self.pk = pk
+        self.ranking = ranking
+        self.name = name
+        self.image = image
+        self.location = location
+        self.viewFeedCount = viewFeedCount
+        self.gradePoint = gradePoint
+        self.youTubeUrl = youTubeUrl
+        self.address = address
+    }
     // 위치값 (네이버 or Apple)
     // 내가 즐겨찾기한 데이터(가고싶다) 인지 아닌지 (Bool값)
     // 내가 등록한 데이터인지 아닌지
@@ -25,8 +38,8 @@ struct CellDataStruct {
 
 final class CellData {
     var arrayOfCellData: [CellDataStruct] = [
-        CellDataStruct(pk:111, ranking: 1, name: "야스노야지로", image: [ #imageLiteral(resourceName: "burrito-chicken-close-up-461198"), #imageLiteral(resourceName: "banner-1686943_1280"), #imageLiteral(resourceName: "DropDownArrow"), #imageLiteral(resourceName: "burrito-chicken-close-up-461198"), #imageLiteral(resourceName: "sunset-1645103_1280"), #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨3747 🖋7 ", gradePoint: 4.6),
-        CellDataStruct(pk:222, ranking: 2, name: "우스블랑(1호점)", image:[ #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨102531 🖋119 ", gradePoint: 4.3),
+        CellDataStruct(pk:111, ranking: 1, name: "야스노야지로", image: [ #imageLiteral(resourceName: "burrito-chicken-close-up-461198"), #imageLiteral(resourceName: "banner-1686943_1280"), #imageLiteral(resourceName: "DropDownArrow"), #imageLiteral(resourceName: "burrito-chicken-close-up-461198"), #imageLiteral(resourceName: "sunset-1645103_1280"), #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨3747 🖋7 ", gradePoint: 4.6, youTubeUrl: "https://www.youtube.com/watch?v=jJt2Wunh5d4", address: "서울시 용산구 원효로1가 57-9"),
+        CellDataStruct(pk:222, ranking: 2, name: "우스블랑(1호점)", image:[ #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨102531 🖋119 ", gradePoint: 4.3, youTubeUrl: "https://www.youtube.com/watch?v=ddn-18UBScQ", address: "서울시 용산구 효창동 5-51"),
         CellDataStruct(pk:333, ranking: 3, name: "한입소반", image:[ #imageLiteral(resourceName: "blur-breakfast-close-up-376464")], location: "용산/숙대", viewFeedCount: "👁‍🗨25478 🖋35 ", gradePoint: 4.3),
         CellDataStruct(pk:444, ranking: 4, name: "슬라이더버거", image:[ #imageLiteral(resourceName: "burrito-chicken-close-up-461198")], location: "용산/숙대", viewFeedCount: "👁‍🗨31464 🖋12 ", gradePoint: 4.3),
         CellDataStruct(pk:555, ranking: 5, name: "화양연가", image:[ #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨8421 🖋8 ", gradePoint: 4.3),

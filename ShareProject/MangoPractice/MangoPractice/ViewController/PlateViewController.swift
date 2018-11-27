@@ -6,56 +6,62 @@
 //  Copyright © 2018 Bernard Hur. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
+import MapKit
 import SnapKit
 import YouTubePlayer_Swift
 
 final class PlateViewController: UIViewController {
     
     // 각 인스턴스를 밖에서 만들어 주는 이유는 Auto레이아웃을 잡아주기 위함입니다. (안에 만들면 각각 참조가 안됨)
+    
+    // 스크롤뷰 위에 올리는 가이드뷰(필수 덕목)
     let scrollView = UIScrollView()
-    let scrollGuideView = UIView() // 스크롤뷰 위에 올리는 가이드뷰(필수 덕목)
+    let scrollGuideView = UIView()
+    
+    // 닫힘버튼(∨), 마이리스트 추가 버튼, 공유하기 버튼 올리는 뷰
     let topGuideView = UIView()
-    let downArrow = UIButton()
+    
+    // 콜렉션뷰와 (선택된) 셀데이터
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData = CellData().arrayOfCellData
     var selectedColumnData: CellDataStruct?
+    
+    // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleInfoBarView = UIView()
-    let middleButtonsView = UIView() // 가고싶다~사진올리기 버튼들을 올리는 뷰
-    let want2goButton = UIButton()
-    let want2goLabel = UILabel()
-    let checkInButton = UIButton()
-    let checkInLabel = UILabel()
-    let writeReviewButton = UIButton()
-    let writeReviewLabel = UILabel()
-    let uploadPicButton = UIButton()
-    let uploadPicLabel = UILabel()
-    let youTube = YouTubePlayerView()
+    // 가고싶다~사진올리기 버튼들을 올리는 뷰
+    let middleButtonsView = UIView()
+    
+    // 맛집 유튜브 연동 뷰
+    let youTubeView = YouTubePlayerView()
+    // 맛집 주소와 맵 올리는 뷰
+    let addressMapView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .lightGray
         
         topGuideViewConfig()
         scrollViewConfig()
-        downArrowConfig()
         plateCollectionViewConfig()
         middleInfoBarConfig()
-        middleButtonLabelConfig()
+        middleButtonsViewConfig()
         youTubeWebView()
+        addressMapViewConfig()
     }
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
-        topGuideView.backgroundColor = .lightGray
+        topGuideView.backgroundColor = .white
         view.addSubview(topGuideView)
         topGuideView.snp.makeConstraints { (m) in
             m.top.equalTo(view.safeAreaLayoutGuide)
             m.width.equalToSuperview()
             m.height.equalTo(80)
         }
-    }
-    private func downArrowConfig() {
+        
         // topGuideLabel 위에 DownArrow 버튼 설정
+        let downArrow = UIButton()
         let downArrowImage = UIImage(named: "DropDownArrow")
         downArrow.setBackgroundImage(downArrowImage, for: .normal)
         downArrow.imageView?.contentMode = .scaleAspectFit
@@ -73,7 +79,7 @@ final class PlateViewController: UIViewController {
         // downArrow 버튼 클릭하면 현재뷰컨트롤러가 dismiss
         presentingViewController?.dismiss(animated: true)
     }
-    private func scrollViewConfig(){
+    private func scrollViewConfig() {
         // 스크롤뷰 콘피그
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { (m) in
@@ -111,12 +117,12 @@ final class PlateViewController: UIViewController {
             m.height.equalTo(150)
         }
     }
-    private func middleInfoBarConfig(){
+    private func middleInfoBarConfig() {
         let restaurantNameLabel = UILabel()
         let restaurantViewFeedCountLabel = UILabel()
         let restaurantGradePointLabel = UILabel()
         
-        //        middleInfoBarView.backgroundColor = .darkGray
+        middleInfoBarView.backgroundColor = .white
         scrollGuideView.addSubview(middleInfoBarView)
         middleInfoBarView.snp.makeConstraints { (m) in
             m.top.equalTo(plateCollectionView.snp.bottom).offset(10)
@@ -160,44 +166,55 @@ final class PlateViewController: UIViewController {
         }
         
     }
-//    private func middleButtonsViewConfig(){   -->> 작업중
-//        middleButtonsView.backgroundColor = .lightGray
-//        scrollGuideView.addSubview(middleButtonsView)
-//        middleButtonsView.snp.makeConstraints { (m) in
-//            m.top.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
-//        }
-//    }
-    private func middleButtonLabelConfig(){
+    private func middleButtonsViewConfig() {
+        // middleButtonsView Auto-Layout 셋팅
+        middleButtonsView.backgroundColor = .white
+        scrollGuideView.addSubview(middleButtonsView)
+        middleButtonsView.snp.makeConstraints { (m) in
+            m.top.equalTo(middleInfoBarView.snp.bottom).offset(10)
+            m.width.equalToSuperview()
+            m.height.equalTo(120)
+        }
+        
+        // 가고싶다~사진올리기 버튼 및 라벨 올리기
+        let want2goButton = UIButton()
+        let want2goLabel = UILabel()
+        let checkInButton = UIButton()
+        let checkInLabel = UILabel()
+        let writeReviewButton = UIButton()
+        let writeReviewLabel = UILabel()
+        let uploadPicButton = UIButton()
+        let uploadPicLabel = UILabel()
         
         want2goButton.setImage(#imageLiteral(resourceName: "cooking-dinner-food-76093"), for: .normal)
-        scrollGuideView.addSubview(want2goButton)
+        middleButtonsView.addSubview(want2goButton)
         want2goButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleInfoBarView.snp.bottom)
+            m.top.equalTo(middleButtonsView)
             m.leading.equalToSuperview()
-            m.width.height.equalTo(scrollGuideView.snp.width).multipliedBy(0.25)
+            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
-
+        
         want2goLabel.text = "가고싶다"
         want2goLabel.textColor = .orange
         want2goLabel.textAlignment = .center
-        scrollGuideView.addSubview(want2goLabel)
+        middleButtonsView.addSubview(want2goLabel)
         want2goLabel.snp.makeConstraints {
             $0.top.equalTo(want2goButton.snp.bottom)
             $0.width.equalTo(want2goButton)
         }
         
         checkInButton.setImage(#imageLiteral(resourceName: "burrito-chicken-close-up-461198"), for: .normal)
-        scrollGuideView.addSubview(checkInButton)
+        middleButtonsView.addSubview(checkInButton)
         checkInButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleInfoBarView.snp.bottom)
+            m.top.equalTo(middleButtonsView)
             m.leading.equalTo(want2goButton.snp.trailing)
-            m.width.height.equalTo(scrollGuideView.snp.width).multipliedBy(0.25)
+            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
         
         checkInLabel.text = "체크인"
         checkInLabel.textColor = .orange
         checkInLabel.textAlignment = .center
-        scrollGuideView.addSubview(checkInLabel)
+        middleButtonsView.addSubview(checkInLabel)
         checkInLabel.snp.makeConstraints {
             $0.top.equalTo(checkInButton.snp.bottom)
             $0.leading.equalTo(checkInButton)
@@ -205,17 +222,17 @@ final class PlateViewController: UIViewController {
         }
         
         writeReviewButton.setImage(#imageLiteral(resourceName: "sunset-1645103_1280"), for: .normal)
-        scrollGuideView.addSubview(writeReviewButton)
+        middleButtonsView.addSubview(writeReviewButton)
         writeReviewButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleInfoBarView.snp.bottom)
+            m.top.equalTo(middleButtonsView)
             m.leading.equalTo(checkInButton.snp.trailing)
-            m.width.height.equalTo(scrollGuideView.snp.width).multipliedBy(0.25)
+            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
         
         writeReviewLabel.text = "리뷰쓰기"
         writeReviewLabel.textColor = .orange
         writeReviewLabel.textAlignment = .center
-        scrollGuideView.addSubview(writeReviewLabel)
+        middleButtonsView.addSubview(writeReviewLabel)
         writeReviewLabel.snp.makeConstraints {
             $0.top.equalTo(writeReviewButton.snp.bottom)
             $0.leading.equalTo(writeReviewButton)
@@ -223,36 +240,77 @@ final class PlateViewController: UIViewController {
         }
         
         uploadPicButton.setImage(#imageLiteral(resourceName: "banner-1686943_1280"), for: .normal)
-        scrollGuideView.addSubview(uploadPicButton)
+        middleButtonsView.addSubview(uploadPicButton)
         uploadPicButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleInfoBarView.snp.bottom)
+            m.top.equalTo(middleButtonsView)
             m.leading.equalTo(writeReviewButton.snp.trailing)
-            m.width.height.equalTo(scrollGuideView.snp.width).multipliedBy(0.25)
+            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
         
         uploadPicLabel.text = "사진올리기"
         uploadPicLabel.textColor = .orange
         uploadPicLabel.textAlignment = .center
-        scrollGuideView.addSubview(uploadPicLabel)
+        middleButtonsView.addSubview(uploadPicLabel)
         uploadPicLabel.snp.makeConstraints {
             $0.top.equalTo(uploadPicButton.snp.bottom)
             $0.leading.equalTo(uploadPicButton)
             $0.width.equalTo(uploadPicButton)
         }
-        
     }
     private func youTubeWebView() {
-        // 유튜브 URL이 없으면 진행하지 않도록 처리 필요
-        scrollGuideView.addSubview(youTube)
-        youTube.snp.makeConstraints { (m) in
-            m.top.equalTo(want2goLabel.snp.bottom).offset(10)
+        // 유튜브 URL이 없으면 높이 1 스크롤 가이드뷰를 생성하고 아니면 유튜브 플레이어 표시
+        guard let youTubeUrl = selectedColumnData?.youTubeUrl else {
+            scrollGuideView.addSubview(youTubeView)
+            youTubeView.snp.makeConstraints { (m) in
+                m.top.equalTo(middleButtonsView.snp.bottom)
+                m.width.leading.equalToSuperview()
+                m.height.equalTo(1)
+            }
+            return }
+        
+        // 유튜브 URL이 있으면 하기 진행
+        scrollGuideView.addSubview(youTubeView)
+        youTubeView.snp.makeConstraints { (m) in
+            m.top.equalTo(middleButtonsView.snp.bottom).offset(10)
             m.width.leading.equalToSuperview()
             m.height.equalTo(200)
         }
         
-        youTube.playerVars = ["playsinline": 1 as AnyObject] // 전체화면 아닌 해당 페이지에서 플레이
-        let myVideoURL = NSURL(string: "https://www.youtube.com/watch?v=jJt2Wunh5d4")
-        youTube.loadVideoURL(myVideoURL! as URL)
+        youTubeView.playerVars = ["playsinline": 1 as AnyObject] // 전체화면 아닌 해당 페이지에서 플레이
+        let myVideoURL = NSURL(string: youTubeUrl)
+        youTubeView.loadVideoURL(myVideoURL! as URL)
+    }
+    private func addressMapViewConfig() {
+        addressMapView.backgroundColor = .magenta
+        scrollGuideView.addSubview(addressMapView)
+        addressMapView.snp.makeConstraints { (m) in
+            m.top.equalTo(youTubeView.snp.bottom).offset(10)
+            m.leading.width.equalToSuperview()
+            m.height.equalTo(150)
+        }
+        
+        // 주소 표시 뷰 세팅, 주소를 라벨에 삽입
+        let addressLabel = UILabel()
+        addressLabel.backgroundColor = .blue
+        addressMapView.addSubview(addressLabel)
+        addressLabel.snp.makeConstraints { (m) in
+            m.top.equalToSuperview()
+            m.width.equalToSuperview().multipliedBy(0.8)
+            m.centerX.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        guard let address = selectedColumnData?.address else { return }
+        addressLabel.text = address
+        
+        // 맵뷰 셋팅
+        let mapView = MKMapView()
+        addressMapView.addSubview(mapView)
+        mapView.snp.makeConstraints { (m) in
+            m.top.equalTo(addressLabel.snp.bottom).offset(5)
+            m.width.leading.bottom.equalToSuperview()
+        }
+        
+        
     }
 }
 
