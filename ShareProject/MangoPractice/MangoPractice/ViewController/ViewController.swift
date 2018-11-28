@@ -9,6 +9,8 @@
 import UIKit
 import SnapKit
 import WebKit
+import CoreLocation
+
 
 class ViewController: UIViewController {
     
@@ -17,9 +19,16 @@ class ViewController: UIViewController {
     let searchButton = UIButton()
     let mapButton = UIButton()
     let adScrollView = UIScrollView()
+    let locationManager = CLLocationManager()
     var adImagesArray = [UIImage]()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData = CellData().arrayOfCellData
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +38,36 @@ class ViewController: UIViewController {
         mainCollectionViewConfig()
         mapButtonConfig()
         searchButtonConfig()
+        checkAuthorizationStatus()
+
     }
+    
+    // 위치 사용권한 체크
+    private func checkAuthorizationStatus() {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        //            locationManager.requestAlwaysAuthorization()
+        case .restricted, .denied:
+            break
+        case .authorizedWhenInUse:
+            fallthrough
+        case .authorizedAlways:
+            startUpdatingLocation()
+        }
+    }
+    
+    private func startUpdatingLocation() {
+        let status = CLLocationManager.authorizationStatus()
+        guard status == .authorizedAlways || status == .authorizedWhenInUse,
+            CLLocationManager.locationServicesEnabled()
+            else { return }
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 10.0 // 이벤트를 발생시키는 최소거리
+        locationManager.startUpdatingLocation()
+        
+    }
+    
     private func currentPlaceLabelButtonConfig() {
         // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
         view.addSubview(currentPlaceGuideLabel)
