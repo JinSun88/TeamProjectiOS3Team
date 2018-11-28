@@ -37,6 +37,9 @@ final class PlateViewController: UIViewController {
     // 맛집 주소와 맵 올리는 뷰
     let addressMapView = UIView()
     
+    // 전화걸기 올리는 뷰
+    let telView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
@@ -48,6 +51,7 @@ final class PlateViewController: UIViewController {
         middleButtonsViewConfig()
         youTubeWebView()
         addressMapViewConfig()
+        telViewConfig()
     }
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
@@ -258,12 +262,12 @@ final class PlateViewController: UIViewController {
     }
     private func youTubeWebView() {
         // 유튜브 URL이 없으면 높이 1 스크롤 가이드뷰를 생성하고 아니면 유튜브 플레이어 표시
-        guard let youTubeUrl = selectedColumnData?.youTubeUrl else {
+        guard let youTubeUrl = selectedColumnData?.youTubeUrl else {     // -> 가드렛이 잘못 쓰인건지 확인 필요!!!!
             scrollGuideView.addSubview(youTubeView)
             youTubeView.snp.makeConstraints { (m) in
                 m.top.equalTo(middleButtonsView.snp.bottom)
-                m.width.leading.equalToSuperview()
-                m.height.equalTo(1)
+                m.width.equalToSuperview()
+                m.height.equalTo(5)
             }
             return }
         
@@ -280,7 +284,7 @@ final class PlateViewController: UIViewController {
         youTubeView.loadVideoURL(myVideoURL! as URL)
     }
     private func addressMapViewConfig() {
-        addressMapView.backgroundColor = .magenta
+        addressMapView.backgroundColor = .white
         scrollGuideView.addSubview(addressMapView)
         addressMapView.snp.makeConstraints { (m) in
             m.top.equalTo(youTubeView.snp.bottom).offset(10)
@@ -290,7 +294,7 @@ final class PlateViewController: UIViewController {
         
         // 주소 표시 뷰 세팅, 주소를 라벨에 삽입
         let addressLabel = UILabel()
-        addressLabel.backgroundColor = .blue
+        addressLabel.backgroundColor = .white
         addressMapView.addSubview(addressLabel)
         addressLabel.snp.makeConstraints { (m) in
             m.top.equalToSuperview()
@@ -300,11 +304,18 @@ final class PlateViewController: UIViewController {
         }
         guard let address = selectedColumnData?.address else { return }
         addressLabel.text = address
+        addressLabel.textColor = .gray
         
-        // 맵뷰 셋팅
+        // 맵뷰 셋팅   --> 맵 중앙이 원하는 위치가 아님. 확인 필요!!
         let camera = GMSCameraPosition.camera(withLatitude: 37.531299, longitude: 126.971395, zoom: 15.0)
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         mapView.isMyLocationEnabled = false
+        
+        // 맵뷰 마커 설정
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: 37.531299, longitude: 126.971395)
+        marker.title = "\(selectedColumnData?.name ?? "여긴 어디지요?")"
+        marker.map = mapView
         
         // 맵뷰 오토레이아웃
         addressMapView.addSubview(mapView)
@@ -312,13 +323,30 @@ final class PlateViewController: UIViewController {
             m.top.equalTo(addressLabel.snp.bottom).offset(5)
             m.width.leading.bottom.equalToSuperview()
         }
-        
-        // 맵뷰 마커 설정
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: 37.531299, longitude: 126.971395)
-        marker.title = "\(selectedColumnData?.name ?? "여긴 어디지요?")"
-        // marker.snippet = "구지 쓸필요 없을 듯"
-        marker.map = mapView
+    }
+    private func telViewConfig() {
+        telView.backgroundColor = .white
+        scrollGuideView.addSubview(telView)
+        telView.snp.makeConstraints { (m) in
+            m.top.equalTo(addressMapView.snp.bottom).offset(10)
+            m.leading.width.equalToSuperview()
+            m.height.equalTo(80)
+        }
+        let rectangle = UIView()
+        rectangle.backgroundColor = .black
+        telView.addSubview(rectangle)
+        rectangle.snp.makeConstraints { (m) in
+            m.margins.equalToSuperview().inset(10)
+        }
+        let rectangle2 = UIButton()
+        rectangle2.backgroundColor = .white
+        rectangle.addSubview(rectangle2)
+        rectangle2.snp.makeConstraints { (m) in
+            m.margins.equalToSuperview().inset(2)
+        }
+        rectangle2.setTitle("✆ 전화하기", for: .normal)
+        rectangle2.setTitleColor(.black, for: .normal)
+        rectangle2.titleLabel?.font = UIFont(name: "Helvetica", size: 25)  //-->버튼눌르면 전화하기 해야함
     }
 }
 
