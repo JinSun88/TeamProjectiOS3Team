@@ -26,6 +26,22 @@
             </objects>
             <point key="canvasLocation" x="137" y="824"/>
         </scene>
+        <!--식당등록-->
+        <scene sceneID="n6S-y7-2NH">
+            <objects>
+                <viewController id="gmg-8P-hHG" customClass="EnrollViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2sf-sp-NPs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="BSe-V4-xp2"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="식당등록" id="WaZ-Le-a9f"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YZ9-xB-fRu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1066" y="824"/>
+        </scene>
         <!--Map View Controller-->
         <scene sceneID="psN-1F-Qvh">
             <objects>
@@ -88,6 +104,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="K0O-6n-dfM"/>
                         <segue destination="0EI-rE-mRd" kind="relationship" relationship="viewControllers" id="gLe-0U-htc"/>
+                        <segue destination="gmg-8P-hHG" kind="relationship" relationship="viewControllers" id="7tr-VS-iVO"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F4e-fG-VPm" userLabel="First Responder" sceneMemberID="firstResponder"/>

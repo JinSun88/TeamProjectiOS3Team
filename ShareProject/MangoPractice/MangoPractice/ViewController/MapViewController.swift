@@ -24,15 +24,18 @@ class MapViewController: UIViewController {
     var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData = CellData().arrayOfCellData
     var selectedColumnData: CellDataStruct?
-
-
     
-
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         move(at: locationManager.location?.coordinate)
+        
+        
     }
     
     override func viewDidLoad() {
@@ -44,9 +47,9 @@ class MapViewController: UIViewController {
         buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
-
+        
     }
-
+    
     
     // 현재지역 버튼 셋업
     private func currentPlaceLabelButtonConfig() {
@@ -55,7 +58,7 @@ class MapViewController: UIViewController {
         currentPlaceGuideLabel.snp.makeConstraints { (m) in
             m.top.equalTo(view.safeAreaLayoutGuide).offset(5)
             m.leading.equalTo(view).offset(30)
-        
+            
         }
         
         currentPlaceGuideLabel.text = "지금 보고 있는 지역은"
@@ -115,7 +118,7 @@ class MapViewController: UIViewController {
     }
     
     private func mapViewConfig() {
-
+        
         view.addSubview(mapView)
         
         mapView.snp.makeConstraints {
@@ -142,17 +145,18 @@ class MapViewController: UIViewController {
         mapView.addSubview(mapCollectionView)
         mapCollectionView.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalTo(view).offset(view.frame.width * 0.08)
+            $0.trailing.equalTo(view).offset(-(view.frame.width * 0.08))
             $0.height.equalTo(100)
         }
     }
-   
+    
     @objc func mapUnwindButtonAction(sender: UIButton!) {
         print("mapUnwindButton tap")
         dismiss(animated: true, completion: nil)
-
+        
     }
-
+    
 }
 
 // 이동에 대해 변하도록 설정
@@ -172,7 +176,7 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let current = locations.last!
         let coordinate = current.coordinate
-    
+        
         move(at: coordinate)
     }
 }
@@ -180,11 +184,9 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController: UICollectionViewDelegateFlowLayout {
     
     
-    
-    
     // 콜렉션뷰 셀의 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width / 4) * 3, height: collectionView.frame.height)
+        return CGSize(width: (collectionView.frame.width / 6) * 5, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -194,7 +196,7 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return CGFloat(10)
     }
-
+    
     
     
 }
@@ -217,12 +219,21 @@ extension MapViewController: UICollectionViewDataSource {
 }
 
 extension MapViewController: UICollectionViewDelegate {
-
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == mapCollectionView {
+            var currentCellOffset = mapCollectionView.contentOffset
+            currentCellOffset.x += mapCollectionView.frame.width / 2
+            if let indexPath = mapCollectionView.indexPathForItem(at: currentCellOffset) {
+                mapCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
+        }
+    }
+    
     
 }
 
 
 
-    
-    
+
+
 
