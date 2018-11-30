@@ -31,11 +31,11 @@ final class PlateViewController: UIViewController {
     let middleInfoBarView = UIView()
     // 가고싶다~사진올리기 버튼들을 올리는 뷰
     let middleButtonsView = UIView()
+    
     // 맛집 유튜브 연동 뷰
     let youTubeView = YouTubePlayerView()
     // 맛집 주소와 맵 올리는 뷰
     let addressMapView = UIView()
-    let mapView = GMSMapView() // MapView(viewDidLayoutSubviews에서 사용해야 하기 때문에 클래스에서 설정)
     
     // 전화걸기 올리는 뷰
     let telView = UIView()
@@ -267,7 +267,7 @@ final class PlateViewController: UIViewController {
             youTubeView.snp.makeConstraints { (m) in
                 m.top.equalTo(middleButtonsView.snp.bottom)
                 m.width.equalToSuperview()
-                m.height.equalTo(1)
+                m.height.equalTo(5)
             }
             return }
         
@@ -306,14 +306,16 @@ final class PlateViewController: UIViewController {
         addressLabel.text = address
         addressLabel.textColor = .gray
         
+        // 맵뷰 셋팅   --> 맵 중앙이 원하는 위치가 아님. 확인 필요!!
+        let camera = GMSCameraPosition.camera(withLatitude: 37.531299, longitude: 126.971395, zoom: 15.0)
+        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapView.isMyLocationEnabled = false
+        
         // 맵뷰 마커 설정
         let marker = GMSMarker()
-        guard let latitude = selectedColumnData?.latitude else { return }
-        guard let longitude = selectedColumnData?.longitude else { return }
-        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        marker.position = CLLocationCoordinate2D(latitude: 37.531299, longitude: 126.971395)
         marker.title = "\(selectedColumnData?.name ?? "여긴 어디지요?")"
         marker.map = mapView
-        mapView.isMyLocationEnabled = false
         
         // 맵뷰 오토레이아웃
         addressMapView.addSubview(mapView)
@@ -321,14 +323,6 @@ final class PlateViewController: UIViewController {
             m.top.equalTo(addressLabel.snp.bottom).offset(5)
             m.width.leading.bottom.equalToSuperview()
         }
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // 맵뷰 오토레이아웃 설정된 뒤에 "카메라" 값을 입력해야 맵 중앙에 마커 표시됨
-        guard let latitude = selectedColumnData?.latitude else { return }
-        guard let longitude = selectedColumnData?.longitude else { return }
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15.0)
-        mapView.camera = camera
     }
     private func telViewConfig() {
         telView.backgroundColor = .white
@@ -344,28 +338,15 @@ final class PlateViewController: UIViewController {
         rectangle.snp.makeConstraints { (m) in
             m.margins.equalToSuperview().inset(10)
         }
-        let callButton = UIButton()
-        callButton.backgroundColor = .white
-        rectangle.addSubview(callButton)
-        callButton.snp.makeConstraints { (m) in
+        let rectangle2 = UIButton()
+        rectangle2.backgroundColor = .white
+        rectangle.addSubview(rectangle2)
+        rectangle2.snp.makeConstraints { (m) in
             m.margins.equalToSuperview().inset(2)
         }
-        callButton.setTitle("✆ 전화하기", for: .normal)
-        callButton.setTitleColor(.black, for: .normal)
-        callButton.titleLabel?.font = UIFont(name: "Helvetica", size: 25)
-        callButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
-    }
-    @objc private func callButtonTapped(){
-        let telNumber = selectedColumnData?.telNumber
-        
-        // 알럿 생성, 실행시 전화 연결
-        let callAlert = UIAlertController(title: nil, message: "식당에 전화하시겠습니까", preferredStyle: .actionSheet)
-        callAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-        callAlert.addAction(UIAlertAction(title: "전화하기", style: .default, handler: { (UIAlertAction) in
-            if let url = URL(string: "tel://\(telNumber ?? "0")") {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)            }
-        }))
-        self.present(callAlert, animated: true)
+        rectangle2.setTitle("✆ 전화하기", for: .normal)
+        rectangle2.setTitleColor(.black, for: .normal)
+        rectangle2.titleLabel?.font = UIFont(name: "Helvetica", size: 25)  //-->버튼눌르면 전화하기 해야함
     }
 }
 
