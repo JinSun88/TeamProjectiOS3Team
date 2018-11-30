@@ -24,7 +24,8 @@ final class PlateViewController: UIViewController {
     
     // 콜렉션뷰와 (선택된) 셀데이터
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-//    var arrayOfCellData = CellData().arrayOfCellData --> 안쓰는듯
+    
+    // 초기페이지에서 선택된 셀 데이터만 저장하도록 하는 인스턴스
     var selectedColumnData: CellDataStruct?
     
     // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
@@ -383,6 +384,7 @@ final class PlateViewController: UIViewController {
         
         let restaurantInfoLabel = UILabel()
         let bizHourLabel = UILabel()
+        let modifiedAtLabel = UILabel()
 //        let bizHourDataLabel = UILabel()
 //        let priceLabel = UILabel()
 //        let priceDataLabel = UILabel()
@@ -399,6 +401,22 @@ final class PlateViewController: UIViewController {
         restaurantInfoLabel.text = "편의정보"
         restaurantInfoLabel.textColor = .darkGray
         restaurantInfoLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        
+        // 마지막 업데이트 라벨
+        modifiedAtLabel.backgroundColor = .blue
+        restaurantInfoAndMenuView.addSubview(modifiedAtLabel)
+        modifiedAtLabel.snp.makeConstraints { (m) in
+            m.top.height.equalTo(restaurantInfoLabel)
+            m.trailing.equalToSuperview().inset(10)
+            m.width.equalToSuperview().multipliedBy(0.5)
+        }
+        guard let rawDate = selectedColumnData?.modifiedAt else { return }
+        print("rawDate :", rawDate)
+        let neededDate = rawDate.index(rawDate.startIndex, offsetBy: 10)
+        print("needDate: ", neededDate)
+        modifiedAtLabel.text = "\(neededDate)"
+        modifiedAtLabel.textColor = .lightGray
+        modifiedAtLabel.font = UIFont(name: "Helvetica", size: 12)
         
         // 영업시간 라벨
         bizHourLabel.backgroundColor = .magenta

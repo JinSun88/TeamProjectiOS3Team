@@ -76,7 +76,7 @@ final class CellData {
     
     func getDataFromServer() { // 서버에서 데이터 가져오는 펑션
         let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
-        let data = try! Data(contentsOf: url)
+        guard let data = try? Data(contentsOf: url) else { return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
         let arrayData = try! JSONDecoder().decode([CellDataStruct].self, from: data)
         arrayOfCellData = arrayData
     }
