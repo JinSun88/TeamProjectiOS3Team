@@ -24,7 +24,7 @@ final class PlateViewController: UIViewController {
     
     // 콜렉션뷰와 (선택된) 셀데이터
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    var arrayOfCellData = CellData().arrayOfCellData
+//    var arrayOfCellData = CellData().arrayOfCellData --> 안쓰는듯
     var selectedColumnData: CellDataStruct?
     
     // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
@@ -56,14 +56,6 @@ final class PlateViewController: UIViewController {
         addressMapViewConfig()
         telViewConfig()
         restaurantInfoAndMenuViewConfig()
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // 맵뷰 오토레이아웃 설정된 뒤에 "카메라" 값을 입력해야 맵 중앙에 마커 표시됨
-        guard let latitude = selectedColumnData?.latitude else { return }
-        guard let longitude = selectedColumnData?.longitude else { return }
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15.0)
-        mapView.camera = camera
     }
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
@@ -157,7 +149,7 @@ final class PlateViewController: UIViewController {
         }
         
         //        restaurantViewFeedCountLabel.backgroundColor = .blue
-        restaurantViewFeedCountLabel.text = selectedColumnData?.viewFeedCount
+        restaurantViewFeedCountLabel.text = "👁‍🗨\(selectedColumnData?.viewNum ?? 0) 🖋\(selectedColumnData?.reviewNum ?? 0)"
         restaurantViewFeedCountLabel.font = UIFont(name: "Helvetica" , size: 15)
         restaurantViewFeedCountLabel.textColor = .gray
         middleInfoBarView.addSubview(restaurantViewFeedCountLabel)
@@ -169,7 +161,7 @@ final class PlateViewController: UIViewController {
         }
         
         //        restaurantGradePointLabel.backgroundColor = .yellow
-        restaurantGradePointLabel.text = String(selectedColumnData!.gradePoint)
+        restaurantGradePointLabel.text = String(selectedColumnData?.gradePoint ?? 0.0)
         restaurantGradePointLabel.textAlignment = .right
         restaurantGradePointLabel.font = UIFont(name: "Helvetica" , size: 40)
         restaurantGradePointLabel.textColor = .orange
@@ -334,6 +326,14 @@ final class PlateViewController: UIViewController {
             m.width.leading.bottom.equalToSuperview()
         }
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // 맵뷰 오토레이아웃 설정된 뒤에 "카메라" 값을 입력해야 맵 중앙에 마커 표시됨
+        guard let latitude = selectedColumnData?.latitude else { return }
+        guard let longitude = selectedColumnData?.longitude else { return }
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15.0)
+        mapView.camera = camera
+    }
     private func telViewConfig() {
         telView.backgroundColor = .white
         scrollGuideView.addSubview(telView)
@@ -362,7 +362,7 @@ final class PlateViewController: UIViewController {
         callButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
     }
     @objc private func callButtonTapped(){
-        let telNumber = selectedColumnData?.telNumber
+        let telNumber = selectedColumnData?.phoneNum
         // 알럿 생성, 실행시 전화 연결
         let callAlert = UIAlertController(title: nil, message: "식당에 전화하시겠습니까", preferredStyle: .actionSheet)
         callAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
@@ -426,13 +426,13 @@ extension PlateViewController: UICollectionViewDelegateFlowLayout {
 }
 extension PlateViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedColumnData?.image.count ?? 0
+        return 4 // 하드코딩으로 4 잡았습니다 (selectedColumnData?.image.count ?? 0)원데이터
         //        return arrayOfCellData.filter { $0.pk == pk }.first?.image.count ?? 0 // 고차함수 사용예 (pk는 유닉한 값)
     }
     // 셀에 이미지 삽입
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = plateCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PlateCollectionViewCell
-        cell.restaurantPicture.image = selectedColumnData?.image[indexPath.item]
+        cell.restaurantPicture.image = UIImage(named: "defaultImage")  // 이미지 강제 삽입
         return cell
     }
 }

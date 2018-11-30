@@ -22,12 +22,16 @@ class ViewController: UIViewController {
     let locationManager = CLLocationManager()
     var adImagesArray = [UIImage]()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    var arrayOfCellData = CellData().arrayOfCellData
+    var arrayOfCellData: [CellDataStruct] = []
+    //    var arrayOfCellData = CellData().arrayOfCellData // 하드코딩 데이터
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
+        
+        // ViewContoller용 데이터 저장
+        arrayOfCellData = CellData.shared.arrayOfCellData
     }
     
     override func viewDidLoad() {
@@ -39,7 +43,6 @@ class ViewController: UIViewController {
         mapButtonConfig()
         searchButtonConfig()
         checkAuthorizationStatus()
-
     }
     
     // 위치 사용권한 체크
@@ -65,7 +68,6 @@ class ViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 10.0 // 이벤트를 발생시키는 최소거리
         locationManager.startUpdatingLocation()
-        
     }
     
     private func currentPlaceLabelButtonConfig() {
@@ -101,7 +103,6 @@ class ViewController: UIViewController {
             $0.width.equalTo(70)
             $0.height.equalTo(50)
         }
-        
         mapButton.addTarget(self, action: #selector(mapButtonAction), for: .touchUpInside)
     }
     
@@ -118,18 +119,14 @@ class ViewController: UIViewController {
             $0.width.equalTo(43)
             $0.height.equalTo(43)
         }
-        
-        
     }
     private func adScrollViewConfig() {
-        
         // 횡스크롤 배너
         view.addSubview(adScrollView)
         adScrollView.frame = CGRect(x: view.frame.origin.x, y: currentPlaceButton.bounds.maxY + 100, width: view.frame.width, height: 120)
         adScrollView.showsHorizontalScrollIndicator = false // 횡스크롤바 없음
         adScrollView.backgroundColor = .gray
         adScrollView.isPagingEnabled = true
-        
         
         // 횡스크롤 배너에 이미지 넣기
         adImagesArray = [UIImage(named: "ad2") , UIImage(named: "ad1"), UIImage(named: "ad3")] as! [UIImage]
@@ -179,15 +176,10 @@ class ViewController: UIViewController {
     }
     @objc func button3Action() {
         print("button3 Actioned")
-        
         if let url = URL(string: "https://www.mangoplate.com/top_lists/832_wangsimni?utm_source=url&utm_campaign=832_wangsimni&utm_medium=toplist&utm_term=v3_ios") {
             UIApplication.shared.open(url, options: [:])
         }
-        
     }
-        
-      
-    
     
     private func mainCollectionViewConfig() {
         // mainCollectionView Setting
@@ -205,17 +197,10 @@ class ViewController: UIViewController {
     }
     
     //  맵버튼액션 맵뷰로 이동
-    
     @objc func mapButtonAction(sender: UIButton!) {
         print("mapButton tap")
         performSegue(withIdentifier: "showMapView", sender: self)
-     
     }
-    
-    
-    
-    
-    
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -224,7 +209,7 @@ extension ViewController: UICollectionViewDelegate {
         
         let destination = PlateViewController()
         destination.selectedColumnData = arrayOfCellData[indexPath.row] // 선택된 셀의 컬럼 데이터를 넘겨버림
-//        destination.pk = arrayOfCellData[indexPath.row].pk    // 선택한 셀의 pk값을 저장
+        //  destination.pk = arrayOfCellData[indexPath.row].pk    // 선택한 셀의 pk값을 저장
         present(destination, animated: true)  // 플레이트뷰 컨트롤러를 띄움
     }
 }
@@ -255,11 +240,11 @@ extension ViewController: UICollectionViewDataSource {
     // cell 구성하기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! MainCollectionViewCell
-        cell.restaurantPicture.image = arrayOfCellData[indexPath.item].image.first
-        cell.rankingName.text = "\(arrayOfCellData[indexPath.item].ranking). \(arrayOfCellData[indexPath.item].name)"
-        cell.gradePoint.text = String(arrayOfCellData[indexPath.item].gradePoint)
-        cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].location)
-        cell.viewFeedCount.text = arrayOfCellData[indexPath.item].viewFeedCount
+        cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
+        cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
+        cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? 0.0)"
+        cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].address)
+        cell.viewFeedCount.text = "👁‍🗨\(arrayOfCellData[indexPath.item].viewNum)  🖋\(arrayOfCellData[indexPath.item].reviewNum)"
         
         return cell
     }

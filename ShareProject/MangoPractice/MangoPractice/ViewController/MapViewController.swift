@@ -11,7 +11,6 @@ import CoreLocation
 import GoogleMaps
 import AddressBookUI
 
-
 class MapViewController: UIViewController {
     let currentPlaceGuideLabel = UILabel()
     let currentPlaceButton = UIButton()
@@ -22,11 +21,8 @@ class MapViewController: UIViewController {
     let locationManager = CLLocationManager()
     var mapView = GMSMapView()
     var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    var arrayOfCellData = CellData().arrayOfCellData
-    var selectedColumnData: CellDataStruct?
-    
-    
-    
+    var arrayOfCellData = CellData.shared.arrayOfCellData
+    var selectedColumnData: CellDataStruct?  // --> 현재 안쓰는듯?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,8 +30,6 @@ class MapViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         move(at: locationManager.location?.coordinate)
-        
-        
     }
     
     override func viewDidLoad() {
@@ -47,7 +41,6 @@ class MapViewController: UIViewController {
         buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
-        
     }
     
     
@@ -114,7 +107,6 @@ class MapViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
         }
-        
     }
     
     private func mapViewConfig() {
@@ -125,9 +117,7 @@ class MapViewController: UIViewController {
             $0.top.equalTo(buttonView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
         mapView.isMyLocationEnabled = true
-        
     }
     
     private func collectionViewConfig() {
@@ -154,9 +144,7 @@ class MapViewController: UIViewController {
     @objc func mapUnwindButtonAction(sender: UIButton!) {
         print("mapUnwindButton tap")
         dismiss(animated: true, completion: nil)
-        
     }
-    
 }
 
 // 이동에 대해 변하도록 설정
@@ -168,7 +156,6 @@ extension MapViewController {
         let longitude = coordinate.longitude
         let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 14.0)
         mapView.camera = camera
-        
     }
 }
 // 위치 변경에 따른 델리게이트 설정
@@ -182,23 +169,16 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 
 extension MapViewController: UICollectionViewDelegateFlowLayout {
-    
-    
     // 콜렉션뷰 셀의 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width / 6) * 5, height: collectionView.frame.height)
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return CGFloat(10)
     }
-    
-    
-    
 }
 
 extension MapViewController: UICollectionViewDataSource {
@@ -208,11 +188,12 @@ extension MapViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mapCollectionView.dequeueReusableCell(withReuseIdentifier: "CELL", for: indexPath) as! MapCollectionViewCell
-        cell.restaurantPicture.image = arrayOfCellData[indexPath.item].image.first
-        cell.rankingName.text = "\(arrayOfCellData[indexPath.item].ranking). \(arrayOfCellData[indexPath.item].name)"
-        cell.gradePoint.text = String(arrayOfCellData[indexPath.item].gradePoint)
-        cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].location)
-        cell.viewFeedCount.text = arrayOfCellData[indexPath.item].viewFeedCount
+        
+        cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
+        cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
+        cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? 0.0)"
+        cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].address)
+        cell.viewFeedCount.text = "👁‍🗨\(arrayOfCellData[indexPath.item].viewNum)  🖋\(arrayOfCellData[indexPath.item].reviewNum)"
         
         return cell
     }
@@ -228,8 +209,6 @@ extension MapViewController: UICollectionViewDelegate {
             }
         }
     }
-    
-    
 }
 
 
