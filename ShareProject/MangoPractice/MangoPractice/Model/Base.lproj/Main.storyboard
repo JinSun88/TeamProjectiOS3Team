@@ -157,6 +157,22 @@
             </objects>
             <point key="canvasLocation" x="1785" y="127"/>
         </scene>
+        <!--내정보-->
+        <scene sceneID="MJk-5u-jgi">
+            <objects>
+                <viewController id="WFy-UE-oiH" customClass="MyInfoViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b85-4O-6Ra">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="aqJ-PV-0XH"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="내정보" id="TTv-AU-ndR"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e3N-zw-Vcf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-782" y="161"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="MSm-0d-b5K">
             <objects>
@@ -171,6 +187,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="K0O-6n-dfM"/>
                         <segue destination="0EI-rE-mRd" kind="relationship" relationship="viewControllers" id="gLe-0U-htc"/>
                         <segue destination="gmg-8P-hHG" kind="relationship" relationship="viewControllers" id="7tr-VS-iVO"/>
+                        <segue destination="WFy-UE-oiH" kind="relationship" relationship="viewControllers" id="nSo-14-QmR"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F4e-fG-VPm" userLabel="First Responder" sceneMemberID="firstResponder"/>

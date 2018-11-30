@@ -333,7 +333,7 @@ class EnrollViewController: UIViewController {
         }
         
         globalFoodButton.setImage(UIImage(named: "GFood_deselected"), for: .normal)
-        globalFoodButton.setImage(UIImage(named: "gFood_selected"), for: .selected)
+        globalFoodButton.setImage(UIImage(named: "GFood_selected"), for: .selected)
         globalFoodButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
         globalFoodlabel.text = "세계음식"
         globalFoodlabel.adjustsFontSizeToFitWidth = true
