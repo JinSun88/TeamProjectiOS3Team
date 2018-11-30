@@ -41,11 +41,7 @@ class MapViewController: UIViewController {
         buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
-<<<<<<< HEAD
-=======
         getData()
-        
->>>>>>> 7e571e2c43f045d99e8b37d7e58c677d9a6ecc4c
     }
     
     
@@ -150,20 +146,13 @@ class MapViewController: UIViewController {
         print("mapUnwindButton tap")
         dismiss(animated: true, completion: nil)
     }
-<<<<<<< HEAD
-=======
-    
     func getData() {
         RestaurantService().restaurantList(type: .restaurantList) { data in
             print("debug: \(data)")
         }
     }
-    
     func makeMaker() {
-        
     }
-    
->>>>>>> 7e571e2c43f045d99e8b37d7e58c677d9a6ecc4c
 }
 
 // 이동에 대해 변하도록 설정
