@@ -47,6 +47,7 @@ class MapViewController: UIViewController {
         buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
+        getData()
         
     }
     
@@ -154,6 +155,16 @@ class MapViewController: UIViewController {
     @objc func mapUnwindButtonAction(sender: UIButton!) {
         print("mapUnwindButton tap")
         dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func getData() {
+        RestaurantService().restaurantList(type: .restaurantList) { data in
+            print("debug: \(data)")
+        }
+    }
+    
+    func makeMaker() {
         
     }
     
