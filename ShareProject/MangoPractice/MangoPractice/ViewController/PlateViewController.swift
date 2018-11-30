@@ -36,9 +36,15 @@ final class PlateViewController: UIViewController {
     let youTubeView = YouTubePlayerView()
     // 맛집 주소와 맵 올리는 뷰
     let addressMapView = UIView()
+<<<<<<< HEAD
     
+=======
+    let mapView = GMSMapView() // MapView(viewDidLayoutSubviews에서 사용해야 하기 때문에 클래스에서 설정)
+>>>>>>> 1469ed23e48d38f19d63f4a92fdd1073aafa1722
     // 전화걸기 올리는 뷰
     let telView = UIView()
+    // 편의정보 & 메뉴 올리는 뷰
+    let restaurantInfoAndMenuView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +58,7 @@ final class PlateViewController: UIViewController {
         youTubeWebView()
         addressMapViewConfig()
         telViewConfig()
+        restaurantInfoAndMenuViewConfig()
     }
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
@@ -96,6 +103,7 @@ final class PlateViewController: UIViewController {
         scrollGuideView.snp.makeConstraints {
             $0.top.width.leading.equalToSuperview()
             $0.height.equalTo(1200)  // 스크롤뷰의 높이를 설정
+            $0.height.equalTo(1800)  // 스크롤뷰의 높이를 설정
         }
     }
     private func plateCollectionViewConfig() {
@@ -347,6 +355,47 @@ final class PlateViewController: UIViewController {
         rectangle2.setTitle("✆ 전화하기", for: .normal)
         rectangle2.setTitleColor(.black, for: .normal)
         rectangle2.titleLabel?.font = UIFont(name: "Helvetica", size: 25)  //-->버튼눌르면 전화하기 해야함
+    }
+    private func restaurantInfoAndMenuViewConfig() {
+        restaurantInfoAndMenuView.backgroundColor = .gray
+        scrollGuideView.addSubview(restaurantInfoAndMenuView)
+        restaurantInfoAndMenuView.snp.makeConstraints { (m) in
+            m.top.equalTo(telView.snp.bottom).offset(10)
+            m.leading.width.equalToSuperview()
+            m.height.equalTo(300)
+        }
+        
+        let restaurantInfoLabel = UILabel()
+        let bizHourLabel = UILabel()
+        let bizHourDataLabel = UILabel()
+        let priceLabel = UILabel()
+        let priceDataLabel = UILabel()
+        let moreInfoButton = UIButton()
+        
+        // 편의정보 라벨
+        restaurantInfoLabel.backgroundColor = .blue
+        restaurantInfoAndMenuView.addSubview(restaurantInfoLabel)
+        restaurantInfoLabel.snp.makeConstraints { (m) in
+            m.top.leading.equalToSuperview().offset(10)
+            m.width.equalTo(80)
+            m.height.equalTo(25)
+        }
+        restaurantInfoLabel.text = "편의정보"
+        restaurantInfoLabel.textColor = .darkGray
+        restaurantInfoLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        
+        // 영업시간 라벨
+        bizHourLabel.backgroundColor = .magenta
+        restaurantInfoAndMenuView.addSubview(bizHourLabel)
+        bizHourLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(restaurantInfoLabel.snp.bottom)
+            m.leading.equalTo(restaurantInfoLabel)
+            m.width.equalTo(80)
+            m.height.equalTo(25)
+        }
+        bizHourLabel.text = "영업시간"
+        bizHourLabel.textColor = .gray
+        bizHourLabel.font = UIFont(name: "Helvetica", size: 15)
     }
 }
 
