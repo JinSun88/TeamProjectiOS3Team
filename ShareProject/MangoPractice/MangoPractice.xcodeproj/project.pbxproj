@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */; };
 		5AB6FFE8170A1FA3F466A88D /* Pods_MangoPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */; };
 		A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EF921AD0C75004D7602 /* MapViewController.swift */; };
 		A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */; };
@@ -18,13 +19,14 @@
 		AF001BED21985ACB00716B7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF001BEC21985ACB00716B7A /* Assets.xcassets */; };
 		AF001BF021985ACB00716B7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BEE21985ACB00716B7A /* LaunchScreen.storyboard */; };
 		AF0342E921A6A70D00DC6289 /* PlateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */; };
-		AF04DF2B21A26D2700F49887 /* TopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF04DF2A21A26D2700F49887 /* TopListViewController.swift */; };
+		AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */; };
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
 		AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealTableViewCell.swift; sourceTree = "<group>"; };
 		56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MangoPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		613CEC43A6853698D5C2CAC9 /* Pods-MangoPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.release.xcconfig"; sourceTree = "<group>"; };
 		A0A32EF921AD0C75004D7602 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = MangoPractice/ViewController/MapViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -39,7 +41,7 @@
 		AF001BEF21985ACB00716B7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AF001BF121985ACB00716B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateCollectionViewCell.swift; sourceTree = "<group>"; };
-		AF04DF2A21A26D2700F49887 /* TopListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopListViewController.swift; sourceTree = "<group>"; };
+		AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealViewController.swift; sourceTree = "<group>"; };
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
 		AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -58,6 +60,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F63A41B21B0DCD100450AE2 /* EATDeal */ = {
+			isa = PBXGroup;
+			children = (
+				2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */,
+				AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */,
+			);
+			path = EATDeal;
+			sourceTree = "<group>";
+		};
 		353397ECAA6C75C2EF662DAB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +98,7 @@
 		AF001BE421985AC900716B7A /* MangoPractice */ = {
 			isa = PBXGroup;
 			children = (
+				2F63A41B21B0DCD100450AE2 /* EATDeal */,
 				AF04DF2D21A26E9B00F49887 /* ViewController */,
 				AF04DF2C21A26E8400F49887 /* Model */,
 				AF001BE521985AC900716B7A /* AppDelegate.swift */,
@@ -114,7 +126,6 @@
 				AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */,
 				AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */,
 				AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */,
-				AF04DF2A21A26D2700F49887 /* TopListViewController.swift */,
 				A0A32EF921AD0C75004D7602 /* MapViewController.swift */,
 				A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */,
 				A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */,
@@ -142,8 +153,8 @@
 				AF001BDE21985AC900716B7A /* Sources */,
 				AF001BDF21985AC900716B7A /* Frameworks */,
 				AF001BE021985AC900716B7A /* Resources */,
-				75D1C6CB4B2C5B8ACD4F1316 /* [CP] Embed Pods Frameworks */,
-				98AD13513EC4D2EEE6EBFC84 /* [CP] Copy Pods Resources */,
+				1D883B9B637B76E5B7F3DE9D /* [CP] Embed Pods Frameworks */,
+				172BA95726212C84B2A2C00A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -201,7 +212,31 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		75D1C6CB4B2C5B8ACD4F1316 /* [CP] Embed Pods Frameworks */ = {
+		172BA95726212C84B2A2C00A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D883B9B637B76E5B7F3DE9D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -225,30 +260,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		98AD13513EC4D2EEE6EBFC84 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D24CF5C2E73847D90B4B964F /* [CP] Check Pods Manifest.lock */ = {
@@ -280,10 +291,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
 				A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */,
 				A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */,
-				AF04DF2B21A26D2700F49887 /* TopListViewController.swift in Sources */,
+				AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */,
 				AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,
