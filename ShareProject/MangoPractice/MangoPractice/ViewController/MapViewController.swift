@@ -22,7 +22,7 @@ class MapViewController: UIViewController {
     var mapView = GMSMapView()
     var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData = CellData.shared.arrayOfCellData
-    var selectedColumnData: CellDataStruct?  // --> 현재 안쓰는듯?
+    var selectedColumnData: CellDataStruct?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -41,7 +41,8 @@ class MapViewController: UIViewController {
         buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
-        getData()
+//        getData()
+        makeMaker()
     }
     
     
@@ -146,12 +147,13 @@ class MapViewController: UIViewController {
         print("mapUnwindButton tap")
         dismiss(animated: true, completion: nil)
     }
-    func getData() {
-        RestaurantService().restaurantList(type: .restaurantList) { data in
-            print("debug: \(data)")
-        }
-    }
+//    func getData() {
+//        RestaurantService().restaurantList(type: .restaurantList) { data in
+//            print("debug: \(data)")
+//        }
+//    }
     func makeMaker() {
+    
     }
 }
 
@@ -216,6 +218,14 @@ extension MapViewController: UICollectionViewDelegate {
                 mapCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let destination = PlateViewController()
+        destination.selectedColumnData = arrayOfCellData[indexPath.row]
+        present(destination, animated: true)
+        
     }
 }
 

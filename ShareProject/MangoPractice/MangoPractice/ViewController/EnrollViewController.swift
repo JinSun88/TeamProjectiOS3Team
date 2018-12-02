@@ -249,7 +249,7 @@ class EnrollViewController: UIViewController {
         
         koreanFoodButton.setImage(UIImage(named: "KFood_deselected"), for: .normal)
         koreanFoodButton.setImage(UIImage(named: "KFood_selected"), for: .selected)
-        koreanFoodButton.addTarget(self, action: #selector(buttonDidTap), for: .touchUpInside)
+        koreanFoodButton.addTarget(self, action: #selector(koreanFoodbuttonDidTap), for: .touchUpInside)
         koreanFoodlabel.text = "한식"
         koreanFoodlabel.textColor = .gray
         koreanFoodlabel.backgroundColor = .white
@@ -270,7 +270,7 @@ class EnrollViewController: UIViewController {
         
         japaneseFoodButton.setImage(UIImage(named: "JFood_deselected"), for: .normal)
         japaneseFoodButton.setImage(UIImage(named: "JFood_selected"), for: .selected)
-        japaneseFoodButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        japaneseFoodButton.addTarget(self, action:        #selector(japaneseFoodButtonDidTap), for: .touchUpInside)
         japaneseFoodlabel.text = "일식"
         japaneseFoodlabel.textColor = .gray
         japaneseFoodlabel.backgroundColor = .white
@@ -291,7 +291,7 @@ class EnrollViewController: UIViewController {
         
         chineseFoodButton.setImage(UIImage(named: "CFood_deselected"), for: .normal)
         chineseFoodButton.setImage(UIImage(named: "CFood_selected"), for: .selected)
-        chineseFoodButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        chineseFoodButton.addTarget(self, action:        #selector(chineseFoodButtonDidTap), for: .touchUpInside)
         chineseFoodlabel.text = "중식"
         chineseFoodlabel.textColor = .gray
         chineseFoodlabel.backgroundColor = .white
@@ -312,7 +312,7 @@ class EnrollViewController: UIViewController {
         
         westernFoodButton.setImage(UIImage(named: "WFood_deselected"), for: .normal)
         westernFoodButton.setImage(UIImage(named: "WFood_selected"), for: .selected)
-        westernFoodButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        westernFoodButton.addTarget(self, action:        #selector(westernFoodButtonDidTap), for: .touchUpInside)
         westernFoodlabel.text = "양식"
         westernFoodlabel.textColor = .gray
         westernFoodlabel.backgroundColor = .white
@@ -334,7 +334,7 @@ class EnrollViewController: UIViewController {
         
         globalFoodButton.setImage(UIImage(named: "GFood_deselected"), for: .normal)
         globalFoodButton.setImage(UIImage(named: "GFood_selected"), for: .selected)
-        globalFoodButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        globalFoodButton.addTarget(self, action:        #selector(globalFoodButtonDidTap), for: .touchUpInside)
         globalFoodlabel.text = "세계음식"
         globalFoodlabel.adjustsFontSizeToFitWidth = true
         globalFoodlabel.textColor = .gray
@@ -357,7 +357,7 @@ class EnrollViewController: UIViewController {
         
         buffetButton.setImage(UIImage(named: "Buffet_deselected"), for: .normal)
         buffetButton.setImage(UIImage(named: "Buffet_selected"), for: .selected)
-        buffetButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        buffetButton.addTarget(self, action:        #selector(buffetButtonDidTap), for: .touchUpInside)
         buffetlabel.text = "뷔페"
         buffetlabel.textColor = .gray
         buffetlabel.backgroundColor = .white
@@ -380,7 +380,7 @@ class EnrollViewController: UIViewController {
         cafeButton.setImage(UIImage(named: "Cafe_deselected"), for: .normal)
         cafeButton.setImage(UIImage(named: "Cafe_selected"), for: .selected)
         cafeButton.imageView?.contentMode = .scaleAspectFit
-        cafeButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        cafeButton.addTarget(self, action:        #selector(cafeButtonDidTap), for: .touchUpInside)
         cafelabel.text = "카페"
         cafelabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
         cafelabel.textColor = .gray
@@ -402,7 +402,7 @@ class EnrollViewController: UIViewController {
         liquorButton.setImage(UIImage(named: "Drinks_deselected"), for: .normal)
         liquorButton.setImage(UIImage(named: "Drinks_selected"), for: .selected)
         liquorButton.imageView?.contentMode = .scaleAspectFit
-        liquorButton.addTarget(self, action:        #selector(buttonDidTap), for: .touchUpInside)
+        liquorButton.addTarget(self, action:        #selector(liquorButtonDidTap), for: .touchUpInside)
         liquorlabel.text = "주점"
         liquorlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
         liquorlabel.textColor = .gray
@@ -427,16 +427,145 @@ class EnrollViewController: UIViewController {
 
     }
     
-    @objc func buttonDidTap(_ sender: UIButton) {
+    @objc func koreanFoodbuttonDidTap(_ sender: UIButton) {
 
-        if sender.isSelected == true {
-            sender.isSelected = false
+        if koreanFoodButton.isSelected == true {
+            koreanFoodButton.isSelected = false
         } else {
-            sender.isSelected = true
+            koreanFoodButton.isSelected = true
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = false
+            cafeButton.isSelected = false
+            liquorButton.isSelected = false
+
         }
     }
     
+    @objc func japaneseFoodButtonDidTap(_ sender: UIButton) {
+        
+        if japaneseFoodButton.isSelected == true {
+            japaneseFoodButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = true
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = false
+            cafeButton.isSelected = false
+            liquorButton.isSelected = false
+            
+        }
+    }
     
+    @objc func chineseFoodButtonDidTap(_ sender: UIButton) {
+        
+        if chineseFoodButton.isSelected == true {
+            chineseFoodButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = true
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = false
+            cafeButton.isSelected = false
+            liquorButton.isSelected = false
+            
+        }
+    }
+    
+    @objc func westernFoodButtonDidTap(_ sender: UIButton) {
+        
+        if westernFoodButton.isSelected == true {
+            westernFoodButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = true
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = false
+            cafeButton.isSelected = false
+            liquorButton.isSelected = false
+            
+        }
+    }
+    
+    @objc func globalFoodButtonDidTap(_ sender: UIButton) {
+        
+        if globalFoodButton.isSelected == true {
+            globalFoodButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = true
+            buffetButton.isSelected = false
+            cafeButton.isSelected = false
+            liquorButton.isSelected = false
+            
+        }
+    }
+    
+    @objc func buffetButtonDidTap(_ sender: UIButton) {
+        
+        if buffetButton.isSelected == true {
+            buffetButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = true
+            cafeButton.isSelected = false
+            liquorButton.isSelected = false
+            
+        }
+    }
+    
+    @objc func cafeButtonDidTap(_ sender: UIButton) {
+        
+        if cafeButton.isSelected == true {
+            cafeButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = false
+            cafeButton.isSelected = true
+            liquorButton.isSelected = false
+            
+        }
+    }
+    
+    @objc func liquorButtonDidTap(_ sender: UIButton) {
+        
+        if liquorButton.isSelected == true {
+            liquorButton.isSelected = false
+        } else {
+            koreanFoodButton.isSelected = false
+            japaneseFoodButton.isSelected = false
+            chineseFoodButton.isSelected = false
+            westernFoodButton.isSelected = false
+            globalFoodButton.isSelected = false
+            buffetButton.isSelected = false
+            cafeButton.isSelected = false
+            liquorButton.isSelected = true
+            
+        }
+    }
+    
+
+
+      
     
     
     
