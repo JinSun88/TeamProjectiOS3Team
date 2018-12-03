@@ -114,7 +114,7 @@ class MapViewController: UIViewController {
     private func mapViewConfig() {
         
         view.addSubview(mapView)
-        
+        mapView.delegate = self
         mapView.snp.makeConstraints {
             $0.top.equalTo(buttonView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
@@ -153,7 +153,28 @@ class MapViewController: UIViewController {
 //        }
 //    }
     func makeMaker() {
-    
+        var latitude: [CLLocationDegrees] = CellData.shared.arrayOfCellData.map {
+            $0.latitude
+        }// latitude만 어레이로
+        var longitude: [CLLocationDegrees] = CellData.shared.arrayOfCellData.map {
+            $0.longitude
+        }// longitude만 어레이로
+        var name = CellData.shared.arrayOfCellData.map {
+            $0.name
+        }
+        
+        // 마커찍기(이름과 순위 표시)
+        for i in 0 ..< arrayOfCellData.count {
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
+            marker.title = "\(i + 1). \(name[i]) "
+            marker.map = mapView
+        }
+
+        
+
+        
+        
     }
 }
 
@@ -226,6 +247,14 @@ extension MapViewController: UICollectionViewDelegate {
         destination.selectedColumnData = arrayOfCellData[indexPath.row]
         present(destination, animated: true)
         
+    }
+}
+
+extension MapViewController: GMSMapViewDelegate {
+    // 마커가 탭되었을 때 작동하는 메소드
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        
+        return false
     }
 }
 

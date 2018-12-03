@@ -53,7 +53,6 @@ class EnrollViewController: UIViewController {
         enrollButtonConfig()
         bottomViewConfig()
         foodButtonConfig()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,6 +123,7 @@ class EnrollViewController: UIViewController {
         locationTextField.backgroundColor = .white
         locationTextField.attributedPlaceholder = NSAttributedString(string: "*지역 및 위치 선택", attributes: [NSAttributedString.Key.foregroundColor: UIColor.orange])
         locationButton.setImage(UIImage(named: "locationButton"), for: .normal)
+        locationButton.addTarget(self, action: #selector(locationButtonDidTap), for: .touchUpInside)
         
         
         
@@ -156,7 +156,7 @@ class EnrollViewController: UIViewController {
         locationButton.snp.makeConstraints {
             $0.trailing.equalToSuperview()
             $0.top.bottom.equalTo(locationTextField).offset(2)
-            $0.width.equalTo(35)
+            $0.width.equalTo(40)
         }
         
     }
@@ -421,11 +421,13 @@ class EnrollViewController: UIViewController {
             $0.height.equalTo(8)
         }
 
-
-
-
-
     }
+    
+    @objc func locationButtonDidTap(_ sender: UIButton) {
+        performSegue(withIdentifier: "showLocationSelectView", sender: self)
+    }
+    
+    
     
     @objc func koreanFoodbuttonDidTap(_ sender: UIButton) {
 
