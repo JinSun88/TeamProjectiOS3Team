@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps // 구글맵 임폴트
+import GooglePlaces // 구글플레이스(식당 등록 메뉴주소 자동완성 등에 필요)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 구글맵 사용을 위해 실제 API 키를 입력합니다. 이 키는 외부 노출 안시키는게 좋습니다.
         GMSServices.provideAPIKey("AIzaSyD2hQFiuJNqB7OdgDLqhYREhimyhp32CIU")
+        GMSPlacesClient.provideAPIKey("AIzaSyD2hQFiuJNqB7OdgDLqhYREhimyhp32CIU")
+
+
         
         // 앱시작시 서버에 있는 데이터를 끌어서 저장하도록 지시
         CellData.shared.getDataFromServer()

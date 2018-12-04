@@ -41,7 +41,6 @@ class MapViewController: UIViewController {
         buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
-//        getData()
         makeMaker()
     }
     
@@ -147,11 +146,7 @@ class MapViewController: UIViewController {
         print("mapUnwindButton tap")
         dismiss(animated: true, completion: nil)
     }
-//    func getData() {
-//        RestaurantService().restaurantList(type: .restaurantList) { data in
-//            print("debug: \(data)")
-//        }
-//    }
+
     func makeMaker() {
         var latitude: [CLLocationDegrees] = CellData.shared.arrayOfCellData.map {
             $0.latitude

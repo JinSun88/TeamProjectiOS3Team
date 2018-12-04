@@ -98,7 +98,7 @@ class ViewController: UIViewController {
         mapButton.imageView?.contentMode = .scaleAspectFit
         
         mapButton.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(currentPlaceGuideLabel).offset(10)
             $0.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.width.equalTo(70)
             $0.height.equalTo(50)
@@ -114,7 +114,7 @@ class ViewController: UIViewController {
         searchButton.imageView?.contentMode = .scaleAspectFit
         
         searchButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(currentPlaceGuideLabel).offset(10)
             $0.trailing.equalTo(mapButton.snp.leading)
             $0.width.equalTo(43)
             $0.height.equalTo(43)
