@@ -43,10 +43,12 @@ final class PlateViewController: UIViewController {
     let telView = UIView()
     // 편의정보 & 메뉴 올리는 뷰
     let restaurantInfoAndMenuView = UIView()
+    // 주요리뷰 및 맛있다/괜찮다/별로 표시 라벨
+    let majorReviewAndButtonView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = UIColor(red: 243/255, green: 242/255, blue: 243/255, alpha: 1)
         
         topGuideViewConfig()
         scrollViewConfig()
@@ -57,6 +59,7 @@ final class PlateViewController: UIViewController {
         addressMapViewConfig()
         telViewConfig()
         restaurantInfoAndMenuViewConfig()
+        majorReviewAndButtonViewConfig()
     }
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
@@ -94,7 +97,7 @@ final class PlateViewController: UIViewController {
             m.top.equalTo(topGuideView.snp.bottom)
             m.width.leading.bottom.equalToSuperview()
         }
-        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 1200) // 스크롤뷰 높이 설정
+        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 1800) // 스크롤뷰 높이 설정
         
         // 스크롤 가이드뷰 콘피그
         scrollView.addSubview(scrollGuideView)
@@ -138,7 +141,6 @@ final class PlateViewController: UIViewController {
             m.height.equalTo(100)
         }
         
-        //        restaurantNameLabel.backgroundColor = .red
         restaurantNameLabel.text = selectedColumnData?.name
         restaurantNameLabel.font = UIFont(name: "Helvetica" , size: 25)
         middleInfoBarView.addSubview(restaurantNameLabel)
@@ -149,10 +151,9 @@ final class PlateViewController: UIViewController {
             m.bottom.equalTo(middleInfoBarView.snp.centerY)
         }
         
-        //        restaurantViewFeedCountLabel.backgroundColor = .blue
         restaurantViewFeedCountLabel.text = "👁‍🗨\(selectedColumnData?.viewNum ?? 0) 🖋\(selectedColumnData?.reviewNum ?? 0)"
         restaurantViewFeedCountLabel.font = UIFont(name: "Helvetica" , size: 15)
-        restaurantViewFeedCountLabel.textColor = .gray
+        restaurantViewFeedCountLabel.textColor = #colorLiteral(red: 0.4862189293, green: 0.4863065481, blue: 0.4862134457, alpha: 1)
         middleInfoBarView.addSubview(restaurantViewFeedCountLabel)
         restaurantViewFeedCountLabel.snp.makeConstraints { (m) in
             m.leading.equalToSuperview().offset(15)
@@ -201,6 +202,7 @@ final class PlateViewController: UIViewController {
             m.leading.equalToSuperview()
             m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
+        want2goButton.addTarget(self, action: #selector(want2goButtonTapped), for: .touchUpInside)
         
         want2goLabel.text = "가고싶다"
         want2goLabel.textColor = .orange
@@ -218,6 +220,7 @@ final class PlateViewController: UIViewController {
             m.leading.equalTo(want2goButton.snp.trailing)
             m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
+        checkInButton.addTarget(self, action: #selector(checkInButtonTapped), for: .touchUpInside)
         
         checkInLabel.text = "체크인"
         checkInLabel.textColor = .orange
@@ -236,6 +239,7 @@ final class PlateViewController: UIViewController {
             m.leading.equalTo(checkInButton.snp.trailing)
             m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
+        writeReviewButton.addTarget(self, action: #selector(writeReviewButtonTapped), for: .touchUpInside)
         
         writeReviewLabel.text = "리뷰쓰기"
         writeReviewLabel.textColor = .orange
@@ -254,6 +258,7 @@ final class PlateViewController: UIViewController {
             m.leading.equalTo(writeReviewButton.snp.trailing)
             m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
         }
+        uploadPicButton.addTarget(self, action: #selector(uploadPicButtonTapped), for: .touchUpInside)
         
         uploadPicLabel.text = "사진올리기"
         uploadPicLabel.textColor = .orange
@@ -265,28 +270,40 @@ final class PlateViewController: UIViewController {
             $0.width.equalTo(uploadPicButton)
         }
     }
+    @objc private func want2goButtonTapped() {
+        print("want2goButtonTapped")
+    }
+    @objc private func checkInButtonTapped() {
+        print("checkInButtonTapped")
+    }
+    @objc private func writeReviewButtonTapped() {
+        print("writeReviewButtonTapped")
+    }
+    @objc private func uploadPicButtonTapped() {
+        print("uploadPicButtonTapped")
+    }
     private func youTubeWebView() {
-        // 유튜브 URL이 없으면 높이 1 스크롤 가이드뷰를 생성하고 아니면 유튜브 플레이어 표시
-        guard let youTubeUrl = selectedColumnData?.youTubeUrl else {     // -> 가드렛이 잘못 쓰인건지 확인 필요!!!!
+        // 유튜브 URL에 "youtube" 포함되어 있으면이 유튜브 플레이어 표시, 없으면 높이 1 스크롤 가이드뷰를 생성
+        guard let youTubeUrl = selectedColumnData?.youTubeUrl else { return }
+        
+        if youTubeUrl.contains("youtube") {
+            scrollGuideView.addSubview(youTubeView)
+            youTubeView.snp.makeConstraints { (m) in
+                m.top.equalTo(middleButtonsView.snp.bottom).offset(10)
+                m.width.leading.equalToSuperview()
+                m.height.equalTo(200)
+            }
+            youTubeView.playerVars = ["playsinline": 1 as AnyObject] // 전체화면 아닌 해당 페이지에서 플레이
+            let myVideoURL = NSURL(string: youTubeUrl)
+            youTubeView.loadVideoURL(myVideoURL! as URL)
+        } else {
             scrollGuideView.addSubview(youTubeView)
             youTubeView.snp.makeConstraints { (m) in
                 m.top.equalTo(middleButtonsView.snp.bottom)
                 m.width.equalToSuperview()
                 m.height.equalTo(1)
             }
-            return }
-        
-        // 유튜브 URL이 있으면 하기 진행
-        scrollGuideView.addSubview(youTubeView)
-        youTubeView.snp.makeConstraints { (m) in
-            m.top.equalTo(middleButtonsView.snp.bottom).offset(10)
-            m.width.leading.equalToSuperview()
-            m.height.equalTo(200)
         }
-        
-        youTubeView.playerVars = ["playsinline": 1 as AnyObject] // 전체화면 아닌 해당 페이지에서 플레이
-        let myVideoURL = NSURL(string: youTubeUrl)
-        youTubeView.loadVideoURL(myVideoURL! as URL)
     }
     private func addressMapViewConfig() {
         addressMapView.backgroundColor = .white
@@ -307,8 +324,8 @@ final class PlateViewController: UIViewController {
             m.centerX.equalToSuperview()
             m.height.equalToSuperview().multipliedBy(0.3)
         }
-        guard let address = selectedColumnData?.address else { return }
-        addressLabel.text = address
+        guard let addressDetail = selectedColumnData?.addressDetail else { return }
+        addressLabel.text = addressDetail
         addressLabel.textColor = .gray
         
         // 맵뷰 마커 설정
@@ -344,7 +361,7 @@ final class PlateViewController: UIViewController {
             m.height.equalTo(80)
         }
         let rectangle = UIView()
-        rectangle.backgroundColor = .black
+        rectangle.backgroundColor = #colorLiteral(red: 0.4862189293, green: 0.4863065481, blue: 0.4862134457, alpha: 1)
         telView.addSubview(rectangle)
         rectangle.snp.makeConstraints { (m) in
             m.margins.equalToSuperview().inset(10)
@@ -354,11 +371,11 @@ final class PlateViewController: UIViewController {
         callButton.backgroundColor = .white
         rectangle.addSubview(callButton)
         callButton.snp.makeConstraints { (m) in
-            m.margins.equalToSuperview().inset(2)
+            m.margins.equalToSuperview().inset(1)
         }
         
         callButton.setTitle("✆ 전화하기", for: .normal)
-        callButton.setTitleColor(.black, for: .normal)
+        callButton.setTitleColor(#colorLiteral(red: 0.4862189293, green: 0.4863065481, blue: 0.4862134457, alpha: 1), for: .normal)
         callButton.titleLabel?.font = UIFont(name: "Helvetica", size: 25)
         callButton.addTarget(self, action: #selector(callButtonTapped), for: .touchUpInside)
     }
@@ -374,24 +391,27 @@ final class PlateViewController: UIViewController {
         self.present(callAlert, animated: true)
     }
     private func restaurantInfoAndMenuViewConfig() {
-        restaurantInfoAndMenuView.backgroundColor = .gray
+        restaurantInfoAndMenuView.backgroundColor = .white
         scrollGuideView.addSubview(restaurantInfoAndMenuView)
         restaurantInfoAndMenuView.snp.makeConstraints { (m) in
             m.top.equalTo(telView.snp.bottom).offset(10)
             m.leading.width.equalToSuperview()
-            m.height.equalTo(300)
+            m.height.equalTo(250)  // --> 메뉴가 들어왔을 때 사이즈 분기처리 필요!!!
         }
         
         let restaurantInfoLabel = UILabel()
         let bizHourLabel = UILabel()
         let modifiedAtLabel = UILabel()
-//        let bizHourDataLabel = UILabel()
-//        let priceLabel = UILabel()
-//        let priceDataLabel = UILabel()
-//        let moreInfoButton = UIButton()
+        let bizHourDataLabel = UILabel()
+        let priceLabel = UILabel()
+        let priceDataLabel = UILabel()
+        let visitInfoLabel = UILabel()
+        let visitInfoMarkLabel = UILabel()
+        let visitInfoTextLabel = UILabel()
+        let moreInfoButton = UIButton()
         
         // 편의정보 라벨
-        restaurantInfoLabel.backgroundColor = .blue
+        restaurantInfoLabel.backgroundColor = .white
         restaurantInfoAndMenuView.addSubview(restaurantInfoLabel)
         restaurantInfoLabel.snp.makeConstraints { (m) in
             m.top.leading.equalToSuperview().offset(10)
@@ -400,26 +420,25 @@ final class PlateViewController: UIViewController {
         }
         restaurantInfoLabel.text = "편의정보"
         restaurantInfoLabel.textColor = .darkGray
-        restaurantInfoLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        restaurantInfoLabel.font = UIFont.boldSystemFont(ofSize: 17)
         
-        // 마지막 업데이트 라벨
-        modifiedAtLabel.backgroundColor = .blue
+        // 마지막 업데이트 데이터 라벨
+        modifiedAtLabel.backgroundColor = .white
         restaurantInfoAndMenuView.addSubview(modifiedAtLabel)
         modifiedAtLabel.snp.makeConstraints { (m) in
             m.top.height.equalTo(restaurantInfoLabel)
             m.trailing.equalToSuperview().inset(10)
             m.width.equalToSuperview().multipliedBy(0.5)
         }
-        guard let rawDate = selectedColumnData?.modifiedAt else { return }
-        print("rawDate :", rawDate)
-        let neededDate = rawDate.index(rawDate.startIndex, offsetBy: 10)
-        print("needDate: ", neededDate)
-        modifiedAtLabel.text = "\(neededDate)"
+        guard let rawModifiedAtData = selectedColumnData?.modifiedAt else { return }
+        let modifiedAtData = rawModifiedAtData[..<rawModifiedAtData.index(rawModifiedAtData.startIndex, offsetBy: 10)]
+        modifiedAtLabel.textAlignment = .right
+        modifiedAtLabel.text = "마지막 업데이트: \(modifiedAtData)"
         modifiedAtLabel.textColor = .lightGray
         modifiedAtLabel.font = UIFont(name: "Helvetica", size: 12)
         
         // 영업시간 라벨
-        bizHourLabel.backgroundColor = .magenta
+        bizHourLabel.backgroundColor = .white
         restaurantInfoAndMenuView.addSubview(bizHourLabel)
         bizHourLabel.snp.makeConstraints { (m) in
             m.top.equalTo(restaurantInfoLabel.snp.bottom)
@@ -430,6 +449,264 @@ final class PlateViewController: UIViewController {
         bizHourLabel.text = "영업시간"
         bizHourLabel.textColor = .gray
         bizHourLabel.font = UIFont(name: "Helvetica", size: 15)
+        
+        // 영업시간 데이터 라벨
+        guard let rawBizHourData = selectedColumnData?.businessHour else { return }
+        let bizHourData = rawBizHourData
+        bizHourDataLabel.textAlignment = .right
+        bizHourDataLabel.text = "\(bizHourData)"
+        
+        if rawBizHourData.contains("\r\n") {  // rawBizHourData에 \r\n(서버데이터)이 포함되어 있으면 2줄처리
+            bizHourDataLabel.numberOfLines = 2
+        } else {
+            bizHourDataLabel.numberOfLines = 1
+        }
+        
+        bizHourDataLabel.textColor = .black
+        bizHourDataLabel.font = UIFont(name: "Helvetica", size: 15)
+        bizHourDataLabel.backgroundColor = .white
+        
+        restaurantInfoAndMenuView.addSubview(bizHourDataLabel)
+        bizHourDataLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(bizHourLabel)
+            if rawBizHourData.contains("\r\n") {  // rawBizHourData에 \r\n(서버데이터)이 포함되어 라벨폭을 1.8배로
+                m.height.equalTo(bizHourLabel).multipliedBy(1.8)
+            } else {
+                m.height.equalTo(bizHourLabel)
+            }
+            m.trailing.equalToSuperview().inset(10)
+            m.width.equalToSuperview().multipliedBy(0.5)
+        }
+        
+        // 가격정보 라벨
+        priceLabel.backgroundColor = .white
+        restaurantInfoAndMenuView.addSubview(priceLabel)
+        priceLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(bizHourDataLabel.snp.bottom)
+            m.leading.equalTo(restaurantInfoLabel)
+            m.width.equalTo(80)
+            m.height.equalTo(25)
+        }
+        priceLabel.text = "가격정보"
+        priceLabel.textColor = .gray
+        priceLabel.font = UIFont(name: "Helvetica", size: 15)
+        
+        // 가격정보 데이터 라벨
+        priceDataLabel.backgroundColor = .white
+        restaurantInfoAndMenuView.addSubview(priceDataLabel)
+        priceDataLabel.snp.makeConstraints { (m) in
+            m.top.height.equalTo(priceLabel)
+            m.trailing.equalToSuperview().inset(10)
+            m.width.equalToSuperview().multipliedBy(0.5)
+        }
+        guard let rawPriceData = selectedColumnData?.priceLevel else { return }
+        let priceData = rawPriceData
+        priceDataLabel.textAlignment = .right
+        priceDataLabel.text = "\(priceData)"
+        priceDataLabel.textColor = .black
+        priceDataLabel.font = UIFont(name: "Helvetica", size: 15)
+        
+        // 추가 방문정보 라벨 (인포 마크 + 전화후 방문해 주세요)
+        visitInfoLabel.backgroundColor = UIColor(red: 233/255, green: 233/255, blue: 233/255, alpha: 1)
+        restaurantInfoAndMenuView.addSubview(visitInfoLabel)
+        visitInfoLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(priceLabel.snp.bottom).offset(10)
+            m.leading.equalTo(priceLabel)
+            m.trailing.equalTo(priceDataLabel)
+            m.height.equalTo(60)
+        }
+        
+        visitInfoMarkLabel.backgroundColor = UIColor(red: 233/255, green: 233/255, blue: 233/255, alpha: 1)
+        visitInfoLabel.addSubview(visitInfoMarkLabel)
+        visitInfoMarkLabel.snp.makeConstraints { (m) in
+            m.leading.equalToSuperview().offset(10)
+            m.centerY.equalToSuperview()
+            m.width.equalTo(20)
+            m.height.equalTo(20)
+        }
+        visitInfoMarkLabel.text = "ⓘ"
+        visitInfoMarkLabel.textColor = .darkGray
+        visitInfoMarkLabel.font = UIFont(name: "Helvetica", size: 20)
+        
+        visitInfoTextLabel.backgroundColor = UIColor(red: 233/255, green: 233/255, blue: 233/255, alpha: 1)
+        visitInfoLabel.addSubview(visitInfoTextLabel)
+        visitInfoTextLabel.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(3)
+            m.leading.equalTo(visitInfoMarkLabel.snp.trailing).offset(5)
+            m.centerY.equalToSuperview()
+            m.trailing.equalToSuperview().inset(10)
+        }
+        visitInfoTextLabel.text = "준비한 재료가 소진되었을 경우 영업시간보다 일찍 문 닫을 수 있어요. 전화 후 방문해주세요."
+        visitInfoTextLabel.numberOfLines = 2
+        visitInfoTextLabel.textColor = .darkGray
+        visitInfoTextLabel.font = UIFont(name: "Helvetica", size: 13)
+        
+        // 정보 더 보기 버튼
+        moreInfoButton.backgroundColor = .white
+        restaurantInfoAndMenuView.addSubview(moreInfoButton)
+        moreInfoButton.snp.makeConstraints { (m) in
+            m.top.equalTo(visitInfoLabel.snp.bottom).offset(10)
+            m.trailing.equalTo(visitInfoLabel)
+            m.height.equalTo(30)
+        }
+        moreInfoButton.setTitle("정보 더 보기 ＞", for: .normal)
+        moreInfoButton.setTitleColor(.gray, for: .normal)
+        
+        moreInfoButton.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+        moreInfoButton.addTarget(self, action: #selector(moreInfoButtonTapped), for: .touchUpInside)
+        
+        // !!! 메뉴가 들어오면 메뉴 표시해야 함 !!!
+    }
+    @objc private func moreInfoButtonTapped() {
+        print("moreInfoButtonTapped")
+    }
+    private func majorReviewAndButtonViewConfig() {
+        scrollGuideView.addSubview(majorReviewAndButtonView)
+        majorReviewAndButtonView.snp.makeConstraints { (m) in
+            m.top.equalTo(restaurantInfoAndMenuView.snp.bottom).offset(10)
+            m.width.equalToSuperview()
+            m.height.equalTo(110)
+        }
+        
+        // 주요리뷰(리뷰수) 표시 라벨
+        let majorReviewLabel = UILabel()
+        majorReviewLabel.backgroundColor = #colorLiteral(red: 0.9528378844, green: 0.9530009627, blue: 0.952827394, alpha: 1)
+        majorReviewAndButtonView.addSubview(majorReviewLabel)
+        majorReviewLabel.snp.makeConstraints { (m) in
+            m.top.width.equalToSuperview()
+            m.height.equalTo(50)
+        }
+        majorReviewLabel.text = "주요 리뷰 ($$)" // -->> 리뷰수 데이터 연계필요
+        majorReviewLabel.font = UIFont(name: "Helvetica", size: 20)
+        majorReviewLabel.textAlignment = .center
+        majorReviewLabel.textColor = .orange
+        
+        // 맛있다! 버튼
+        let goodButtonView = UIView()
+        let goodButton = UIButton()
+        let goodButtonImageView = UIImageView()
+        let goodButtonLabel = UILabel()
+        
+        goodButtonView.backgroundColor = .white
+        majorReviewAndButtonView.addSubview(goodButtonView)
+        goodButtonView.snp.makeConstraints { (m) in
+            m.top.equalTo(majorReviewLabel.snp.bottom)
+            m.bottom.equalToSuperview()
+            m.width.equalToSuperview().multipliedBy(0.33).inset(5)
+        }
+        
+        goodButtonView.addSubview(goodButton)
+        goodButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        goodButton.addTarget(self, action: #selector(goodButtonTapped), for: .touchUpInside)
+        
+        goodButtonImageView.image = UIImage(named: "GoodFace")?.withAlignmentRectInsets(UIEdgeInsets(top: -3, left: -3, bottom: -3, right: -3))
+        goodButtonImageView.contentMode = .scaleAspectFit
+        goodButtonView.addSubview(goodButtonImageView)
+        goodButtonImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        goodButtonLabel.text = "맛있다! ($$)"  // -->> 리뷰수 데이터 연계필요
+        goodButtonLabel.textAlignment = .center
+        goodButtonLabel.font = UIFont(name: "Helvetica", size: 12)
+        goodButtonLabel.textColor = .orange
+        goodButtonView.addSubview(goodButtonLabel)
+        goodButtonLabel.snp.makeConstraints { (m) in
+            m.bottom.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        // 괜찮다 버튼
+        let sosoButtonView = UIView()
+        let sosoButton = UIButton()
+        let sosoButtonImageView = UIImageView()
+        let sosoButtonLabel = UILabel()
+        
+        sosoButtonView.backgroundColor = .white
+        majorReviewAndButtonView.addSubview(sosoButtonView)
+        sosoButtonView.snp.makeConstraints { (m) in
+            m.top.equalTo(majorReviewLabel.snp.bottom)
+            m.centerX.equalToSuperview()
+            m.leading.equalTo(goodButtonView.snp.trailing).offset(2)
+            m.bottom.equalToSuperview()
+            m.width.equalTo(goodButtonView)
+        }
+        
+        sosoButtonView.addSubview(sosoButton)
+        sosoButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        sosoButton.addTarget(self, action: #selector(sosoButtonTapped), for: .touchUpInside)
+        
+        sosoButtonImageView.image = UIImage(named: "SosoFace")?.withAlignmentRectInsets(UIEdgeInsets(top: -3, left: -3, bottom: -3, right: -3))
+        sosoButtonImageView.contentMode = .scaleAspectFit
+        sosoButtonView.addSubview(sosoButtonImageView)
+        sosoButtonImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        sosoButtonLabel.text = "괜찮다 ($$)"  // -->> 리뷰수 데이터 연계필요
+        sosoButtonLabel.textAlignment = .center
+        sosoButtonLabel.font = UIFont(name: "Helvetica", size: 12)
+        sosoButtonLabel.textColor = .orange
+        sosoButtonView.addSubview(sosoButtonLabel)
+        sosoButtonLabel.snp.makeConstraints { (m) in
+            m.bottom.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        // 별로 버튼
+        let badButtonView = UIView()
+        let badButton = UIButton()
+        let badButtonImageView = UIImageView()
+        let badButtonLabel = UILabel()
+        
+        badButtonView.backgroundColor = .white
+        majorReviewAndButtonView.addSubview(badButtonView)
+        badButtonView.snp.makeConstraints { (m) in
+            m.top.equalTo(majorReviewLabel.snp.bottom)
+            m.leading.equalTo(sosoButtonView.snp.trailing).offset(2)
+            m.bottom.equalToSuperview()
+            m.width.equalTo(goodButtonView)
+        }
+        
+        badButtonView.addSubview(badButton)
+        badButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        badButton.addTarget(self, action: #selector(badButtonTapped), for: .touchUpInside)
+        
+        badButtonImageView.image = UIImage(named: "BadFace")?.withAlignmentRectInsets(UIEdgeInsets(top: -3, left: -3, bottom: -3, right: -3))
+        badButtonImageView.contentMode = .scaleAspectFit
+        badButtonView.addSubview(badButtonImageView)
+        badButtonImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        badButtonLabel.text = "별로 ($$)"  // -->> 리뷰수 데이터 연계필요
+        badButtonLabel.textAlignment = .center
+        badButtonLabel.font = UIFont(name: "Helvetica", size: 12)
+        badButtonLabel.textColor = .orange
+        badButtonView.addSubview(badButtonLabel)
+        badButtonLabel.snp.makeConstraints { (m) in
+            m.bottom.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+    }
+    @objc private func goodButtonTapped() {
+        print("goodButtonTapped")
+    }
+    @objc private func sosoButtonTapped() {
+        print("sosoButtonTapped")
+    }
+    @objc private func badButtonTapped() {
+        print("badButtonTapped")
     }
 }
 

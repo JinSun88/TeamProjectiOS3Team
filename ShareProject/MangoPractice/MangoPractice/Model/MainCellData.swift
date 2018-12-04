@@ -66,7 +66,7 @@ struct CellDataStruct: Decodable {
         case longitude
 //        case image
         case gradePoint
-        case youTubeUrl
+        case youTubeUrl = "youtube"
     }
 }
 
