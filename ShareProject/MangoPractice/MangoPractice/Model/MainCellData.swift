@@ -26,15 +26,14 @@ struct CellDataStruct: Decodable {
     let viewNum: Int // 0
     let reviewNum: Int // 0
     let wantNum: Int // 0
-    let createdAt: String // "2018-11-29T12:12:37.792797+09:00"
-    let modifiedAt: String // "2018-11-29T12:12:37.792819+09:00"
+    let createdAt: Date // "2018-11-29T12:12:37.792797+09:00"
+    let modifiedAt: Date // "2018-11-29T12:12:37.792819+09:00"
     let latitude: Double // 127.05436622
     let longitude: Double // 37.54785459
-//    let image: [UIImage]? // -> 현재없음
+    //    let image: [UIImage]? // -> 현재없음
     let gradePoint: Double? // -> 현재없음
     let youTubeUrl: String? // -> 현재없음
     
-    //    let ranking: Int -> indexPath.row 값으로 지정?
     //    let image: [UIImage]
     //    let location: String   -> address로 변경 필요
     //    let viewFeedCount: String
@@ -64,7 +63,7 @@ struct CellDataStruct: Decodable {
         case modifiedAt = "modified_at"
         case latitude
         case longitude
-//        case image
+        //        case image
         case gradePoint
         case youTubeUrl = "youtube"
     }
@@ -74,10 +73,15 @@ final class CellData {
     static let shared = CellData()
     var arrayOfCellData: [CellDataStruct] = []
     
-    func getDataFromServer() { // 서버에서 데이터 가져오는 펑션
+    // 서버에서 데이터 가져오는 펑션
+    func getDataFromServer() {
         let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
         guard let data = try? Data(contentsOf: url) else { return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
-        let arrayData = try! JSONDecoder().decode([CellDataStruct].self, from: data)
+        let jsonDecoder = JSONDecoder()
+        let dateFomatter = DateFormatter() // 날짜 형식 받아오는 포메터
+        dateFomatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ" // 현재 날짜 포멧은 이러하다
+        jsonDecoder.dateDecodingStrategy = .formatted(dateFomatter)
+        let arrayData = try! jsonDecoder.decode([CellDataStruct].self, from: data)
         arrayOfCellData = arrayData
     }
 }
@@ -112,7 +116,6 @@ struct CellDataStructOrigin {
         self.telNumber = telNumber
     }
 }
-
 final class CellDataOrigin {
     var arrayOfCellData: [CellDataStructOrigin] = [
         CellDataStructOrigin(pk:111, ranking: 1, name: "야스노야지로", image: [ #imageLiteral(resourceName: "burrito-chicken-close-up-461198"), #imageLiteral(resourceName: "banner-1686943_1280"), #imageLiteral(resourceName: "DropDownArrow"), #imageLiteral(resourceName: "burrito-chicken-close-up-461198"), #imageLiteral(resourceName: "sunset-1645103_1280"), #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨3747 🖋7 ", gradePoint: 4.6, youTubeUrl: "https://www.youtube.com/watch?v=jJt2Wunh5d4", address: "서울시 용산구 원효로1가 57-9", latitude: 37.531299, longitude: 126.971395, telNumber: "01029277728"),
@@ -128,3 +131,24 @@ final class CellDataOrigin {
         CellDataStructOrigin(pk:111111, ranking: 11, name: "사이공마켓(숙대점)", image:[ #imageLiteral(resourceName: "cooking-dinner-food-76093")], location: "용산/숙대", viewFeedCount: "👁‍🗨3747 🖋7 ", gradePoint: 4.0, address: "서울특별시 용산구 남영동 89-5", latitude: 37.541800, longitude: 126.973332, telNumber: "01029277728"),
         CellDataStructOrigin(pk:121212, ranking: 12, name: "마시&바시", image:[ #imageLiteral(resourceName: "blur-breakfast-close-up-376464")], location: "용산/숙대", viewFeedCount: "👁‍🗨3747 🖋7 ", gradePoint: 3.9, address: "서울특별시 용산구 남영동 89-5", latitude: 37.541800, longitude: 126.973332, telNumber: "01029277728")]
 }
+
+//    func fetchData(completionHander: @escaping ([CellDataStruct]) -> Void) {  // 알라모 사용한 데이터 비동기식 처리(feat.조교님)
+//
+//        let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
+//        Alamofire
+//            .request(url)
+//            .responseData { response in
+//                switch response.result {
+//                case .success(let data):
+//                    let jsonDecoder = JSONDecoder()
+//                    let dateFomatter = DateFormatter()
+//                    dateFomatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ"
+//                    jsonDecoder.dateDecodingStrategy = .formatted(dateFomatter)
+//                    let arrayData = try! jsonDecoder.decode([CellDataStruct].self, from: data)
+//                    //
+//                    completionHander(arrayData)
+//                case .failure(let error):
+//                    print(error)
+//                }
+//        }
+//    }
