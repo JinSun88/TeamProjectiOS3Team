@@ -32,7 +32,7 @@ class MyInfoViewController: UIViewController {
         topView.addSubview(nameLabel)
         topView.addSubview(rivisionButton)
         
-        view.backgroundColor = .lightGray
+        view.backgroundColor = #colorLiteral(red: 0.913626194, green: 0.9137828946, blue: 0.9136161804, alpha: 1)
         topView.backgroundColor = .white
         myImageView.layer.cornerRadius = myImageView.frame.width / 2
         myImageView.image = UIImage(named: "GFood_selected") // 더미이미지

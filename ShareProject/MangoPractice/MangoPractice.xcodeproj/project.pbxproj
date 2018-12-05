@@ -16,6 +16,7 @@
 		A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */; };
 		A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC6321B1164C00B01784 /* MyInfoViewController.swift */; };
 		A0F06FA521B4E43E0066A5E1 /* LocationSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */; };
+		A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */; };
 		AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE521985AC900716B7A /* AppDelegate.swift */; };
 		AF001BE821985AC900716B7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE721985AC900716B7A /* ViewController.swift */; };
 		AF001BEB21985AC900716B7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BE921985AC900716B7A /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		A0B8CC6321B1164C00B01784 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
 		A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectViewController.swift; sourceTree = "<group>"; };
+		A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewFlowLayout.swift; sourceTree = "<group>"; };
 		AF001BE221985AC900716B7A /* MangoPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangoPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF001BE521985AC900716B7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF001BE721985AC900716B7A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */,
 				A0B8CC6321B1164C00B01784 /* MyInfoViewController.swift */,
 				A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */,
+				A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */,
+				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
 				A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */,
 				A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */,

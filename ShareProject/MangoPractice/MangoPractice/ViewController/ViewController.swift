@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         
         // ViewContoller용 데이터 저장
         arrayOfCellData = CellData.shared.arrayOfCellData
@@ -100,8 +101,8 @@ class ViewController: UIViewController {
         mapButton.snp.makeConstraints{
             $0.top.equalTo(currentPlaceGuideLabel).offset(10)
             $0.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.width.equalTo(70)
-            $0.height.equalTo(50)
+            $0.width.equalTo(60)
+            $0.height.equalTo(40)
         }
         mapButton.addTarget(self, action: #selector(mapButtonAction), for: .touchUpInside)
     }
@@ -116,8 +117,8 @@ class ViewController: UIViewController {
         searchButton.snp.makeConstraints {
             $0.top.equalTo(currentPlaceGuideLabel).offset(10)
             $0.trailing.equalTo(mapButton.snp.leading)
-            $0.width.equalTo(43)
-            $0.height.equalTo(43)
+            $0.width.equalTo(40)
+            $0.height.equalTo(40)
         }
     }
     private func adScrollViewConfig() {

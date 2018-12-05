@@ -48,6 +48,7 @@ class EnrollViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         topbarConfig()
         topViewConfig()
         enrollButtonConfig()
@@ -59,6 +60,8 @@ class EnrollViewController: UIViewController {
         makeTextFieldUnderBar() // viewdidload할 경우 안나오는 경우가 있어서 여기에
 
     }
+    
+    
     // 텍스트 필드 아래 밑줄 삽입
     private func makeTextFieldUnderBar() {
         nameTextField.borderStyle = .none
@@ -81,7 +84,7 @@ class EnrollViewController: UIViewController {
         view.addSubview(topBar)
         view.addSubview(titleLabel)
         
-        topBar.backgroundColor = .orange
+        topBar.backgroundColor = #colorLiteral(red: 1, green: 0.4456674457, blue: 0.004210381769, alpha: 1)
         titleLabel.text = "식당 등록"
         titleLabel.textColor = .white
         titleLabel.backgroundColor = .clear
@@ -119,9 +122,9 @@ class EnrollViewController: UIViewController {
         topLabel.textColor = .darkGray
         textFieldView.backgroundColor = .white
         nameTextField.backgroundColor = .white
-        nameTextField.attributedPlaceholder = NSAttributedString(string: "*식당 이름 (예: 패스트반점)", attributes: [NSAttributedString.Key.foregroundColor: UIColor.orange])
+        nameTextField.attributedPlaceholder = NSAttributedString(string: "*식당 이름 (예: 패스트반점)", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1, green: 0.4456674457, blue: 0.004210381769, alpha: 1)])
         locationTextField.backgroundColor = .white
-        locationTextField.attributedPlaceholder = NSAttributedString(string: "*지역 및 위치 선택", attributes: [NSAttributedString.Key.foregroundColor: UIColor.orange])
+        locationTextField.attributedPlaceholder = NSAttributedString(string: "*지역 및 위치 선택", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1, green: 0.4456674457, blue: 0.004210381769, alpha: 1)])
         locationButton.setImage(UIImage(named: "locationButton"), for: .normal)
         locationButton.addTarget(self, action: #selector(locationButtonDidTap), for: .touchUpInside)
         
@@ -427,6 +430,14 @@ class EnrollViewController: UIViewController {
         performSegue(withIdentifier: "showLocationSelectView", sender: self)
     }
     
+    // 자동완성된 주소를 받기 위한 프로토콜 채택
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showLocationSelectView" {
+            let viewController: LocationSelectViewController = segue.destination as! LocationSelectViewController
+                viewController.delegate = self
+        }
+    }
+    
     
     
     @objc func koreanFoodbuttonDidTap(_ sender: UIButton) {
@@ -564,11 +575,10 @@ class EnrollViewController: UIViewController {
             
         }
     }
-    
-
-
-      
-    
-    
-    
+}
+// 자동완성된 주소를 주소 텍스트필드에 입력하도록 설정
+extension EnrollViewController: SendDataDelegate {
+    func sendData(data: String) {
+        locationTextField.text = data
+    }
 }

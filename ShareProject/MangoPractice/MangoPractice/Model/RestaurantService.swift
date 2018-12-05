@@ -41,7 +41,7 @@ struct RestaurantService {
                  .restaurantDelete:
                 return "/restaurant/<pk>"
             case .restaurantCreate:
-                return "/restaurant/"
+                return "/restaurant/list"
             }
         }
         

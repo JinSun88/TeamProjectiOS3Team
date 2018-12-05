@@ -16,11 +16,10 @@ class MapViewController: UIViewController {
     let currentPlaceButton = UIButton()
     let searchButton = UIButton()
     let mapUnwindButton = UIButton()
-    let buttonView = UIView()
     let mainView = ViewController()
     let locationManager = CLLocationManager()
     var mapView = GMSMapView()
-    var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: MapViewFlowLayout())
     var arrayOfCellData = CellData.shared.arrayOfCellData
     var selectedColumnData: CellDataStruct?
     
@@ -38,7 +37,6 @@ class MapViewController: UIViewController {
         currentPlaceLabelButtonConfig()
         mapUnwindButtonConfig()
         searchButtonConfig()
-        buttonViewConfig()
         mapViewConfig()
         collectionViewConfig()
         makeMaker()
@@ -99,23 +97,11 @@ class MapViewController: UIViewController {
         }
     }
     
-    private func buttonViewConfig() {
-        view.addSubview(buttonView)
-        buttonView.backgroundColor = .lightGray
-        
-        buttonView.snp.makeConstraints {
-            $0.top.equalTo(currentPlaceButton.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(50)
-        }
-    }
-    
     private func mapViewConfig() {
         
         view.addSubview(mapView)
-        mapView.delegate = self
         mapView.snp.makeConstraints {
-            $0.top.equalTo(buttonView.snp.bottom)
+            $0.top.equalTo(currentPlaceButton.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         mapView.isMyLocationEnabled = true
@@ -125,7 +111,7 @@ class MapViewController: UIViewController {
         mapCollectionView.backgroundColor = .clear
         mapCollectionView.dataSource = self
         mapCollectionView.delegate = self
-        mapCollectionView.isPagingEnabled = true
+        mapCollectionView.isPagingEnabled = false
         
         mapCollectionView.register(MapCollectionViewCell.self, forCellWithReuseIdentifier: "CELL")
         
@@ -164,9 +150,10 @@ class MapViewController: UIViewController {
             marker.position = CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i])
             marker.title = "\(i + 1). \(name[i]) "
             marker.map = mapView
+            marker.icon = UIImage(named:"MapMarkerImage")
+
         }
 
-        
 
         
         
@@ -180,7 +167,7 @@ extension MapViewController {
         
         let latitude = coordinate.latitude
         let longitude = coordinate.longitude
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 14.0)
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15.0)
         mapView.camera = camera
     }
 }
@@ -200,10 +187,23 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: (collectionView.frame.width / 6) * 5, height: collectionView.frame.height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 0, left: (collectionView.frame.width * 0.1), bottom: 0, right: (collectionView.frame.width * 0.1))
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
         return CGFloat(10)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard let collectionView = scrollView as? UICollectionView else { return }
+
+        let offset = collectionView.bounds.width / 2
+        let contentOffset = offset + collectionView.contentOffset.x
+        guard let indexPath = collectionView.indexPathForItem(at: CGPoint(x: contentOffset, y: collectionView.bounds.height / 2)) else { return }
+        let data = arrayOfCellData[indexPath.item]
+        let camera = GMSCameraPosition.camera(withLatitude: data.latitude, longitude: data.longitude, zoom: 15.0)
+        mapView.camera = camera
+        
     }
 }
 
@@ -226,15 +226,6 @@ extension MapViewController: UICollectionViewDataSource {
 }
 
 extension MapViewController: UICollectionViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView == mapCollectionView {
-            var currentCellOffset = mapCollectionView.contentOffset
-            currentCellOffset.x += mapCollectionView.frame.width / 2
-            if let indexPath = mapCollectionView.indexPathForItem(at: currentCellOffset) {
-                mapCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            }
-        }
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -245,13 +236,6 @@ extension MapViewController: UICollectionViewDelegate {
     }
 }
 
-extension MapViewController: GMSMapViewDelegate {
-    // 마커가 탭되었을 때 작동하는 메소드
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        
-        return false
-    }
-}
 
 
 

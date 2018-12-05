@@ -7,17 +7,26 @@
 //
 
 import UIKit
+import SnapKit
 import CoreLocation
 import GooglePlaces
 import GoogleMaps
+
+protocol SendDataDelegate {
+    func sendData(data: String)
+} // 자동완성으로 검색된 주소값을 넘기기 위해 프로토콜 선언
 
 class LocationSelectViewController: UIViewController {
     let backButton = UIButton()
     let searchTextField = UITextField()
     let confirmLocationButton = UIButton()
     let locationManager = CLLocationManager()
+    let centerPinImage = UIImageView()
+    let addressLabel = UILabel()
     let currentLocationMarker = GMSMarker()
     var selectLocationMapView = GMSMapView()
+    var centerPinImageVerticalConstraint: NSLayoutConstraint!
+    var delegate: SendDataDelegate?
 
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +44,7 @@ class LocationSelectViewController: UIViewController {
         topViewConfig()
         selectLocationMapViewConfig()
         confirmLocationButtonConfig()
+        
     
 
     }
@@ -71,13 +81,36 @@ class LocationSelectViewController: UIViewController {
     
     private func selectLocationMapViewConfig() {
         view.addSubview(selectLocationMapView)
+        view.addSubview(centerPinImage)
+        selectLocationMapView.addSubview(addressLabel)
+        selectLocationMapView.delegate = self
         
         selectLocationMapView.isMyLocationEnabled = true
+        centerPinImage.image = UIImage(named: "MapMarkerImage")
+        addressLabel.backgroundColor = .white
+        addressLabel.text = ""
+        addressLabel.textAlignment = .center
+
+    
         
         selectLocationMapView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(backButton.snp.bottom)
             $0.bottom.equalToSuperview().offset(-50)
+        }
+        
+        centerPinImage.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(30)
+            $0.height.equalTo(40)
+        }
+        
+        addressLabel.snp.makeConstraints {
+            $0.leading.equalTo(selectLocationMapView).offset(15)
+            $0.trailing.equalTo(selectLocationMapView).offset(-15)
+            $0.bottom.equalTo(selectLocationMapView).offset(-45)
+            $0.height.equalTo(55)
         }
         
 
@@ -89,6 +122,7 @@ class LocationSelectViewController: UIViewController {
         confirmLocationButton.backgroundColor = .orange
         confirmLocationButton.setTitle("이 위치 설정하기", for: .normal)
         confirmLocationButton.setTitleColor(.white, for: .normal)
+        confirmLocationButton.addTarget(self, action: #selector(confirmLocationButtonDidTap), for: .touchUpInside)
         
         confirmLocationButton.snp.makeConstraints {
             $0.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -97,10 +131,37 @@ class LocationSelectViewController: UIViewController {
         
     }
     
-    func initGoogleMaps() {
+    @objc func confirmLocationButtonDidTap() {
+        if let data = addressLabel.text {
+            delegate?.sendData(data: data)
+        }
+        
+        dismiss(animated: true, completion: nil)
+
+    }
+    
+    
+    // 주소라벨이 주소나타내기위한 역지오코딩
+    private func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D) {
+        let geocoder = GMSGeocoder()
+        
+        geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
+            guard let address = response?.firstResult(), let lines = address.lines else { return }
+            let originLines: String = lines.joined(separator: "\n")
+            let resultAddress = originLines.replacingOccurrences(of: "대한민국", with: "") // 주소 중 대한민국 제외
+            self.addressLabel.text = resultAddress
+            
+        }
+    }
+    
+    private func initGoogleMaps() {
         let camera = GMSCameraPosition.camera(withLatitude: 28.7041, longitude: 77.1025, zoom: 17.0)
         self.selectLocationMapView.camera = camera
         self.selectLocationMapView.isMyLocationEnabled = true
+    }
+    
+    private func openEnrollVC() {
+        dismiss(animated: true, completion: nil)
     }
     
 }
@@ -139,27 +200,21 @@ extension LocationSelectViewController: UITextFieldDelegate {
         return false
     }
 }
-
+// 자동완성된 주소를 델리게이트에 담음
 extension LocationSelectViewController: GMSAutocompleteViewControllerDelegate  {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        let latitude = place.coordinate.latitude
-        let longitude = place.coordinate.longitude
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 17.0)
         
-        selectLocationMapView.camera = camera
-        searchTextField.text = place.formattedAddress
-
-        let marker = GMSMarker()
-
-        marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        marker.title = "\(place.name)"
-        marker.snippet = "\(place.formattedAddress!)"
-        marker.map = selectLocationMapView
+        let originAddress = place.formattedAddress
+        let resultAddress = originAddress?.replacingOccurrences(of: "대한민국", with: "") // 주소 중 대한민국 제외
         
-        self.dismiss(animated: true, completion: nil) // dismiss after place selected
+        if let data = resultAddress {
+            delegate?.sendData(data: data)
+        }
+        dismiss(animated: true, completion: nil) //자동완성VC 닫음
+        openEnrollVC() //식당등록화면으로 dismiss
         
     }
-    
+
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
         print("\(error.localizedDescription)")
     }
@@ -168,9 +223,21 @@ extension LocationSelectViewController: GMSAutocompleteViewControllerDelegate  {
         self.dismiss(animated: true, completion: nil)
     }
     
-
-    
 }
+
+extension LocationSelectViewController: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        reverseGeocodeCoordinate(position.target)
+    }
+    
+    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        
+        if (gesture) {
+            mapView.selectedMarker = nil
+        }
+    }
+}
+
 
 
 
