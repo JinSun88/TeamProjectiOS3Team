@@ -251,4 +251,8 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-
+// 데이터 비동기 처리시 사용해야 하는 구문(feat.조교님) viewDidLoad 안에 론칭 필요
+//        CellData.shared.fetchData(completionHander: { datas in
+//            self.datasource = datas
+//            self.tableView.reloadData()
+//        })

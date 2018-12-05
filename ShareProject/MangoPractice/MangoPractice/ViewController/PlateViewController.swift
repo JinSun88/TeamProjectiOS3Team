@@ -182,93 +182,153 @@ final class PlateViewController: UIViewController {
         middleButtonsView.snp.makeConstraints { (m) in
             m.top.equalTo(middleInfoBarView.snp.bottom).offset(10)
             m.width.equalToSuperview()
-            m.height.equalTo(120)
+            m.height.equalTo(scrollGuideView.snp.width).multipliedBy(0.2)
         }
         
         // 가고싶다~사진올리기 버튼 및 라벨 올리기
+        let want2goView = UIView()
         let want2goButton = UIButton()
+        let want2goImageView = UIImageView()
         let want2goLabel = UILabel()
-        let checkInButton = UIButton()
-        let checkInLabel = UILabel()
-        let writeReviewButton = UIButton()
-        let writeReviewLabel = UILabel()
-        let uploadPicButton = UIButton()
-        let uploadPicLabel = UILabel()
         
-        want2goButton.setImage(#imageLiteral(resourceName: "cooking-dinner-food-76093"), for: .normal)
-        middleButtonsView.addSubview(want2goButton)
+        middleButtonsView.addSubview(want2goView)
+        want2goView.snp.makeConstraints { (m) in
+            m.top.leading.bottom.equalToSuperview()
+            m.width.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+        }
+        
+        want2goView.addSubview(want2goButton)
         want2goButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleButtonsView)
-            m.leading.equalToSuperview()
-            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+            m.edges.equalToSuperview()
         }
         want2goButton.addTarget(self, action: #selector(want2goButtonTapped), for: .touchUpInside)
-        
+
+        want2goImageView.image = UIImage(named: "StarEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -5, left: -5, bottom: -5, right: -5))
+        want2goImageView.contentMode = .scaleAspectFit
+        want2goView.addSubview(want2goImageView)
+        want2goImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+
         want2goLabel.text = "가고싶다"
         want2goLabel.textColor = .orange
+        want2goLabel.font = UIFont(name: "Helvetica", size: 13)
         want2goLabel.textAlignment = .center
-        middleButtonsView.addSubview(want2goLabel)
-        want2goLabel.snp.makeConstraints {
-            $0.top.equalTo(want2goButton.snp.bottom)
-            $0.width.equalTo(want2goButton)
+        want2goView.addSubview(want2goLabel)
+        want2goLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
         }
         
-        checkInButton.setImage(#imageLiteral(resourceName: "burrito-chicken-close-up-461198"), for: .normal)
-        middleButtonsView.addSubview(checkInButton)
+        let checkInView = UIView()
+        let checkInButton = UIButton()
+        let checkInImageView = UIImageView()
+        let checkInLabel = UILabel()
+        
+        middleButtonsView.addSubview(checkInView)
+        checkInView.snp.makeConstraints { (m) in
+            m.top.bottom.equalToSuperview()
+            m.leading.equalTo(want2goView.snp.trailing)
+            m.width.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+        }
+        
+        checkInView.addSubview(checkInButton)
         checkInButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleButtonsView)
-            m.leading.equalTo(want2goButton.snp.trailing)
-            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+            m.edges.equalToSuperview()
         }
         checkInButton.addTarget(self, action: #selector(checkInButtonTapped), for: .touchUpInside)
         
-        checkInLabel.text = "체크인"
-        checkInLabel.textColor = .orange
-        checkInLabel.textAlignment = .center
-        middleButtonsView.addSubview(checkInLabel)
-        checkInLabel.snp.makeConstraints {
-            $0.top.equalTo(checkInButton.snp.bottom)
-            $0.leading.equalTo(checkInButton)
-            $0.width.equalTo(checkInButton)
+        checkInImageView.image = UIImage(named: "CheckInEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -4, left: -2, bottom: 0, right: -2))
+        checkInImageView.contentMode = .scaleAspectFit
+        checkInView.addSubview(checkInImageView)
+        checkInImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
         }
         
-        writeReviewButton.setImage(#imageLiteral(resourceName: "sunset-1645103_1280"), for: .normal)
-        middleButtonsView.addSubview(writeReviewButton)
+        checkInLabel.text = "체크인"
+        checkInLabel.textColor = .orange
+        checkInLabel.font = UIFont(name: "Helvetica", size: 13)
+        checkInLabel.textAlignment = .center
+        checkInView.addSubview(checkInLabel)
+        checkInLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        let writeReviewView = UIView()
+        let writeReviewButton = UIButton()
+        let writeReviewImageView = UIImageView()
+        let writeReviewLabel = UILabel()
+        
+        middleButtonsView.addSubview(writeReviewView)
+        writeReviewView.snp.makeConstraints { (m) in
+            m.top.bottom.equalToSuperview()
+            m.leading.equalTo(checkInView.snp.trailing)
+            m.width.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+        }
+        
+        writeReviewView.addSubview(writeReviewButton)
         writeReviewButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleButtonsView)
-            m.leading.equalTo(checkInButton.snp.trailing)
-            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+            m.edges.equalToSuperview()
         }
         writeReviewButton.addTarget(self, action: #selector(writeReviewButtonTapped), for: .touchUpInside)
         
-        writeReviewLabel.text = "리뷰쓰기"
-        writeReviewLabel.textColor = .orange
-        writeReviewLabel.textAlignment = .center
-        middleButtonsView.addSubview(writeReviewLabel)
-        writeReviewLabel.snp.makeConstraints {
-            $0.top.equalTo(writeReviewButton.snp.bottom)
-            $0.leading.equalTo(writeReviewButton)
-            $0.width.equalTo(writeReviewButton)
+        writeReviewImageView.image = UIImage(named: "PenEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -9, left: -7, bottom: -5, right: -7))
+        writeReviewImageView.contentMode = .scaleAspectFit
+        writeReviewView.addSubview(writeReviewImageView)
+        writeReviewImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
         }
         
-        uploadPicButton.setImage(#imageLiteral(resourceName: "banner-1686943_1280"), for: .normal)
-        middleButtonsView.addSubview(uploadPicButton)
+        writeReviewLabel.text = "리뷰쓰기"
+        writeReviewLabel.textColor = .orange
+        writeReviewLabel.font = UIFont(name: "Helvetica", size: 13)
+        writeReviewLabel.textAlignment = .center
+        writeReviewView.addSubview(writeReviewLabel)
+        writeReviewLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        let uploadPicView = UIView()
+        let uploadPicButton = UIButton()
+        let uploadPicImageView = UIImageView()
+        let uploadPicLabel = UILabel()
+        
+        middleButtonsView.addSubview(uploadPicView)
+        uploadPicView.snp.makeConstraints { (m) in
+            m.top.bottom.equalToSuperview()
+            m.leading.equalTo(writeReviewView.snp.trailing)
+            m.width.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+        }
+        
+        uploadPicView.addSubview(uploadPicButton)
         uploadPicButton.snp.makeConstraints { (m) in
-            m.top.equalTo(middleButtonsView)
-            m.leading.equalTo(writeReviewButton.snp.trailing)
-            m.width.height.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+            m.edges.equalToSuperview()
         }
         uploadPicButton.addTarget(self, action: #selector(uploadPicButtonTapped), for: .touchUpInside)
         
+        uploadPicImageView.image = UIImage(named: "CameraEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: -5, bottom: 0, right: -5))
+        uploadPicImageView.contentMode = .scaleAspectFit
+        uploadPicView.addSubview(uploadPicImageView)
+        uploadPicImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
         uploadPicLabel.text = "사진올리기"
         uploadPicLabel.textColor = .orange
+        uploadPicLabel.font = UIFont(name: "Helvetica", size: 13)
         uploadPicLabel.textAlignment = .center
-        middleButtonsView.addSubview(uploadPicLabel)
-        uploadPicLabel.snp.makeConstraints {
-            $0.top.equalTo(uploadPicButton.snp.bottom)
-            $0.leading.equalTo(uploadPicButton)
-            $0.width.equalTo(uploadPicButton)
+        uploadPicView.addSubview(uploadPicLabel)
+        uploadPicLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
         }
+        
     }
     @objc private func want2goButtonTapped() {
         print("want2goButtonTapped")
@@ -283,8 +343,7 @@ final class PlateViewController: UIViewController {
         print("uploadPicButtonTapped")
     }
     private func youTubeWebView() {
-        // 유튜브 URL에 "youtube" 포함되어 있으면이 유튜브 플레이어 표시, 없으면 높이 1 스크롤 가이드뷰를 생성
-        guard let youTubeUrl = selectedColumnData?.youTubeUrl else { return }
+        guard let youTubeUrl = selectedColumnData?.youTubeUrl else { return }  // 유튜브 URL에 "youtube" 포함되어 있으면이 유튜브 플레이어 표시, 없으면 높이 1 스크롤 가이드뷰를 생성
         
         if youTubeUrl.contains("youtube") {
             scrollGuideView.addSubview(youTubeView)
@@ -293,7 +352,7 @@ final class PlateViewController: UIViewController {
                 m.width.leading.equalToSuperview()
                 m.height.equalTo(200)
             }
-            youTubeView.playerVars = ["playsinline": 1 as AnyObject] // 전체화면 아닌 해당 페이지에서 플레이
+            youTubeView.playerVars = ["playsinline": 1 as AnyObject]  // 전체화면 아닌 해당 페이지에서 플레이
             let myVideoURL = NSURL(string: youTubeUrl)
             youTubeView.loadVideoURL(myVideoURL! as URL)
         } else {
@@ -334,6 +393,7 @@ final class PlateViewController: UIViewController {
         guard let longitude = selectedColumnData?.longitude else { return }
         marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         marker.title = "\(selectedColumnData?.name ?? "여긴 어디지요?")"
+        marker.icon = UIImage(named: "MapMarkerImage")
         marker.map = mapView
         mapView.isMyLocationEnabled = false
         
@@ -430,10 +490,10 @@ final class PlateViewController: UIViewController {
             m.trailing.equalToSuperview().inset(10)
             m.width.equalToSuperview().multipliedBy(0.5)
         }
-        guard let rawModifiedAtData = selectedColumnData?.modifiedAt else { return }
-        let modifiedAtData = rawModifiedAtData[..<rawModifiedAtData.index(rawModifiedAtData.startIndex, offsetBy: 10)]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         modifiedAtLabel.textAlignment = .right
-        modifiedAtLabel.text = "마지막 업데이트: \(modifiedAtData)"
+        modifiedAtLabel.text = "마지막 업데이트: \(dateFormatter.string(from: selectedColumnData!.modifiedAt))"
         modifiedAtLabel.textColor = .lightGray
         modifiedAtLabel.font = UIFont(name: "Helvetica", size: 12)
         
