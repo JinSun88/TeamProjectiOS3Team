@@ -81,8 +81,14 @@ final class CellData {
         let dateFomatter = DateFormatter() // 날짜 형식 받아오는 포메터
         dateFomatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ" // 현재 날짜 포멧은 이러하다
         jsonDecoder.dateDecodingStrategy = .formatted(dateFomatter)
-        let arrayData = try! jsonDecoder.decode([CellDataStruct].self, from: data)
-        arrayOfCellData = arrayData
+        
+        // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
+        do {
+            let arrayData = try jsonDecoder.decode([CellDataStruct].self, from: data)
+            arrayOfCellData = arrayData
+        } catch {
+            print("에러내용: \(error)")
+        }
     }
 }
 

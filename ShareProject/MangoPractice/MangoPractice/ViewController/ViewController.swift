@@ -11,13 +11,11 @@ import SnapKit
 import WebKit
 import CoreLocation
 
-
 class ViewController: UIViewController {
     
-    let currentPlaceGuideLabel = UILabel()
-    let currentPlaceButton = UIButton()
-    let searchButton = UIButton()
-    let mapButton = UIButton()
+    let topGuideView = UIView()
+    var locality = String() // 성수동(동명)
+    var subLocality = String() // 성수2가(상세주소)
     let adScrollView = UIScrollView()
     let locationManager = CLLocationManager()
     var adImagesArray = [UIImage]()
@@ -29,23 +27,42 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization() // [진성] 같은 내용이 두줄이네요?
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
         
         // ViewContoller용 데이터 저장
         arrayOfCellData = CellData.shared.arrayOfCellData
     }
-    
+    override func viewDidLayoutSubviews() {
+        // adScrollView의 위치를 오토레이아웃으로 잡기위해 viewDidLayoutSubviews에서 설정합니다.
+        adScrollView.snp.makeConstraints { (m) in
+            m.top.equalTo(topGuideView.snp.bottom)
+            m.leading.trailing.equalToSuperview()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentPlaceLabelButtonConfig()
+        topGuideViewConfig()
         adScrollViewConfig()
         mainCollectionViewConfig()
-        mapButtonConfig()
-        searchButtonConfig()
         checkAuthorizationStatus()
+        tabBarIndicatorCreator()
+        
+        // 주소 가져오는 처리가 완료되면 다시한번 topGuideViewConfig를 실행합니다.
+        NotificationCenter.default.addObserver(self, selector: #selector(topGuideViewConfig), name: NSNotification.Name(rawValue: "addressSet"), object: nil)
     }
-    
+    private func tabBarIndicatorCreator() {
+        // 탭바 주황색 인디케이터 실행 펑션
+        let tabBar = self.tabBarController!.tabBar
+        tabBar.selectionIndicatorImage = UIImage().createSelectionIndicator(
+            color: #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1),
+            size: CGSize(
+                width: tabBar.frame.width/CGFloat(tabBar.items!.count),
+                height: tabBar.frame.height),  // iPhoneX(height:89)
+            lineHeight: 3.0)
+    }
     // 위치 사용권한 체크
     private func checkAuthorizationStatus() {
         switch CLLocationManager.authorizationStatus() {
@@ -60,7 +77,6 @@ class ViewController: UIViewController {
             startUpdatingLocation()
         }
     }
-    
     private func startUpdatingLocation() {
         let status = CLLocationManager.authorizationStatus()
         guard status == .authorizedAlways || status == .authorizedWhenInUse,
@@ -70,52 +86,61 @@ class ViewController: UIViewController {
         locationManager.distanceFilter = 10.0 // 이벤트를 발생시키는 최소거리
         locationManager.startUpdatingLocation()
     }
-    
-    private func currentPlaceLabelButtonConfig() {
-        // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
-        view.addSubview(currentPlaceGuideLabel)
-        currentPlaceGuideLabel.snp.makeConstraints { (m) in
-            m.top.equalTo(view.safeAreaLayoutGuide).offset(5)
-            m.leading.equalTo(view).offset(30)
+    @objc private func topGuideViewConfig() {
+        // 탑 가이드 뷰 설정(지금보고있는 지역은 + 서치버튼, 맵버튼)
+        let currentPlaceGuideLabel = UILabel()
+        let currentPlaceButton = UIButton()
+        let searchButton = UIButton()
+        let mapButton = UIButton()
+        
+        view.addSubview(topGuideView)
+        topGuideView.snp.makeConstraints { (m) in
+            m.top.width.leading.equalTo(view.safeAreaLayoutGuide)
+            m.height.equalTo(60)
         }
         
+        // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
+        topGuideView.addSubview(currentPlaceGuideLabel)
+        currentPlaceGuideLabel.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(5)
+            m.leading.equalToSuperview().offset(20)
+        }
         currentPlaceGuideLabel.text = "지금 보고 있는 지역은"
-        currentPlaceGuideLabel.font = currentPlaceGuideLabel.font.withSize(10)
+        currentPlaceGuideLabel.font = currentPlaceGuideLabel.font.withSize(12)
         
         // 현위치 버튼 위치, 폰트 사이즈, text 지정
-        view.addSubview(currentPlaceButton)
+        let currentAddress = "\(locality) \(subLocality)" // 성수동 성수2가
+        currentPlaceButton.setTitle(currentAddress, for: .normal)
+        currentPlaceButton.setTitleColor(.black, for: .normal)
+        
+        topGuideView.addSubview(currentPlaceButton)
         currentPlaceButton.snp.makeConstraints { (m) in
             m.top.equalTo(currentPlaceGuideLabel.snp.bottom)
             m.leading.equalTo(currentPlaceGuideLabel)
         }
-        currentPlaceButton.setTitle("왕십리/성동 ∨", for: .normal)
-        currentPlaceButton.setTitleColor(.black, for: .normal)
-    }
-    
-    private func mapButtonConfig() {
+        
+        // 맵 버튼 콘피그
         let mapButtonImage = UIImage(named: "map_button")
-        view.addSubview(mapButton)
+        topGuideView.addSubview(mapButton)
         mapButton.setImage(mapButtonImage, for: .normal)
         mapButton.imageView?.contentMode = .scaleAspectFit
         
         mapButton.snp.makeConstraints{
-            $0.top.equalTo(currentPlaceGuideLabel).offset(10)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.width.equalTo(60)
-            $0.height.equalTo(40)
+            $0.top.equalToSuperview().offset(8)
+            $0.trailing.equalTo(topGuideView.safeAreaLayoutGuide)
+            $0.width.equalTo(65)
+            $0.height.equalTo(45)
         }
         mapButton.addTarget(self, action: #selector(mapButtonAction), for: .touchUpInside)
-    }
-    
-    private func searchButtonConfig() {
-        let searchButtonImage = UIImage(named: "search_button")
-        view.addSubview(searchButton)
         
+        // 서치 버튼 콘피그
+        let searchButtonImage = UIImage(named: "search_button")
+        topGuideView.addSubview(searchButton)
         searchButton.setImage(searchButtonImage, for: .normal)
         searchButton.imageView?.contentMode = .scaleAspectFit
         
         searchButton.snp.makeConstraints {
-            $0.top.equalTo(currentPlaceGuideLabel).offset(10)
+            $0.top.equalToSuperview().offset(10)
             $0.trailing.equalTo(mapButton.snp.leading)
             $0.width.equalTo(40)
             $0.height.equalTo(40)
@@ -124,9 +149,8 @@ class ViewController: UIViewController {
     private func adScrollViewConfig() {
         // 횡스크롤 배너
         view.addSubview(adScrollView)
-        adScrollView.frame = CGRect(x: view.frame.origin.x, y: currentPlaceButton.bounds.maxY + 100, width: view.frame.width, height: 120)
+        adScrollView.frame = CGRect(x: view.frame.origin.x, y: 105, width: view.frame.width, height: 150)
         adScrollView.showsHorizontalScrollIndicator = false // 횡스크롤바 없음
-        adScrollView.backgroundColor = .gray
         adScrollView.isPagingEnabled = true
         
         // 횡스크롤 배너에 이미지 넣기
@@ -141,7 +165,6 @@ class ViewController: UIViewController {
             adScrollView.contentSize.width = adScrollView.frame.width * CGFloat((i + 1))
             
             adScrollView.addSubview(adView)
-            
         }
         let button1 = UIButton()
         let button2 = UIButton()
@@ -162,7 +185,6 @@ class ViewController: UIViewController {
         button3.frame = CGRect(x: view.frame.width * 2, y: adScrollView.bounds.origin.y, width: adScrollView.frame.width, height: adScrollView.frame.height)
         button3.addTarget(self, action: #selector(button3Action), for: .touchUpInside)
     }
-    
     @objc func button1Action() {
         print("button1 Actioned")
         if let url = URL(string: "https://www.mangoplate.com/eat_deals") {
@@ -181,7 +203,6 @@ class ViewController: UIViewController {
             UIApplication.shared.open(url, options: [:])
         }
     }
-    
     private func mainCollectionViewConfig() {
         // mainCollectionView Setting
         mainCollectionView.backgroundColor = .white
@@ -196,7 +217,6 @@ class ViewController: UIViewController {
             m.leading.trailing.bottom.equalTo(view)
         }
     }
-    
     //  맵버튼액션 맵뷰로 이동
     @objc func mapButtonAction(sender: UIButton!) {
         print("mapButton tap")
@@ -250,7 +270,46 @@ extension ViewController: UICollectionViewDataSource {
         return cell
     }
 }
-
+extension UIImage {
+    // 탭바에 주황색 인디케이터 사용을 위한 익스텐션
+    func createSelectionIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(CGRect(origin: CGPoint(x: 0,y: size.height - lineHeight), size: CGSize(width: size.width, height: lineHeight))) //  iPhoneX(Y:89)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
+    }
+}
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // 현재위치의 위도 경도 가져오기
+        let lastestLocation: CLLocation = locations[locations.count - 1]
+        let latitude = lastestLocation.coordinate.latitude
+        let longitude = lastestLocation.coordinate.longitude
+        
+        // 위도 경도로 현재 주소 가져오기
+        let findLocation = CLLocation(latitude: latitude, longitude: longitude)
+        let geocoder = CLGeocoder()
+        let locale = Locale(identifier: "Ko-kr")
+        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
+            if let address: [CLPlacemark] = placemarks {
+                if let currentLocality: String = address.last?.locality {
+                    self.locality = currentLocality
+                }
+                if let currentThoroughfare: String = address.last?.thoroughfare {
+                    self.subLocality = currentThoroughfare
+                }
+                
+                // 위에 처리(주소 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(rawValue: "addressSet"),
+                    object: nil)
+            }
+        })
+        locationManager.stopUpdatingLocation()
+    }
+}
 // 데이터 비동기 처리시 사용해야 하는 구문(feat.조교님) viewDidLoad 안에 론칭 필요
 //        CellData.shared.fetchData(completionHander: { datas in
 //            self.datasource = datas
