@@ -26,7 +26,7 @@ final class PlateViewController: UIViewController {
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     // 초기페이지에서 선택된 셀 데이터만 저장하도록 하는 인스턴스
-    var selectedColumnData: CellDataStruct?
+    var selectedColumnData: ServerStruct.CellDataStruct?
     
     // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleInfoBarView = UIView()
@@ -163,7 +163,7 @@ final class PlateViewController: UIViewController {
         }
         
         //        restaurantGradePointLabel.backgroundColor = .yellow
-        restaurantGradePointLabel.text = String(selectedColumnData?.gradePoint ?? 0.0)
+        restaurantGradePointLabel.text = selectedColumnData?.gradePoint ?? "##"
         restaurantGradePointLabel.textAlignment = .right
         restaurantGradePointLabel.font = UIFont(name: "Helvetica" , size: 40)
         restaurantGradePointLabel.textColor = .orange
@@ -383,7 +383,7 @@ final class PlateViewController: UIViewController {
             m.centerX.equalToSuperview()
             m.height.equalToSuperview().multipliedBy(0.3)
         }
-        guard let addressDetail = selectedColumnData?.addressDetail else { return }
+        guard let addressDetail = selectedColumnData?.address else { return }
         addressLabel.text = addressDetail
         addressLabel.textColor = .gray
         
@@ -490,10 +490,12 @@ final class PlateViewController: UIViewController {
             m.trailing.equalToSuperview().inset(10)
             m.width.equalToSuperview().multipliedBy(0.5)
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        modifiedAtLabel.textAlignment = .right
-        modifiedAtLabel.text = "마지막 업데이트: \(dateFormatter.string(from: selectedColumnData!.modifiedAt))"
+        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        modifiedAtLabel.textAlignment = .right
+//        modifiedAtLabel.text = "마지막 업데이트: \(dateFormatter.string(from: selectedColumnData!.modifiedAt))"
+        modifiedAtLabel.text = "마지막 업데이트: \(selectedColumnData!.modifiedAt ?? "^^"))"
         modifiedAtLabel.textColor = .lightGray
         modifiedAtLabel.font = UIFont(name: "Helvetica", size: 12)
         

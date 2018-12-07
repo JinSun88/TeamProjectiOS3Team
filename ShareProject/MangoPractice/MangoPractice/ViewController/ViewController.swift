@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     let locationManager = CLLocationManager()
     var adImagesArray = [UIImage]()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    var arrayOfCellData: [CellDataStruct] = []
+    var arrayOfCellData: [ServerStruct.CellDataStruct] = []
     //    var arrayOfCellData = CellData().arrayOfCellData // 하드코딩 데이터
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +38,7 @@ class ViewController: UIViewController {
         adScrollView.snp.makeConstraints { (m) in
             m.top.equalTo(topGuideView.snp.bottom)
             m.leading.trailing.equalToSuperview()
+            m.height.equalTo(150)
         }
     }
     override func viewDidLoad() {
@@ -214,7 +215,7 @@ class ViewController: UIViewController {
         // 콜렉션뷰 레이아웃 설정
         view.addSubview(mainCollectionView)
         mainCollectionView.snp.makeConstraints { (m) in
-            m.top.equalTo(adScrollView.snp.bottom).offset(20)
+            m.top.equalTo(adScrollView.snp.bottom).offset(10)
             m.leading.trailing.bottom.equalTo(view)
         }
     }
@@ -264,9 +265,9 @@ extension ViewController: UICollectionViewDataSource {
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! MainCollectionViewCell
         cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
         cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
-        cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? 0.0)"
-        cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].address)
-        cell.viewFeedCount.text = "👁‍🗨\(arrayOfCellData[indexPath.item].viewNum)  🖋\(arrayOfCellData[indexPath.item].reviewNum)"
+        cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? "0.0")"
+        cell.restaurantLocation.text = arrayOfCellData[indexPath.item].address
+        cell.viewFeedCount.text = "👁‍🗨\(arrayOfCellData[indexPath.item].viewNum ?? 0)  🖋\(arrayOfCellData[indexPath.item].reviewNum ?? 0)"
         
         return cell
     }

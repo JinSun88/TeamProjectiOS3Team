@@ -94,7 +94,7 @@ class EatDealViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getData()
+//        getData()   -->> [진성] 서버 구조 달라지면 앱다운 되서 일단 주석 처리 했습니다
         
     }
     

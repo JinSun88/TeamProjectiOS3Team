@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
     var mapView = GMSMapView()
     var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: MapViewFlowLayout())
     var arrayOfCellData = CellData.shared.arrayOfCellData
-    var selectedColumnData: CellDataStruct?
+    var selectedColumnData: ServerStruct.CellDataStruct?
     var locality = String() // 성수동(동명)
     var subLocality = String() // 성수2가(상세주소)
     
@@ -140,10 +140,10 @@ class MapViewController: UIViewController {
 
     func makeMaker() {
         var latitude: [CLLocationDegrees] = CellData.shared.arrayOfCellData.map {
-            $0.latitude
+            $0.latitude ?? 0.0
         }// latitude만 어레이로
         var longitude: [CLLocationDegrees] = CellData.shared.arrayOfCellData.map {
-            $0.longitude
+            $0.longitude ?? 0.0
         }// longitude만 어레이로
         var name = CellData.shared.arrayOfCellData.map {
             $0.name
@@ -226,7 +226,7 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
         let contentOffset = offset + (collectionView.contentOffset.x)
         guard let indexPath = collectionView.indexPathForItem(at: CGPoint(x: contentOffset, y: collectionView.bounds.height / 2)) else { return }
         let data = arrayOfCellData[indexPath.item]
-        let camera = GMSCameraPosition.camera(withLatitude: data.latitude, longitude: data.longitude, zoom: 15.0)
+        let camera = GMSCameraPosition.camera(withLatitude: data.latitude ?? 0.0, longitude: data.longitude ?? 0.0, zoom: 15.0)
         let position = GMSCameraUpdate.setCamera(camera)
         mapView.animate(with: position) // 카메라 이동자연스럽게 되도록
         
@@ -244,9 +244,9 @@ extension MapViewController: UICollectionViewDataSource {
         
         cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
         cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
-        cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? 0.0)"
-        cell.restaurantLocation.text = String(arrayOfCellData[indexPath.item].address)
-        cell.viewFeedCount.text = "👁‍🗨\(arrayOfCellData[indexPath.item].viewNum)  🖋\(arrayOfCellData[indexPath.item].reviewNum)"
+        cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? "0.0")"
+        cell.restaurantLocation.text = arrayOfCellData[indexPath.item].address
+        cell.viewFeedCount.text = "👁‍🗨\(arrayOfCellData[indexPath.item].viewNum ?? 0)  🖋\(arrayOfCellData[indexPath.item].reviewNum ?? 0)"
         
         return cell
     }
