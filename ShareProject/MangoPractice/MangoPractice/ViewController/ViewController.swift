@@ -49,8 +49,8 @@ class ViewController: UIViewController {
         checkAuthorizationStatus()
         tabBarIndicatorCreator()
         
-        // 주소 가져오는 처리가 완료되면 다시한번 topGuideViewConfig를 실행합니다.
-        NotificationCenter.default.addObserver(self, selector: #selector(topGuideViewConfig), name: NSNotification.Name(rawValue: "addressSet"), object: nil)
+        // 주소 가져오는 처리가 완료되면 currentPlaceButtonConfig를 실행합니다.
+        NotificationCenter.default.addObserver(self, selector: #selector(currentPlaceButtonConfig), name: NSNotification.Name(rawValue: "addressSet"), object: nil)
     }
     private func tabBarIndicatorCreator() {
         // 탭바 주황색 인디케이터 실행 펑션
@@ -85,10 +85,9 @@ class ViewController: UIViewController {
         locationManager.distanceFilter = 10.0 // 이벤트를 발생시키는 최소거리
         locationManager.startUpdatingLocation()
     }
-    @objc private func topGuideViewConfig() {
+    private func topGuideViewConfig() {
         // 탑 가이드 뷰 설정(지금보고있는 지역은 + 서치버튼, 맵버튼)
         let currentPlaceGuideLabel = UILabel()
-        let currentPlaceButton = UIButton()
         let searchButton = UIButton()
         let mapButton = UIButton()
         
@@ -101,22 +100,11 @@ class ViewController: UIViewController {
         // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
         topGuideView.addSubview(currentPlaceGuideLabel)
         currentPlaceGuideLabel.snp.makeConstraints { (m) in
-            m.top.equalToSuperview().offset(5)
+            m.top.equalToSuperview().offset(8)
             m.leading.equalToSuperview().offset(20)
         }
         currentPlaceGuideLabel.text = "지금 보고 있는 지역은"
         currentPlaceGuideLabel.font = currentPlaceGuideLabel.font.withSize(12)
-        
-        // 현위치 버튼 위치, 폰트 사이즈, text 지정
-        let currentAddress = "\(locality) \(subLocality)" // 성수동 성수2가
-        currentPlaceButton.setTitle(currentAddress, for: .normal)
-        currentPlaceButton.setTitleColor(.black, for: .normal)
-        
-        topGuideView.addSubview(currentPlaceButton)
-        currentPlaceButton.snp.makeConstraints { (m) in
-            m.top.equalTo(currentPlaceGuideLabel.snp.bottom)
-            m.leading.equalTo(currentPlaceGuideLabel)
-        }
         
         // 맵 버튼 콘피그
         let mapButtonImage = UIImage(named: "map_button")
@@ -143,6 +131,19 @@ class ViewController: UIViewController {
             $0.trailing.equalTo(mapButton.snp.leading)
             $0.width.equalTo(40)
             $0.height.equalTo(40)
+        }
+    }
+    @objc private func currentPlaceButtonConfig() {
+        // 현위치 버튼 위치, 폰트 사이즈, text 지정
+        let currentPlaceButton = UIButton()
+        let currentAddress = "\(locality) \(subLocality)" // 성수동 성수2가
+        currentPlaceButton.setTitle(currentAddress, for: .normal)
+        currentPlaceButton.setTitleColor(.black, for: .normal)
+        
+        topGuideView.addSubview(currentPlaceButton)
+        currentPlaceButton.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(20)
+            m.leading.equalToSuperview().offset(20)
         }
     }
     private func adScrollViewConfig() {
