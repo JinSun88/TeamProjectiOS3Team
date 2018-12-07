@@ -142,7 +142,7 @@ final class PlateViewController: UIViewController {
         }
         
         restaurantNameLabel.text = selectedColumnData?.name
-        restaurantNameLabel.font = UIFont(name: "Helvetica" , size: 25)
+        restaurantNameLabel.font = UIFont(name: "Helvetica" , size: 22)
         middleInfoBarView.addSubview(restaurantNameLabel)
         restaurantNameLabel.snp.makeConstraints { (m) in
             m.leading.equalToSuperview().offset(15)
@@ -152,7 +152,7 @@ final class PlateViewController: UIViewController {
         }
         
         restaurantViewFeedCountLabel.text = "👁‍🗨\(selectedColumnData?.viewNum ?? 0) 🖋\(selectedColumnData?.reviewNum ?? 0)"
-        restaurantViewFeedCountLabel.font = UIFont(name: "Helvetica" , size: 15)
+        restaurantViewFeedCountLabel.font = UIFont(name: "Helvetica" , size: 13)
         restaurantViewFeedCountLabel.textColor = #colorLiteral(red: 0.4862189293, green: 0.4863065481, blue: 0.4862134457, alpha: 1)
         middleInfoBarView.addSubview(restaurantViewFeedCountLabel)
         restaurantViewFeedCountLabel.snp.makeConstraints { (m) in
@@ -171,7 +171,8 @@ final class PlateViewController: UIViewController {
         restaurantGradePointLabel.snp.makeConstraints { (m) in
             m.top.equalTo(restaurantNameLabel)
             m.trailing.equalToSuperview().inset(15)
-            m.height.width.equalTo(60)
+            m.height.equalTo(60)
+            m.width.equalTo(90)
         }
         
     }
@@ -490,12 +491,13 @@ final class PlateViewController: UIViewController {
             m.trailing.equalToSuperview().inset(10)
             m.width.equalToSuperview().multipliedBy(0.5)
         }
-        
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        modifiedAtLabel.textAlignment = .right
-//        modifiedAtLabel.text = "마지막 업데이트: \(dateFormatter.string(from: selectedColumnData!.modifiedAt))"
-        modifiedAtLabel.text = "마지막 업데이트: \(selectedColumnData!.modifiedAt ?? "^^"))"
+        let dateString = selectedColumnData!.modifiedAt ?? "^^"  // 서버에서 받는 날짜 정보(String)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ"  // 서버에서 받는 날짜 포멧 통보
+        let dateReal = dateFormatter.date(from: dateString)
+        dateFormatter.dateFormat = "yyyy-MM-dd" // 내가 쓰고 싶은 날짜 포멧 지정
+        modifiedAtLabel.text = "마지막 업데이트: \(dateFormatter.string(from: dateReal!))"
+        modifiedAtLabel.textAlignment = .right
         modifiedAtLabel.textColor = .lightGray
         modifiedAtLabel.font = UIFont(name: "Helvetica", size: 12)
         

@@ -27,6 +27,7 @@
 		AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */; };
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
+		AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE65A4421BA6FB10041AC9A /* ReviewData.swift */; };
 		AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealViewController.swift; sourceTree = "<group>"; };
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
+		AFE65A4421BA6FB10041AC9A /* ReviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewData.swift; sourceTree = "<group>"; };
 		AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		ECF05F2682C0C44B1DDD2985 /* Pods-MangoPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,6 +126,7 @@
 			children = (
 				AF001BE921985AC900716B7A /* Main.storyboard */,
 				AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */,
+				AFE65A4421BA6FB10041AC9A /* ReviewData.swift */,
 				A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */,
 			);
 			path = Model;
@@ -313,6 +316,7 @@
 				A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */,
 				A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */,
 				AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */,
+				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,
 				AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,

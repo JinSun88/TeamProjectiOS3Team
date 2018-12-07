@@ -71,11 +71,8 @@ final class CellData {
     // 서버에서 데이터 가져오는 펑션
     func getDataFromServer() {
         let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
-        guard let data = try? Data(contentsOf: url) else { print("에러염"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
+        guard let data = try? Data(contentsOf: url) else { print("서버 에러"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
         let jsonDecoder = JSONDecoder()
-//        let dateFomatter = DateFormatter() // 날짜 형식 받아오는 포메터   >>>>>>> 날짜
-//        dateFomatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ" // 현재 날짜 포멧은 이러하다
-//        jsonDecoder.dateDecodingStrategy = .formatted(dateFomatter)  >>>>>>> 날짜
         
         // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
         do {
