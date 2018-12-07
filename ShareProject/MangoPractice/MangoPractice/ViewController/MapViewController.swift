@@ -128,8 +128,7 @@ class MapViewController: UIViewController {
         mapView.addSubview(mapCollectionView)
         mapCollectionView.snp.makeConstraints {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
-            $0.leading.equalTo(view).offset(view.frame.width * 0.08)
-            $0.trailing.equalTo(view).offset(-(view.frame.width * 0.08))
+            $0.width.equalTo(mapView)
             $0.height.equalTo(100)
         }
     }
@@ -219,15 +218,18 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
         return CGFloat(10)
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
         guard let collectionView = scrollView as? UICollectionView else { return }
-
+        
         let offset = collectionView.bounds.width / 2
-        let contentOffset = offset + collectionView.contentOffset.x
+        let contentOffset = offset + (collectionView.contentOffset.x)
         guard let indexPath = collectionView.indexPathForItem(at: CGPoint(x: contentOffset, y: collectionView.bounds.height / 2)) else { return }
         let data = arrayOfCellData[indexPath.item]
         let camera = GMSCameraPosition.camera(withLatitude: data.latitude, longitude: data.longitude, zoom: 15.0)
-        mapView.camera = camera
+        let position = GMSCameraUpdate.setCamera(camera)
+        mapView.animate(with: position) // 카메라 이동자연스럽게 되도록
+        
         
     }
 }

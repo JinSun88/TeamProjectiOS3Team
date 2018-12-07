@@ -78,6 +78,8 @@ class MyInfoViewController: UIViewController {
         wantToGoButton.setImage(UIImage(named: "wantToGoButton"), for: .normal)
         myRestaurantButton.setImage(UIImage(named: "myRestaurantButton"), for: .normal)
         settingButton.setImage(UIImage(named: "settingButton"), for: .normal)
+        settingButton.addTarget(self, action: #selector(settingButtonDidTap), for: .touchUpInside)
+
         
         purchasedEatDealButton.contentMode = .scaleAspectFill
         wantToGoButton.contentMode = .scaleAspectFill
@@ -109,6 +111,10 @@ class MyInfoViewController: UIViewController {
         }
 
         
+    }
+    
+    @objc func settingButtonDidTap(_sender: UIButton) {
+        performSegue(withIdentifier: "showSettingVC", sender: self)
     }
     
 
