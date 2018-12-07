@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     let topGuideView = UIView()
     var locality = String() // 성수동(동명)
     var subLocality = String() // 성수2가(상세주소)
+    let currentPlaceButton = UIButton()
     let adScrollView = UIScrollView()
     let locationManager = CLLocationManager()
     var adImagesArray = [UIImage]()
@@ -28,7 +29,6 @@ class ViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        locationManager.startUpdatingLocation()
         
         // ViewContoller용 데이터 저장
         arrayOfCellData = CellData.shared.arrayOfCellData
@@ -50,6 +50,7 @@ class ViewController: UIViewController {
         tabBarIndicatorCreator()
         
         // 주소 가져오는 처리가 완료되면 currentPlaceButtonConfig를 실행합니다.
+        locationManager.startUpdatingLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(currentPlaceButtonConfig), name: NSNotification.Name(rawValue: "addressSet"), object: nil)
     }
     private func tabBarIndicatorCreator() {
@@ -135,7 +136,7 @@ class ViewController: UIViewController {
     }
     @objc private func currentPlaceButtonConfig() {
         // 현위치 버튼 위치, 폰트 사이즈, text 지정
-        let currentPlaceButton = UIButton()
+        
         let currentAddress = "\(locality) \(subLocality)" // 성수동 성수2가
         currentPlaceButton.setTitle(currentAddress, for: .normal)
         currentPlaceButton.setTitleColor(.black, for: .normal)
@@ -302,12 +303,12 @@ extension ViewController: CLLocationManagerDelegate {
                 }
                 
                 // 위에 처리(주소 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.
+                self.locationManager.stopUpdatingLocation()
                 NotificationCenter.default.post(
                     name: NSNotification.Name(rawValue: "addressSet"),
                     object: nil)
             }
         })
-        locationManager.stopUpdatingLocation()
     }
 }
 // 데이터 비동기 처리시 사용해야 하는 구문(feat.조교님) viewDidLoad 안에 론칭 필요

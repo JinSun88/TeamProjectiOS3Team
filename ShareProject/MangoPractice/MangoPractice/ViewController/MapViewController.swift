@@ -22,6 +22,8 @@ class MapViewController: UIViewController {
     var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: MapViewFlowLayout())
     var arrayOfCellData = CellData.shared.arrayOfCellData
     var selectedColumnData: CellDataStruct?
+    var locality = String() // 성수동(동명)
+    var subLocality = String() // 성수2가(상세주소)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,17 +42,19 @@ class MapViewController: UIViewController {
         mapViewConfig()
         collectionViewConfig()
         makeMaker()
+        
+        // 주소 가져오는 처리가 완료되면 currentPlaceButtonConfig를 재실행합니다.
+        locationManager.startUpdatingLocation()
+        NotificationCenter.default.addObserver(self, selector: #selector(currentPlaceLabelButtonConfig), name: NSNotification.Name(rawValue: "addressSetAtMapViewController"), object: nil)
     }
     
-    
     // 현재지역 버튼 셋업
-    private func currentPlaceLabelButtonConfig() {
+    @objc private func currentPlaceLabelButtonConfig() {
         // 지금보고 있는 지역은? label 위치, 폰트 사이즈, text 지정
         view.addSubview(currentPlaceGuideLabel)
         currentPlaceGuideLabel.snp.makeConstraints { (m) in
             m.top.equalTo(view.safeAreaLayoutGuide).offset(5)
             m.leading.equalTo(view).offset(30)
-            
         }
         
         currentPlaceGuideLabel.text = "지금 보고 있는 지역은"
@@ -62,7 +66,9 @@ class MapViewController: UIViewController {
             m.top.equalTo(currentPlaceGuideLabel.snp.bottom)
             m.leading.equalTo(currentPlaceGuideLabel)
         }
-        currentPlaceButton.setTitle("왕십리/성동 ∨", for: .normal)
+    
+        let currentAddress = "\(locality) \(subLocality)"
+        currentPlaceButton.setTitle(currentAddress, for: .normal)
         currentPlaceButton.setTitleColor(.black, for: .normal)
     }
     
@@ -151,12 +157,7 @@ class MapViewController: UIViewController {
             marker.title = "\(i + 1). \(name[i]) "
             marker.map = mapView
             marker.icon = UIImage(named:"MapMarkerImage")
-
         }
-
-
-        
-        
     }
 }
 
@@ -178,6 +179,30 @@ extension MapViewController: CLLocationManagerDelegate {
         let coordinate = current.coordinate
         
         move(at: coordinate)
+        
+        // 위도 경도로 현재 주소 가져오기
+        let lastestLocation: CLLocation = locations[locations.count - 1]
+        let latitude = lastestLocation.coordinate.latitude
+        let longitude = lastestLocation.coordinate.longitude
+        let findLocation = CLLocation(latitude: latitude, longitude: longitude)
+        let geocoder = CLGeocoder()
+        let locale = Locale(identifier: "Ko-kr")
+        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale, completionHandler: {(placemarks, error) in
+            if let address: [CLPlacemark] = placemarks {
+                if let currentLocality: String = address.last?.locality {
+                    self.locality = currentLocality
+                }
+                if let currentThoroughfare: String = address.last?.thoroughfare {
+                    self.subLocality = currentThoroughfare
+                }
+                
+                // 위에 처리(주소 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.
+                self.locationManager.stopUpdatingLocation()
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(rawValue: "addressSetAtMapViewController"),
+                    object: nil)
+            }
+        })
     }
 }
 
