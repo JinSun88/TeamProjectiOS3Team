@@ -27,7 +27,6 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
-        locationManager.requestWhenInUseAuthorization() // [진성] 같은 내용이 두줄이네요?
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
         
