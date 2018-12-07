@@ -9,83 +9,78 @@
 import Foundation
 import UIKit
 
-struct CellDataStruct: Decodable {
-    let pk: Int // 1
-    let name: String // "와하카"
-    let address: String // "서울시 성동구"
-    let addressDetail : String // "성수동2가 299-225"
-    let phoneNum: String // "02-462-7292"
-    let foodType: String // "남미 음식"
-    let priceLevel: String // "만원 미만"
-    let parking: String // "주차공간없음"
-    let businessHour: String // "화-토: 11:30 - 23:00\r\n일: 12:00 - 22:00",
-    let breakTime: String // "15:00 - 17:00",
-    let lastOrder: String // "화-토: 22:00, 일: 21:00",
-    let holiday: String // "월"
-    let website: String // ""
-    let viewNum: Int // 0
-    let reviewNum: Int // 0
-    let wantNum: Int // 0
-    let createdAt: Date // "2018-11-29T12:12:37.792797+09:00"
-    let modifiedAt: Date // "2018-11-29T12:12:37.792819+09:00"
-    let latitude: Double // 127.05436622
-    let longitude: Double // 37.54785459
-    //    let image: [UIImage]? // -> 현재없음
-    let gradePoint: Double? // -> 현재없음
-    let youTubeUrl: String? // -> 현재없음
+struct ServerStruct: Decodable {
+    let count: Int  // 전체 맛집 데이터수
+    let next: String?  // 다음페이지가 있을 경우의 서버 url
+    let previous: String?  // 전페이지가 있을 경우의 서버 url
+    let results: [CellDataStruct]  // 실제 맛집 데이터 구역
     
-    //    let image: [UIImage]
-    //    let location: String   -> address로 변경 필요
-    //    let viewFeedCount: String
-    //    let gradePoint: Double
-    //    let youTubeUrl: String?
-    //    let address: String  -> address_detail로 변경 필요
-    //    let telNumber: String -> phone_num 변경 필요
-    
-    enum CodingKeys: String, CodingKey {
-        case pk
-        case name
-        case address  // 재적용 대상
-        case addressDetail = "address_detail"  // 재적용 대상
-        case phoneNum = "phone_num"
-        case foodType = "food_type"
-        case priceLevel = "price_level"
-        case parking
-        case businessHour = "Business_hour"
-        case breakTime = "break_time"
-        case lastOrder = "last_order"
-        case holiday
-        case website
-        case viewNum = "view_num" // 재적용 대상
-        case reviewNum = "review_num" // 재적용 대상
-        case wantNum = "want_num" // 재적용 대상
-        case createdAt = "created_at"
-        case modifiedAt = "modified_at"
-        case latitude
-        case longitude
-        //        case image
-        case gradePoint
-        case youTubeUrl = "youtube"
+    struct CellDataStruct: Decodable {
+        let pk: Int // 1
+        let name: String // "와하카"
+        let address: String? // "성수동2가 299-225"
+        let phoneNum: String? // "02-462-7292"
+        let foodType: String? // "남미 음식"
+        let priceLevel: String? // "만원 미만"
+        let parking: String? // "주차공간없음"
+        let businessHour: String? // "화-토: 11:30 - 23:00\r\n일: 12:00 - 22:00",
+        let breakTime: String? // "15:00 - 17:00",
+        let lastOrder: String? // "화-토: 22:00, 일: 21:00",
+        let holiday: String? // "월"
+        let website: String? // ""
+        let viewNum: Int? // 0
+        let reviewNum: Int? // 0
+        let wantNum: Int? // 0
+        let createdAt: String? // "2018-11-29T12:12:37.792797+09:00"
+        let modifiedAt: String? // "2018-11-29T12:12:37.792819+09:00"
+        let latitude: Double? // 127.05436622
+        let longitude: Double? // 37.54785459
+        let gradePoint: String? // -> 현재없음
+        let youTubeUrl: String? // -> 현재없음
+        
+        enum CodingKeys: String, CodingKey {
+            case pk
+            case name
+            case address
+            case phoneNum = "phone_num"
+            case foodType = "food_type"
+            case priceLevel = "price_level"
+            case parking
+            case businessHour = "Business_hour"
+            case breakTime = "break_time"
+            case lastOrder = "last_order"
+            case holiday
+            case website
+            case viewNum = "view_num"
+            case reviewNum = "review_num"
+            case wantNum = "want_num"
+            case createdAt = "created_at"
+            case modifiedAt = "modified_at"
+            case latitude
+            case longitude
+            case gradePoint = "rate_average"
+            case youTubeUrl = "youtube"
+        }
     }
 }
 
 final class CellData {
     static let shared = CellData()
-    var arrayOfCellData: [CellDataStruct] = []
+    var arrayOfCellData: [ServerStruct.CellDataStruct] = []
     
     // 서버에서 데이터 가져오는 펑션
     func getDataFromServer() {
         let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
-        guard let data = try? Data(contentsOf: url) else { return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
+        guard let data = try? Data(contentsOf: url) else { print("에러염"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
         let jsonDecoder = JSONDecoder()
-        let dateFomatter = DateFormatter() // 날짜 형식 받아오는 포메터
-        dateFomatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ" // 현재 날짜 포멧은 이러하다
-        jsonDecoder.dateDecodingStrategy = .formatted(dateFomatter)
+//        let dateFomatter = DateFormatter() // 날짜 형식 받아오는 포메터   >>>>>>> 날짜
+//        dateFomatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSZ" // 현재 날짜 포멧은 이러하다
+//        jsonDecoder.dateDecodingStrategy = .formatted(dateFomatter)  >>>>>>> 날짜
         
         // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
         do {
-            let arrayData = try jsonDecoder.decode([CellDataStruct].self, from: data)
-            arrayOfCellData = arrayData
+            let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
+            arrayOfCellData = arrayData.results
         } catch {
             print("에러내용: \(error)")
         }
