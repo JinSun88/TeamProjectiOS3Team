@@ -17,19 +17,19 @@ struct ServerReviewStruct: Decodable {
     
     struct ReviewStruct: Decodable {
         let reviewPk: Int
-        let author: [AuthorStruct]
+        let rate: Int?
+        let author: AuthorStruct
+        let content: String?
         
         struct AuthorStruct: Decodable {
             let authorPk: Int
-            let authorName: String
+            let authorName: String?
             
             enum CodingKeys: String, CodingKey {
                 case authorPk = "pk"
                 case authorName = "username"
             }
         }
-        let rate: Int
-        let content: String
         
         enum CodingKeys: String, CodingKey {
             case reviewPk = "pk"
@@ -40,22 +40,20 @@ struct ServerReviewStruct: Decodable {
     }
 }
 
-//final class CellData {
-//    static let shared = CellData()
-//    var arrayOfCellData: [ServerStruct.CellDataStruct] = []
-//
-//    // 서버에서 데이터 가져오는 펑션
-//    func getDataFromServer() {
-//        let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
-//        guard let data = try? Data(contentsOf: url) else { print("서버 에러"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
-//        let jsonDecoder = JSONDecoder()
-//
-//        // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
-//        do {
-//            let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
-//            arrayOfCellData = arrayData.results
-//        } catch {
-//            print("에러내용: \(error)")
-//        }
-//    }
-//}
+final class ReviewData {
+    static let shared = ReviewData()
+    var arrayOfReviewData: [ServerReviewStruct.ReviewStruct] = []
+    
+    func getDataFromServer() {
+        let url = URL(string: "https://api.fastplate.xyz/api/posts/list/")!
+        guard let data = try? Data(contentsOf: url) else { print("서버 에러"); return }
+        let jsonDecoder = JSONDecoder()
+        
+        do {
+            let arrayData = try jsonDecoder.decode(ServerReviewStruct.self, from: data)
+            arrayOfReviewData = arrayData.results
+        } catch {
+            print("에러내용: \(error)")
+        }
+    }
+}
