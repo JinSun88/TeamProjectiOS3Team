@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */; };
 		5AB6FFE8170A1FA3F466A88D /* Pods_MangoPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */; };
+		A059663521BD2A6C001D0339 /* ProvisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A059663421BD2A6C001D0339 /* ProvisionViewController.swift */; };
 		A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EF921AD0C75004D7602 /* MapViewController.swift */; };
 		A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */; };
 		A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */; };
@@ -35,6 +36,7 @@
 		2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealTableViewCell.swift; sourceTree = "<group>"; };
 		56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MangoPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		613CEC43A6853698D5C2CAC9 /* Pods-MangoPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.release.xcconfig"; sourceTree = "<group>"; };
+		A059663421BD2A6C001D0339 /* ProvisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionViewController.swift; sourceTree = "<group>"; };
 		A0A32EF921AD0C75004D7602 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = MangoPractice/ViewController/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sadfsdfs.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */,
 				A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */,
 				A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */,
+				A059663421BD2A6C001D0339 /* ProvisionViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
 				A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */,
 				A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */,
+				A059663521BD2A6C001D0339 /* ProvisionViewController.swift in Sources */,
 				A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */,
 				AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */,
 				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,

@@ -57,7 +57,7 @@ class LocationSelectViewController: UIViewController {
         
         backButton.setImage(UIImage(named: "backArrowButton"), for: .normal)
         backButton.contentMode = .scaleAspectFill
-        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchDragInside)
+        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         searchTextField.attributedPlaceholder = NSAttributedString(string: "식당 위치 입력", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         searchTextField.returnKeyType = .search
         
@@ -75,7 +75,6 @@ class LocationSelectViewController: UIViewController {
     }
     
     @objc func backButtonDidTap(_ sender: UIButton) {
-        print("backButtonDidTap")
         dismiss(animated: true, completion: nil)
     }
     

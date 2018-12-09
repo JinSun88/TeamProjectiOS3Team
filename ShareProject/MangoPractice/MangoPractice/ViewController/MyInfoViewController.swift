@@ -18,6 +18,14 @@ class MyInfoViewController: UIViewController {
     let wantToGoButton = UIButton()
     let myRestaurantButton = UIButton()
     let settingButton = UIButton()
+    let nextButtonView = UIView()
+    let nextButton = UIButton()
+    let nextButtonView1 = UIView()
+    let nextButton1 = UIButton()
+    let nextButtonView2 = UIView()
+    let nextButton2 = UIButton()
+    let nextButtonView3 = UIView()
+    let nextButton3 = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,41 +81,133 @@ class MyInfoViewController: UIViewController {
         view.addSubview(wantToGoButton)
         view.addSubview(myRestaurantButton)
         view.addSubview(settingButton)
+        view.addSubview(nextButtonView)
+        view.addSubview(nextButtonView1)
+        view.addSubview(nextButtonView2)
+        view.addSubview(nextButtonView3)
+        nextButtonView.addSubview(nextButton)
+        nextButtonView1.addSubview(nextButton1)
+        nextButtonView2.addSubview(nextButton2)
+        nextButtonView3.addSubview(nextButton3)
+
+        purchasedEatDealButton.setTitle("     구매한 EAT딜", for: .normal)
+        purchasedEatDealButton.setTitleColor(UIColor.black, for: .normal)
+        purchasedEatDealButton.titleLabel?.font = UIFont(name: "Helvetica", size: 18)
+        purchasedEatDealButton.backgroundColor = .white
+        purchasedEatDealButton.contentHorizontalAlignment = .left
+        nextButton.setImage(UIImage(named: "nextButton"), for: .normal)
+        nextButton.contentMode = .scaleAspectFit
+        nextButtonView.backgroundColor = .white
         
-        purchasedEatDealButton.setImage(UIImage(named: "purchasedEatDealButton"), for: .normal)
-        wantToGoButton.setImage(UIImage(named: "wantToGoButton"), for: .normal)
-        myRestaurantButton.setImage(UIImage(named: "myRestaurantButton"), for: .normal)
-        settingButton.setImage(UIImage(named: "settingButton"), for: .normal)
+        wantToGoButton.setTitle("     가고싶다", for: .normal)
+        wantToGoButton.setTitleColor(UIColor.black, for: .normal)
+        wantToGoButton.titleLabel?.font = UIFont(name: "Helvetica", size: 18)
+        wantToGoButton.backgroundColor = .white
+        wantToGoButton.contentHorizontalAlignment = .left
+        nextButton1.setImage(UIImage(named: "nextButton"), for: .normal)
+        nextButton1.contentMode = .scaleAspectFit
+        nextButtonView1.backgroundColor = .white
+        
+        
+        myRestaurantButton.setTitle("     내가 등록한 식당", for: .normal)
+        myRestaurantButton.setTitleColor(UIColor.black, for: .normal)
+        myRestaurantButton.titleLabel?.font = UIFont(name: "Helvetica", size: 18)
+        myRestaurantButton.backgroundColor = .white
+        myRestaurantButton.contentHorizontalAlignment = .left
+        nextButton2.setImage(UIImage(named: "nextButton"), for: .normal)
+        nextButton2.contentMode = .scaleAspectFit
+        nextButtonView2.backgroundColor = .white
+        
+        settingButton.setTitle("     설정", for: .normal)
+        settingButton.setTitleColor(UIColor.black, for: .normal)
+        settingButton.titleLabel?.font = UIFont(name: "Helvetica", size: 18)
+        settingButton.backgroundColor = .white
+        settingButton.contentHorizontalAlignment = .left
+        nextButton3.setImage(UIImage(named: "nextButton"), for: .normal)
+        nextButton3.contentMode = .scaleAspectFit
+        nextButtonView3.backgroundColor = .white
+        
         settingButton.addTarget(self, action: #selector(settingButtonDidTap), for: .touchUpInside)
 
         
-        purchasedEatDealButton.contentMode = .scaleAspectFill
-        wantToGoButton.contentMode = .scaleAspectFill
-        myRestaurantButton.contentMode = .scaleAspectFill
-        settingButton.contentMode = .scaleAspectFill
-        
         purchasedEatDealButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(topView.snp.bottom).offset(15)
-            $0.height.equalTo(topView).dividedBy(3.5)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-45)
+            $0.height.equalToSuperview().dividedBy(12)
+        }
+        
+        nextButtonView.snp.makeConstraints {
+            $0.top.bottom.equalTo(purchasedEatDealButton)
+            $0.leading.equalTo(purchasedEatDealButton.snp.trailing)
+            $0.trailing.equalToSuperview()
+        }
+        
+        nextButton.snp.makeConstraints {
+            $0.top.equalTo(nextButtonView).offset(20)
+            $0.bottom.equalTo(nextButtonView).offset(-20)
+            $0.trailing.equalTo(nextButtonView).offset(-10)
+            $0.leading.equalTo(nextButtonView).offset(15)
         }
         
         wantToGoButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(purchasedEatDealButton.snp.bottom).offset(15)
-            $0.height.equalTo(topView).dividedBy(3.5)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-45)
+            $0.height.equalToSuperview().dividedBy(12)
+        }
+        
+        nextButtonView1.snp.makeConstraints {
+            $0.top.bottom.equalTo(wantToGoButton)
+            $0.leading.equalTo(wantToGoButton.snp.trailing)
+            $0.trailing.equalToSuperview()
+        }
+        
+        nextButton1.snp.makeConstraints {
+            $0.top.equalTo(nextButtonView1).offset(20)
+            $0.bottom.equalTo(nextButtonView1).offset(-20)
+            $0.trailing.equalTo(nextButtonView1).offset(-10)
+            $0.leading.equalTo(nextButtonView1).offset(15)
         }
         
         myRestaurantButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(wantToGoButton.snp.bottom).offset(15)
-            $0.height.equalTo(topView).dividedBy(3.5)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-45)
+            $0.height.equalToSuperview().dividedBy(12)
+        }
+        
+        nextButtonView2.snp.makeConstraints {
+            $0.top.bottom.equalTo(myRestaurantButton)
+            $0.leading.equalTo(myRestaurantButton.snp.trailing)
+            $0.trailing.equalToSuperview()
+        }
+        
+        nextButton2.snp.makeConstraints {
+            $0.top.equalTo(nextButtonView2).offset(20)
+            $0.bottom.equalTo(nextButtonView2).offset(-20)
+            $0.trailing.equalTo(nextButtonView2).offset(-10)
+            $0.leading.equalTo(nextButtonView2).offset(15)
         }
         
         settingButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(myRestaurantButton.snp.bottom).offset(15)
-            $0.height.equalTo(topView).dividedBy(3.5)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-45)
+            $0.height.equalToSuperview().dividedBy(12)
+        }
+        
+        nextButtonView3.snp.makeConstraints {
+            $0.top.bottom.equalTo(settingButton)
+            $0.leading.equalTo(settingButton.snp.trailing)
+            $0.trailing.equalToSuperview()
+        }
+        
+        nextButton3.snp.makeConstraints {
+            $0.top.equalTo(nextButtonView3).offset(20)
+            $0.bottom.equalTo(nextButtonView3).offset(-20)
+            $0.trailing.equalTo(nextButtonView3).offset(-10)
+            $0.leading.equalTo(nextButtonView3).offset(15)
         }
 
         

@@ -160,6 +160,21 @@
             </objects>
             <point key="canvasLocation" x="894" y="126"/>
         </scene>
+        <!--Provision View Controller-->
+        <scene sceneID="W83-We-7Ys">
+            <objects>
+                <viewController id="hY9-7Z-fgQ" customClass="ProvisionViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wo9-hg-lhC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="8mp-KQ-Xiu"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2cl-lZ-j0k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2262" y="166"/>
+        </scene>
         <!--Setting View Controller-->
         <scene sceneID="GHr-Ij-ddE">
             <objects>
@@ -170,6 +185,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="hsN-We-3z9"/>
                     </view>
+                    <connections>
+                        <segue destination="hY9-7Z-fgQ" kind="show" identifier="ShowProvisionVC" id="COq-Zm-eDl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1WV-Zz-DcK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
