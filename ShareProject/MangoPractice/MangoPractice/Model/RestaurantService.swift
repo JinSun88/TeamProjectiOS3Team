@@ -14,7 +14,7 @@ struct RestaurantService {
     enum restaurantApi {
         case restaurantList
         case restaurantRetrive
-        case restaurantCreate
+        case restaurantCreate(name: String, address: String, phone: String)
         case restaurantUpdate
         case restaurantDelete
         
@@ -28,7 +28,7 @@ struct RestaurantService {
             case .restaurantUpdate:
                 return .patch
             case .restaurantDelete:
-                 return .delete
+                return .delete
             }
         }
         
@@ -45,20 +45,54 @@ struct RestaurantService {
             }
         }
         
-//        var parameter: Parameters? {
-//
-//        }
-    
-    
-
+        var parameter: Parameters? {
+            switch self {
+            case let .restaurantCreate(name, address, phone):
+                return [
+                    "name": name,
+                    "address": address,
+                    "phone": phone
+                ]
+            case .restaurantList:
+                return nil
+            case .restaurantRetrive:
+                return nil
+            case .restaurantUpdate:
+                return nil
+            case .restaurantDelete:
+                return nil
+                
+            }
+            
+        }
+        
+        
+        
     }
     
     func restaurantList(type: restaurantApi, completionHandler: @escaping (_ response: Any) -> Void) {
         Alamofire
             .request(baseUrl + type.path,
                      method: type.method
-        )
-        .validate()
+            )
+            .validate()
+            .responseJSON { response in
+                switch response.result {
+                case let .success(data):
+                    return completionHandler(data)
+                case let .failure(error):
+                    return completionHandler(error.localizedDescription)
+                }
+        }
+    }
+    
+    func restaurantCreate(type: restaurantApi, completionHandler: @escaping (_ response: Any) -> Void) {
+        Alamofire
+            .request(
+                baseUrl + type.path,
+                method: type.method,
+                parameters: type.parameter)
+            .validate()
             .responseJSON { response in
                 switch response.result {
                 case let .success(data):

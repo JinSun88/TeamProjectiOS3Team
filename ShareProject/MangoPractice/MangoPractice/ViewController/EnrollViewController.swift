@@ -26,10 +26,12 @@ class EnrollViewController: UIViewController {
     let moreInfoLabel = UILabel()
     // 전화번호 텍스트필드
     let phoneNumberTextField = UITextField()
-    // 음식종류 선택 버튼
-    let foodTypeLabel = UILabel()
+    
     let enrollButton = UIButton()
     let locationButton = UIButton()
+    let foodTypeLabel = UILabel()
+    
+    // 음식종류 선택 버튼
     let koreanFoodButton = UIButton()
     let japaneseFoodButton = UIButton()
     let chineseFoodButton = UIButton()
@@ -50,6 +52,8 @@ class EnrollViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap) // 화면이 탭되면 키보드 내려가도록
         topbarConfig()
         topViewConfig()
         enrollButtonConfig()
@@ -59,7 +63,11 @@ class EnrollViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         makeTextFieldUnderBar() // viewdidload할 경우 안나오는 경우가 있어서 여기에
-
+        
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true) // 화면이 탭되면 키보드 내려가도록
     }
     
     
@@ -78,8 +86,6 @@ class EnrollViewController: UIViewController {
         
         
     }
-    
-    
     
     private func topbarConfig() {
         view.addSubview(topBar)
@@ -197,7 +203,7 @@ class EnrollViewController: UIViewController {
             $0.top.equalTo(locationTextField.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo((view.frame.height) / 18)
-
+            
         }
         
         phoneNumberTextField.snp.makeConstraints {
@@ -205,7 +211,7 @@ class EnrollViewController: UIViewController {
             $0.trailing.equalToSuperview().offset(-30)
             $0.leading.equalToSuperview().offset(30)
             $0.height.equalTo((view.frame.height) / 18)
-
+            
             
         }
         
@@ -218,15 +224,24 @@ class EnrollViewController: UIViewController {
         enrollButton.backgroundColor = .gray
         enrollButton.setTitle("등록", for: .normal)
         enrollButton.setTitleColor(UIColor.white, for: .normal)
-    
+        enrollButton.addTarget(self, action: #selector(enrollButtonDidTap), for: .touchUpInside)
         
         enrollButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.height.equalTo((view.frame.height) / 18)
         }
-        
-        
+    }
+    
+    @objc func enrollButtonDidTap(_ sender: UIButton) {
+        print("enrollButtonDidTap")
+        guard let name = nameTextField.text,
+            let address = locationTextField.text,
+            let phone = phoneNumberTextField.text
+            else{ return }
+        RestaurantService().restaurantCreate(type: .restaurantCreate(name: name, address: address, phone: phone)) { data in
+            print("debug: \(data)")
+        }
     }
     
     private func foodButtonConfig() {
@@ -252,7 +267,7 @@ class EnrollViewController: UIViewController {
         foodTypeLabel.textColor = .darkGray
         foodTypeLabel.textAlignment = .center
         foodTypeLabel.backgroundColor = .clear
-    
+        
         foodTypeLabel.snp.makeConstraints {
             $0.top.equalTo(phoneNumberTextField.snp.bottom)
             $0.leading.trailing.equalToSuperview()
@@ -266,14 +281,14 @@ class EnrollViewController: UIViewController {
         koreanFoodlabel.textColor = .gray
         koreanFoodlabel.backgroundColor = .white
         koreanFoodlabel.textAlignment = .center
-                                koreanFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
+        koreanFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
         
         koreanFoodButton.snp.makeConstraints {
             $0.top.equalTo(foodTypeLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset((view.frame.width - 200) / 5)
             $0.width.height.equalTo(50)
         }
-
+        
         koreanFoodlabel.snp.makeConstraints {
             $0.top.equalTo(koreanFoodButton.snp.bottom).offset(10)
             $0.leading.trailing.equalTo(koreanFoodButton)
@@ -287,7 +302,7 @@ class EnrollViewController: UIViewController {
         japaneseFoodlabel.textColor = .gray
         japaneseFoodlabel.backgroundColor = .white
         japaneseFoodlabel.textAlignment = .center
-                        japaneseFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
+        japaneseFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
         
         japaneseFoodButton.snp.makeConstraints {
             $0.top.equalTo(koreanFoodButton)
@@ -308,7 +323,7 @@ class EnrollViewController: UIViewController {
         chineseFoodlabel.textColor = .gray
         chineseFoodlabel.backgroundColor = .white
         chineseFoodlabel.textAlignment = .center
-                chineseFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
+        chineseFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
         
         chineseFoodButton.snp.makeConstraints {
             $0.top.equalTo(koreanFoodButton)
@@ -330,7 +345,7 @@ class EnrollViewController: UIViewController {
         westernFoodlabel.backgroundColor = .white
         westernFoodlabel.textAlignment = .center
         westernFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
-
+        
         
         westernFoodButton.snp.makeConstraints {
             $0.top.equalTo(koreanFoodButton)
@@ -353,7 +368,7 @@ class EnrollViewController: UIViewController {
         globalFoodlabel.backgroundColor = .white
         globalFoodlabel.textAlignment = .center
         globalFoodlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
-
+        
         
         globalFoodButton.snp.makeConstraints {
             $0.leading.equalToSuperview().offset((view.frame.width - 200) / 5)
@@ -375,7 +390,7 @@ class EnrollViewController: UIViewController {
         buffetlabel.backgroundColor = .white
         buffetlabel.textAlignment = .center
         buffetlabel.font = UIFont(name: "Helvetica", size: CGFloat(10))
-
+        
         
         buffetButton.snp.makeConstraints {
             $0.top.equalTo(globalFoodButton)
@@ -398,7 +413,7 @@ class EnrollViewController: UIViewController {
         cafelabel.textColor = .gray
         cafelabel.backgroundColor = .white
         cafelabel.textAlignment = .center
-
+        
         cafeButton.snp.makeConstraints {
             $0.top.equalTo(globalFoodButton)
             $0.leading.equalTo(buffetButton.snp.trailing).offset((view.frame.width - 200) / 5)
@@ -432,7 +447,7 @@ class EnrollViewController: UIViewController {
             $0.leading.trailing.equalTo(liquorButton)
             $0.height.equalTo(8)
         }
-
+        
     }
     
     @objc func locationButtonDidTap(_ sender: UIButton) {
@@ -443,14 +458,14 @@ class EnrollViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showLocationSelectView" {
             let viewController: LocationSelectViewController = segue.destination as! LocationSelectViewController
-                viewController.delegate = self
+            viewController.delegate = self
         }
     }
     
     
     
     @objc func koreanFoodbuttonDidTap(_ sender: UIButton) {
-
+        
         if koreanFoodButton.isSelected == true {
             koreanFoodButton.isSelected = false
         } else {
@@ -462,7 +477,7 @@ class EnrollViewController: UIViewController {
             buffetButton.isSelected = false
             cafeButton.isSelected = false
             liquorButton.isSelected = false
-
+            
         }
     }
     

@@ -10,6 +10,11 @@ pod 'YouTubePlayer-Swift', '~> 1.0'
 pod 'Alamofire', '~> 4.7'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
+pod 'FBSDKCoreKit'
+pod 'FBSDKShareKit'
+pod 'FBSDKLoginKit'
+
+
 
   # Pods for MangoPractice
 

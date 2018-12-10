@@ -18,6 +18,8 @@ class MapViewController: UIViewController {
     let mapUnwindButton = UIButton()
     let mainView = ViewController()
     let locationManager = CLLocationManager()
+    let centerImage = UIImageView()
+
     var mapView = GMSMapView()
     var mapCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: MapViewFlowLayout())
     var arrayOfCellData = CellData.shared.arrayOfCellData
@@ -167,7 +169,7 @@ extension MapViewController {
         
         let latitude = coordinate.latitude
         let longitude = coordinate.longitude
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15.0)
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 16.0)
         mapView.camera = camera
     }
 }
@@ -226,12 +228,22 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
         let contentOffset = offset + (collectionView.contentOffset.x)
         guard let indexPath = collectionView.indexPathForItem(at: CGPoint(x: contentOffset, y: collectionView.bounds.height / 2)) else { return }
         let data = arrayOfCellData[indexPath.item]
-        let camera = GMSCameraPosition.camera(withLatitude: data.latitude ?? 0.0, longitude: data.longitude ?? 0.0, zoom: 15.0)
+        let camera = GMSCameraPosition.camera(withLatitude: data.latitude ?? 0.0, longitude: data.longitude ?? 0.0, zoom: 16.0)
         let position = GMSCameraUpdate.setCamera(camera)
         mapView.animate(with: position) // 카메라 이동자연스럽게 되도록
         
         
+        // 컬렉션뷰가 드레깅을 마친 후 가리키는 위치를 표시하는 보조 마커
+        centerImage.image = UIImage(named: "SelectedMapMarkerImage")
+        mapView.addSubview(centerImage)
+        centerImage.snp.makeConstraints {
+            $0.centerX.equalTo(mapView)
+            $0.centerY.equalTo(mapView).offset(-16)
+            $0.height.equalTo(37)
+            $0.width.equalTo(25)
+        }
     }
+    
 }
 
 extension MapViewController: UICollectionViewDataSource {

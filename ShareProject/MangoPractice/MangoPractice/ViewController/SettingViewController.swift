@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import FBSDKLoginKit
 
 class SettingViewController: UIViewController {
     let topView = UIView()
@@ -360,6 +361,11 @@ class SettingViewController: UIViewController {
         
     }
     @objc func logoutButtonDidTap(_ sender: UIButton) {
+        let FBLoginManager = FBSDKLoginManager()
+        let destination = LoginViewController()
+        FBLoginManager.logOut()
+        present(destination, animated: true)
+
         
     }
     
