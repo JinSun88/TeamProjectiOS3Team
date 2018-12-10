@@ -24,10 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey("AIzaSyD2hQFiuJNqB7OdgDLqhYREhimyhp32CIU")
     
         // 앱시작시 서버에 있는 데이터를 끌어서 저장하도록 지시
+
         CellData.shared.getDataFromServer()
         
-        FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
+        //        self.window?.rootViewController = PlateMoreInfoViewController()   // 서버 죽음 임시
+        //        self.window?.makeKeyAndVisible()    //  서버 죽음 임시
         
+        FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
+
         return true
     }
     
