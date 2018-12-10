@@ -37,6 +37,37 @@ struct ServerStruct: Decodable {
         let longitude: Double? // 37.54785459
         let gradePoint: String? // -> 현재없음
         let youTubeUrl: String? // -> 현재없음
+        let rateGood: Int?  // 맛있다 갯수
+        let rateNormal: Int? // 괜찮다 갯수
+        let rateBad: Int? // 별로 갯수
+        let postArray: [PostStruct]
+        
+        struct PostStruct: Decodable {
+            let reviewPk: Int // 리뷰 고유 번호
+            let reviewContent: String // 리뷰 내용
+            let reviewRate: Int // 맛있다 5, 괜찮다 3, 별도다 1
+            let author: AuthorStruct // 리뷰어 정보
+            
+            struct AuthorStruct: Decodable {
+                let authorPk: Int // 리뷰어 고유 번호
+                let authorName: String?
+                let authorImage: String? // 리뷰어 프로필 이미지
+                
+                enum CodingKeys: String, CodingKey {
+                    case authorPk = "pk"
+                    case authorName = "username"
+                    case authorImage = "img_profile"
+                }
+            }
+            
+            enum CodingKeys: String, CodingKey {
+                case reviewPk = "pk"
+                case reviewContent = "content"
+                case reviewRate = "rate"
+                case author
+            }
+        }
+            
         
         enum CodingKeys: String, CodingKey {
             case pk
@@ -60,6 +91,10 @@ struct ServerStruct: Decodable {
             case longitude
             case gradePoint = "rate_average"
             case youTubeUrl = "youtube"
+            case rateGood = "rate_good"
+            case rateNormal = "rate_normal"
+            case rateBad = "rate_bad"
+            case postArray = "post_set"
         }
     }
 }
