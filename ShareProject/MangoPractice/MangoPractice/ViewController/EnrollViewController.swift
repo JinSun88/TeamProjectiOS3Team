@@ -14,6 +14,7 @@ class EnrollViewController: UIViewController {
     // 상단바
     let topBar = UIView()
     let titleLabel = UILabel()
+    let backButton = UIButton()
     // 상단 레이블 및 식당 이름 및 위치 입력 텍스트필드
     let topLabel = UILabel()
     let textFieldView = UIView()
@@ -83,15 +84,16 @@ class EnrollViewController: UIViewController {
     private func topbarConfig() {
         view.addSubview(topBar)
         view.addSubview(titleLabel)
+        view.addSubview(backButton)
         
         topBar.backgroundColor = #colorLiteral(red: 1, green: 0.4456674457, blue: 0.004210381769, alpha: 1)
         titleLabel.text = "식당 등록"
         titleLabel.textColor = .white
         titleLabel.backgroundColor = .clear
         titleLabel.textAlignment = .left
-        titleLabel.font = UIFont(name: "Helvetica", size: 15)
-        
-        
+        titleLabel.font = UIFont(name: "Helvetica", size: 18)
+        backButton.setImage(UIImage(named: "backBlackButton"), for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         
         topBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
@@ -99,13 +101,20 @@ class EnrollViewController: UIViewController {
         }
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.equalToSuperview().offset(35)
+            $0.leading.equalToSuperview().offset(50)
             $0.bottom.equalTo(topBar)
             $0.trailing.equalToSuperview()
         }
-        
-  
-        
+        backButton.snp.makeConstraints {
+            $0.top.equalTo(titleLabel).offset(8)
+            $0.leading.equalTo(topBar).offset(10)
+            $0.width.equalTo(20)
+            $0.height.equalTo(30)
+        }
+    }
+    
+    @objc func backButtonDidTap(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     private func topViewConfig() {
