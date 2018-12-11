@@ -14,7 +14,7 @@
         <!--Login View Controller-->
         <scene sceneID="jjM-V7-XCM">
             <objects>
-                <viewController id="8gP-AN-22n" customClass="LoginViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="8gP-AN-22n" customClass="LoginViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ttl-b5-7X2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -216,6 +216,7 @@
                     </view>
                     <connections>
                         <segue destination="hY9-7Z-fgQ" kind="show" identifier="ShowProvisionVC" id="COq-Zm-eDl"/>
+                        <segue destination="8gP-AN-22n" kind="show" identifier="showLogin" id="XmR-gV-LvN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1WV-Zz-DcK" userLabel="First Responder" sceneMemberID="firstResponder"/>

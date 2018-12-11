@@ -362,11 +362,9 @@ class SettingViewController: UIViewController {
     }
     @objc func logoutButtonDidTap(_ sender: UIButton) {
         let FBLoginManager = FBSDKLoginManager()
-        let destination = LoginViewController()
         FBLoginManager.logOut()
-        present(destination, animated: true)
+        performSegue(withIdentifier: "showLogin", sender: self)
 
-        
     }
     
     private func versionLabelConfig() {

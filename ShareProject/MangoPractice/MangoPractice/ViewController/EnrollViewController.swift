@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 import SnapKit
 
 
@@ -49,11 +50,13 @@ class EnrollViewController: UIViewController {
     let cafelabel = UILabel()
     let liquorlabel = UILabel()
     
+    // 식당등록 필수 입력값인 위경도를 받기 위한 변수
+    var lat: Double?
+    var long: Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap) // 화면이 탭되면 키보드 내려가도록
         topbarConfig()
         topViewConfig()
         enrollButtonConfig()
@@ -65,12 +68,11 @@ class EnrollViewController: UIViewController {
         makeTextFieldUnderBar() // viewdidload할 경우 안나오는 경우가 있어서 여기에
         
     }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true) // 화면이 탭되면 키보드 내려가도록
+    // 화면이 탭되면 키보드 내려가도록
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
-    
-    
+
     // 텍스트 필드 아래 밑줄 삽입
     private func makeTextFieldUnderBar() {
         nameTextField.borderStyle = .none
@@ -235,13 +237,36 @@ class EnrollViewController: UIViewController {
     
     @objc func enrollButtonDidTap(_ sender: UIButton) {
         print("enrollButtonDidTap")
-        guard let name = nameTextField.text,
-            let address = locationTextField.text,
-            let phone = phoneNumberTextField.text
-            else{ return }
-        RestaurantService().restaurantCreate(type: .restaurantCreate(name: name, address: address, phone: phone)) { data in
-            print("debug: \(data)")
+//        guard let name = nameTextField.text,
+//            let address = locationTextField.text,
+//            let phone = phoneNumberTextField.text
+//            else{ return }
+//        RestaurantService().restaurantCreate(type: .restaurantCreate(name: name, address: address, phone: phone)) { data in
+//            print("debug: \(data)")
+//        }
+        
+        // alamofire를 이용한 api에 식당정보 포스트
+        let url = "https://api.fastplate.xyz/api/restaurants/list/"
+        let params: Parameters = [
+            "name": nameTextField.text ?? "",
+            "address": locationTextField.text ?? "",
+            "phone_num": phoneNumberTextField.text ?? "",
+            "latitude": lat ?? 0.0 ,
+            "longitude": long ?? 0.0
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: params)
+            .validate()
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    print(value)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
         }
+        
+        
     }
     
     private func foodButtonConfig() {
@@ -599,10 +624,14 @@ class EnrollViewController: UIViewController {
             
         }
     }
+
 }
-// 자동완성된 주소를 주소 텍스트필드에 입력하도록 설정
+// 자동완성된 주소를 주소 텍스트필드에 입력하고 주소의 위경도 값을 받아오도록 설정 설정
 extension EnrollViewController: SendDataDelegate {
-    func sendData(data: String) {
+    func sendData(data: String, latitude: Double, longitude: Double) {
         locationTextField.text = data
+        lat = latitude
+        long = longitude
+        
     }
 }

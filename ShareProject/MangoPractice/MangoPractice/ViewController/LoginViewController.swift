@@ -9,18 +9,20 @@
 import UIKit
 import FBSDKLoginKit
 
-class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
-
+class LoginViewController: UIViewController {
     let backGroundImageViw = UIImageView()
     let FBLoginButton = FBSDKLoginButton()
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        FBLoginButton.delegate = self as FBSDKLoginButtonDelegate
+//        FBLoginButton.delegate = self as FBSDKLoginButtonDelegate
         FBLoginButton.center = self.view.center
         FBLoginButton.readPermissions = ["public_profile"]
         view.addSubview(FBLoginButton)
+        
+        print("LoginView viewdidload")
+//        FBLoginButton.addTarget(self, action: #selector(loginFaceBook), for: .touchUpInside)
         
 //        if FBSDKAccessToken.current() != nil && FBLoginSuccess == true {
 //            print("Logged In")
@@ -34,29 +36,39 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("LoginView viewdidappear")
         if FBSDKAccessToken.current() != nil{
             performSegue(withIdentifier: "showVC",sender:self)
         }
-    // 로그인은 되지만 재 로그인시에 오류 발생 수정 필요
     }
     
+//    @objc func loginFaceBook(_ sender: UIButton) {
+//        let FBLoginManager = FBSDKLoginManager()
+//        FBLoginManager.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
+//            if (error == nil) {
+//                let FBLoginResult: FBSDKLoginManagerLoginResult = result!
+//                if (FBLoginResult.grantedPermissions.contains("public_profile")) {
+//                    self.getFBUserData()
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    private func getFBUserData() {
+//        if((FBSDKAccessToken.current()) != nil) {
+//            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large) "])?.start(completionHandler: { (connection, result, error) -> Void in
+//                if (error == nil) {
+//                    print(result ?? "")
+//                    self.performSegue(withIdentifier: "showVC", sender: self)
+//                }
+//            })
+//        }
+//    }
     
     
-    
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
+    deinit {
+        print("Deinit")
     }
-    
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        print("Log Out")
-    }
-    
-  
-
-    
-    
-
-
 }
 

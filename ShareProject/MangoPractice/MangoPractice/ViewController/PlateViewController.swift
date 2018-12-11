@@ -15,20 +15,36 @@ final class PlateViewController: UIViewController {
     
     // 각 인스턴스를 밖에서 만들어 주는 이유는 Auto레이아웃을 잡아주기 위함입니다. (안에 만들면 각각 참조가 안됨)
     
-    let scrollView = UIScrollView()  // 스크롤뷰 위에 올리는 가이드뷰(필수 덕목)
+    // 스크롤뷰 위에 올리는 가이드뷰(필수 덕목)
+    let scrollView = UIScrollView()
     let scrollGuideView = UIView()
-    let topGuideView = UIView()  // 닫힘버튼(∨), 마이리스트 추가 버튼, 공유하기 버튼 올리는 뷰
-    var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())  // 콜렉션뷰와 (선택된) 셀데이터
-    var selectedColumnData: ServerStruct.CellDataStruct?  // 초기페이지에서 선택된 셀 데이터만 저장하도록 하는 인스턴스
-    let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
-    let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
-    let youTubeView = YouTubePlayerView()  // 맛집 유튜브 연동 뷰
-    let addressMapView = UIView()  // 맛집 주소와 맵 올리는 뷰
+    
+    // 닫힘버튼(∨), 마이리스트 추가 버튼, 공유하기 버튼 올리는 뷰
+    let topGuideView = UIView()
+    
+    // 콜렉션뷰와 (선택된) 셀데이터
+    var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    // 초기페이지에서 선택된 셀 데이터만 저장하도록 하는 인스턴스
+    var selectedColumnData: ServerStruct.CellDataStruct?
+    
+    // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
+    let middleInfoBarView = UIView()
+    // 가고싶다~사진올리기 버튼들을 올리는 뷰
+    let middleButtonsView = UIView()
+    
+    // 맛집 유튜브 연동 뷰
+    let youTubeView = YouTubePlayerView()
+    // 맛집 주소와 맵 올리는 뷰
+    let addressMapView = UIView()
     let mapView = GMSMapView() // MapView(viewDidLayoutSubviews에서 사용해야 하기 때문에 클래스에서 설정)
-    let telView = UIView()  // 전화걸기 올리는 뷰
-    let restaurantInfoAndMenuView = UIView()  // 편의정보 & 메뉴 올리는 뷰
-    let majorReviewAndButtonView = UIView()  // 주요리뷰 및 맛있다/괜찮다/별로 표시 라벨
-    let reviewTableView = UITableView()
+    
+    // 전화걸기 올리는 뷰
+    let telView = UIView()
+    // 편의정보 & 메뉴 올리는 뷰
+    let restaurantInfoAndMenuView = UIView()
+    // 주요리뷰 및 맛있다/괜찮다/별로 표시 라벨
+    let majorReviewAndButtonView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,30 +60,27 @@ final class PlateViewController: UIViewController {
         telViewConfig()
         restaurantInfoAndMenuViewConfig()
         majorReviewAndButtonViewConfig()
-        reviewTableViewConfig()
-        
     }
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
         topGuideView.backgroundColor = .white
         view.addSubview(topGuideView)
         topGuideView.snp.makeConstraints { (m) in
-            m.top.width.equalToSuperview()
-            m.height.equalTo(100)
+            m.top.equalTo(view.safeAreaLayoutGuide)
+            m.width.equalToSuperview()
+            m.height.equalTo(80)
         }
         
         // topGuideLabel 위에 DownArrow 버튼 설정
         let downArrow = UIButton()
-        let downArrowImage = UIImage(named: "downArrowWhite")
-        let tintedImage = downArrowImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        downArrow.setImage(tintedImage, for: .normal)
-        downArrow.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        let downArrowImage = UIImage(named: "DropDownArrow")
+        downArrow.setBackgroundImage(downArrowImage, for: .normal)
         downArrow.imageView?.contentMode = .scaleAspectFit
         
         topGuideView.addSubview(downArrow)
         downArrow.snp.makeConstraints { (m) in
-            m.centerY.equalToSuperview().offset(20)
-            m.leading.equalToSuperview().offset(20)
+            m.centerY.equalToSuperview()
+            m.leading.equalToSuperview().offset(10)
             m.height.equalTo(30)
             m.width.equalTo(30)
         }
@@ -190,7 +203,7 @@ final class PlateViewController: UIViewController {
             m.edges.equalToSuperview()
         }
         want2goButton.addTarget(self, action: #selector(want2goButtonTapped), for: .touchUpInside)
-        
+
         want2goImageView.image = UIImage(named: "StarEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -5, left: -5, bottom: -5, right: -5))
         want2goImageView.contentMode = .scaleAspectFit
         want2goView.addSubview(want2goImageView)
@@ -198,7 +211,7 @@ final class PlateViewController: UIViewController {
             m.top.leading.trailing.equalToSuperview()
             m.height.equalToSuperview().multipliedBy(0.7)
         }
-        
+
         want2goLabel.text = "가고싶다"
         want2goLabel.textColor = .orange
         want2goLabel.font = UIFont(name: "Helvetica", size: 13)
@@ -609,18 +622,7 @@ final class PlateViewController: UIViewController {
         // !!! 메뉴가 들어오면 메뉴 표시해야 함 !!!
     }
     @objc private func moreInfoButtonTapped() {
-        // 선택된 셀의 컬럼 데이터를 넘겨버림
-        let destination = PlateMoreInfoViewController()
-        destination.selectedColumnData = selectedColumnData
-        
-        // "정보 더 보기" 버튼 탭
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromRight
-        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-        view.window!.layer.add(transition, forKey: kCATransition)
-        present(destination, animated: false, completion: nil)
+        print("moreInfoButtonTapped")
     }
     private func majorReviewAndButtonViewConfig() {
         scrollGuideView.addSubview(majorReviewAndButtonView)
@@ -638,8 +640,7 @@ final class PlateViewController: UIViewController {
             m.top.width.equalToSuperview()
             m.height.equalTo(50)
         }
-        guard let postCount = selectedColumnData?.postArray.count else { return }
-        majorReviewLabel.text = "주요 리뷰 (\(postCount))"
+        majorReviewLabel.text = "주요 리뷰 ($$)" // -->> 리뷰수 데이터 연계필요
         majorReviewLabel.font = UIFont(name: "Helvetica", size: 20)
         majorReviewLabel.textAlignment = .center
         majorReviewLabel.textColor = .orange
@@ -672,8 +673,7 @@ final class PlateViewController: UIViewController {
             m.height.equalToSuperview().multipliedBy(0.7)
         }
         
-        guard let goodCount = selectedColumnData?.rateGood else { return }
-        goodButtonLabel.text = "맛있다! (\(goodCount))"
+        goodButtonLabel.text = "맛있다! ($$)"  // -->> 리뷰수 데이터 연계필요
         goodButtonLabel.textAlignment = .center
         goodButtonLabel.font = UIFont(name: "Helvetica", size: 12)
         goodButtonLabel.textColor = .orange
@@ -713,8 +713,7 @@ final class PlateViewController: UIViewController {
             m.height.equalToSuperview().multipliedBy(0.7)
         }
         
-        guard let sosoCount = selectedColumnData?.rateNormal else { return }
-        sosoButtonLabel.text = "괜찮다 (\(sosoCount))"
+        sosoButtonLabel.text = "괜찮다 ($$)"  // -->> 리뷰수 데이터 연계필요
         sosoButtonLabel.textAlignment = .center
         sosoButtonLabel.font = UIFont(name: "Helvetica", size: 12)
         sosoButtonLabel.textColor = .orange
@@ -753,8 +752,7 @@ final class PlateViewController: UIViewController {
             m.height.equalToSuperview().multipliedBy(0.7)
         }
         
-        guard let badCount = selectedColumnData?.rateBad else { return }
-        badButtonLabel.text = "별로 (\(badCount))"
+        badButtonLabel.text = "별로 ($$)"  // -->> 리뷰수 데이터 연계필요
         badButtonLabel.textAlignment = .center
         badButtonLabel.font = UIFont(name: "Helvetica", size: 12)
         badButtonLabel.textColor = .orange
@@ -773,24 +771,6 @@ final class PlateViewController: UIViewController {
     }
     @objc private func badButtonTapped() {
         print("badButtonTapped")
-    }
-    private func reviewTableViewConfig() {
-        // reviewTableView Setting
-        
-        
-        reviewTableView.backgroundColor = .blue
-        reviewTableView.dataSource = self
-        reviewTableView.delegate = self
-        reviewTableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewCell")
-        
-        // 테이블뷰 레이아웃 설정
-        scrollGuideView.addSubview(reviewTableView)
-        reviewTableView.snp.makeConstraints { (m) in
-            m.top.equalTo(majorReviewAndButtonView.snp.bottom).offset(10)
-            m.leading.equalToSuperview().offset(10)
-            m.trailing.equalToSuperview().inset(10)
-            m.bottom.equalToSuperview()
-        }
     }
 }
 
@@ -813,51 +793,6 @@ extension PlateViewController: UICollectionViewDataSource {
         let cell = plateCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PlateCollectionViewCell
         cell.restaurantPicture.image = UIImage(named: "defaultImage")  // 이미지 강제 삽입
         return cell
-    }
-}
-extension PlateViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let postCount = selectedColumnData?.postArray.count else { return 0 }
-        return postCount
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = reviewTableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as! ReviewTableViewCell
-        
-        guard let url = URL(string: selectedColumnData?.postArray[indexPath.row].author.authorImage ?? "url error") else { return cell }
-        print("url: ", url)
-        
-        let data = try? Data(contentsOf: url)
-                cell.authorImageView.image = UIImage(data: data!)
-        
-
-        
-        cell.authorName.text = selectedColumnData?.postArray[indexPath.row].author.authorName
-        
-        switch selectedColumnData?.postArray[indexPath.row].reviewRate {
-        case 1:
-            cell.reviewRate.image = UIImage(named: "BadFace")
-            cell.reviewRateLabel.text = "별로"
-        case 3:
-            cell.reviewRate.image = UIImage(named: "SosoFace")
-            cell.reviewRateLabel.text = "괜찮다"
-        case 5:
-            cell.reviewRate.image = UIImage(named: "GoodFace")
-            cell.reviewRateLabel.text = "맛있다!"
-        default:
-            print("평가 이상")
-        }
-        
-        cell.reviewContent.text = selectedColumnData?.postArray[indexPath.row].reviewContent
-        
-        return cell
-    }
-    
-    
-}
-extension PlateViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
     }
 }
 
