@@ -47,6 +47,7 @@ struct ServerStruct: Decodable {
             let reviewContent: String // 리뷰 내용
             let reviewRate: Int // 맛있다 5, 괜찮다 3, 별도다 1
             let author: AuthorStruct // 리뷰어 정보
+            let reviewImage: [ReviewImageStruct]?
             
             struct AuthorStruct: Decodable {
                 let authorPk: Int // 리뷰어 고유 번호
@@ -60,11 +61,22 @@ struct ServerStruct: Decodable {
                 }
             }
             
+            struct ReviewImageStruct: Decodable {
+                let reviewImagePk: Int // 리뷰이미지 고유번호
+                let reviewImageUrl: String // 리뷰 이미지 url
+                
+                enum CodingKeys: String, CodingKey {
+                    case reviewImagePk = "pk"
+                    case reviewImageUrl = "image"
+                }
+            }
+            
             enum CodingKeys: String, CodingKey {
                 case reviewPk = "pk"
                 case reviewContent = "content"
                 case reviewRate = "rate"
                 case author
+                case reviewImage = "postimage_posts"
             }
         }
             

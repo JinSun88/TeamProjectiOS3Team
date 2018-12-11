@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import YouTubePlayer_Swift
 import GoogleMaps
+import Alamofire
 
 final class PlateViewController: UIViewController {
     
@@ -52,7 +53,7 @@ final class PlateViewController: UIViewController {
         topGuideView.backgroundColor = .white
         view.addSubview(topGuideView)
         topGuideView.snp.makeConstraints { (m) in
-            m.top.width.equalToSuperview()
+            m.top.width.leading.trailing.equalToSuperview()
             m.height.equalTo(100)
         }
         
@@ -124,7 +125,7 @@ final class PlateViewController: UIViewController {
         scrollGuideView.addSubview(middleInfoBarView)
         middleInfoBarView.snp.makeConstraints { (m) in
             m.top.equalTo(plateCollectionView.snp.bottom).offset(10)
-            m.width.equalToSuperview()
+            m.width.leading.equalToSuperview()
             m.height.equalTo(100)
         }
         
@@ -347,7 +348,7 @@ final class PlateViewController: UIViewController {
             scrollGuideView.addSubview(youTubeView)
             youTubeView.snp.makeConstraints { (m) in
                 m.top.equalTo(middleButtonsView.snp.bottom)
-                m.width.equalToSuperview()
+                m.width.leading.equalToSuperview()
                 m.height.equalTo(1)
             }
         }
@@ -792,6 +793,19 @@ final class PlateViewController: UIViewController {
             m.bottom.equalToSuperview()
         }
     }
+    private func requestImage(url: String, handler: @escaping (Data) -> Void) {
+        // 이미지 리퀘스트 알라모파이어 펑션
+        Alamofire.request(url, method: .get)
+            .validate()
+            .responseData { (response) in
+                switch response.result {
+                case .success(let value):
+                    handler(value)
+                case .failure(let error):
+                    print("error = ", error.localizedDescription)
+                }
+        }
+    }
 }
 
 extension PlateViewController: UISearchControllerDelegate {
@@ -820,18 +834,16 @@ extension PlateViewController: UITableViewDataSource {
         guard let postCount = selectedColumnData?.postArray.count else { return 0 }
         return postCount
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reviewTableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as! ReviewTableViewCell
         
-        guard let url = URL(string: selectedColumnData?.postArray[indexPath.row].author.authorImage ?? "url error") else { return cell }
-        print("url: ", url)
+        // 리뷰어 프로필 사진 가져오기
+        requestImage(url: selectedColumnData?.postArray[indexPath.row].author.authorImage ?? "nil") { (Data) in
+            guard let img = UIImage(data: Data) else { fatalError("Bad data") }
+            cell.authorImageView.image = img
+        }
         
-        let data = try? Data(contentsOf: url)
-                cell.authorImageView.image = UIImage(data: data!)
-        
-
-        
+        // 리뷰어 이름 가져오기
         cell.authorName.text = selectedColumnData?.postArray[indexPath.row].author.authorName
         
         switch selectedColumnData?.postArray[indexPath.row].reviewRate {
@@ -848,25 +860,28 @@ extension PlateViewController: UITableViewDataSource {
             print("평가 이상")
         }
         
+        // 리뷰 내용
         cell.reviewContent.text = selectedColumnData?.postArray[indexPath.row].reviewContent
+        
+        // 리뷰 이미지
+        let reviewImageUrl: String
+        if let post = selectedColumnData?.postArray[indexPath.row],
+            let reviewImage = post.reviewImage,
+            !reviewImage.isEmpty {
+            reviewImageUrl = reviewImage[0].reviewImageUrl
+        } else {
+            reviewImageUrl = "defaultImage"
+        }
+        requestImage(url: reviewImageUrl) { (Data) in
+            guard let img = UIImage(data: Data) else { fatalError("Bad data") }
+            cell.reviewContentImage.image = img
+        }
         
         return cell
     }
-    
-    
 }
 extension PlateViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 300
     }
 }
-
-// 유엽군이 만든 버튼제작 func
-//var btns: [UIButton] = []
-//func createbtn(title: String, frame: CGRect, tag: Int) {
-//    let btn = UIButton()
-//    btn.frame = frame
-//    btn.tag = tag
-//    btns.append(btn)
-//    view.addSubview(btn)
-//}

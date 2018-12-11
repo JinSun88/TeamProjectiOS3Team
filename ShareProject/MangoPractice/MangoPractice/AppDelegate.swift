@@ -27,8 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CellData.shared.getDataFromServer()
         
-        //        self.window?.rootViewController = PlateMoreInfoViewController()   // 서버 죽음 임시
-        //        self.window?.makeKeyAndVisible()    //  서버 죽음 임시
+//                self.window?.rootViewController = ViewController()   // 서버 죽음 임시
+//                self.window?.makeKeyAndVisible()    //  서버 죽음 임시
         
         FBSDKApplicationDelegate.sharedInstance()?.application(application, didFinishLaunchingWithOptions: launchOptions)
 

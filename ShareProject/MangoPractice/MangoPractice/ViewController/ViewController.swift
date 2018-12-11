@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import WebKit
 import CoreLocation
+import Alamofire
 
 class ViewController: UIViewController {
     
@@ -56,7 +57,7 @@ class ViewController: UIViewController {
     }
     private func tabBarIndicatorCreator() {
         // 탭바 주황색 인디케이터 실행 펑션
-        let tabBar = self.tabBarController!.tabBar
+        guard let tabBar = self.tabBarController?.tabBar else { return }
         tabBar.selectionIndicatorImage = UIImage().createSelectionIndicator(
             color: #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1),
             size: CGSize(
@@ -224,6 +225,19 @@ class ViewController: UIViewController {
         print("mapButton tap")
         performSegue(withIdentifier: "showMapView", sender: self)
     }
+    private func requestImage(url: String, handler: @escaping (Data) -> Void) {
+        // 이미지 리퀘스트 알라모파이어 펑션
+        Alamofire.request(url, method: .get)
+            .validate()
+            .responseData { (response) in
+                switch response.result {
+                case .success(let value):
+                    handler(value)
+                case .failure(let error):
+                    print("error = ", error.localizedDescription)
+                }
+        }
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -263,7 +277,28 @@ extension ViewController: UICollectionViewDataSource {
     // cell 구성하기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! MainCollectionViewCell
-        cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
+        
+        var imageUrlArray: [String] = []  // 이미지 URL이 들어갈 배열 생성
+        let postArrayCount = arrayOfCellData[indexPath.item].postArray.count  // 포스트(리뷰)가 몇개 인지 확인
+        if postArrayCount > 0 {  // 포스트(리뷰)가 0보다 많으면
+            
+            for i in 0..<postArrayCount {
+                let imageArrayCount = arrayOfCellData[indexPath.item].postArray[i].reviewImage?.count ?? 0  // 포스트(리뷰)에 이미지 어레이가 몇개 인지 확인
+                
+                for j in 0..<imageArrayCount {  // 리뷰 어레이 있는 모든 이미지를 가져오겠다!
+                    let urlOfReviewImages = arrayOfCellData[indexPath.item].postArray[i].reviewImage![j].reviewImageUrl
+                    imageUrlArray.append(urlOfReviewImages)
+                }
+            }
+            
+            requestImage(url: imageUrlArray.first ?? "defaultImage") { (Data) in
+                guard let img = UIImage(data: Data) else { fatalError("Bad data") }
+                cell.restaurantPicture.image = img
+            }
+        } else {
+            cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
+        }
+        
         cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
         cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? "0.0")"
         cell.restaurantLocation.text = arrayOfCellData[indexPath.item].address
