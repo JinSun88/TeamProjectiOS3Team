@@ -13,7 +13,7 @@ import GooglePlaces
 import GoogleMaps
 
 protocol SendDataDelegate {
-    func sendData(data: String)
+    func sendData(data: String, latitude: Double, longitude: Double)
 } // 자동완성으로 검색된 주소값을 넘기기 위해 프로토콜 선언
 
 class LocationSelectViewController: UIViewController {
@@ -27,6 +27,9 @@ class LocationSelectViewController: UIViewController {
     var selectLocationMapView = GMSMapView()
     var centerPinImageVerticalConstraint: NSLayoutConstraint!
     var delegate: SendDataDelegate?
+    
+    var lat: Double? // 지도로 설정한 위치의 위경도 값을 받는 변수
+    var long: Double?
 
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,7 +135,7 @@ class LocationSelectViewController: UIViewController {
     
     @objc func confirmLocationButtonDidTap() {
         if let data = addressLabel.text {
-            delegate?.sendData(data: data)
+            delegate?.sendData(data: data, latitude: lat ?? 0.0, longitude: long ?? 0.0)
         }
         
         dismiss(animated: true, completion: nil)
@@ -207,7 +210,7 @@ extension LocationSelectViewController: GMSAutocompleteViewControllerDelegate  {
         let resultAddress = originAddress?.replacingOccurrences(of: "대한민국", with: "") // 주소 중 대한민국 제외
         
         if let data = resultAddress {
-            delegate?.sendData(data: data)
+            delegate?.sendData(data: data, latitude: Double(place.coordinate.latitude), longitude: Double(place.coordinate.longitude)) // 자동완성된 주소와 해당장소의 위경도 값을 펑션에 담음
         }
         dismiss(animated: true, completion: nil) //자동완성VC 닫음
         openEnrollVC() //식당등록화면으로 dismiss
@@ -226,7 +229,13 @@ extension LocationSelectViewController: GMSAutocompleteViewControllerDelegate  {
 
 extension LocationSelectViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        reverseGeocodeCoordinate(position.target)
+        reverseGeocodeCoordinate(position.target) //지도에서 위치를 주소는 펑션
+        let positionLat = position.target.latitude
+        let positionLong = position.target.longitude
+        lat = positionLat
+        long = positionLong
+        // 해당장소의 위경도를 변수에 담음
+        
     }
     
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {

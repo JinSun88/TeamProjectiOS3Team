@@ -79,7 +79,7 @@ struct ServerStruct: Decodable {
                 case reviewImage = "postimage_posts"
             }
         }
-            
+        
         
         enum CodingKeys: String, CodingKey {
             case pk
