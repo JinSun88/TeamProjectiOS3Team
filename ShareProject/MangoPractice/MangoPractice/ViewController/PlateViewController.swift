@@ -11,6 +11,7 @@ import SnapKit
 import YouTubePlayer_Swift
 import GoogleMaps
 import Alamofire
+import Kingfisher
 
 final class PlateViewController: UIViewController {
     
@@ -21,9 +22,11 @@ final class PlateViewController: UIViewController {
     let topGuideView = UIView()  // 닫힘버튼(∨), 마이리스트 추가 버튼, 공유하기 버튼 올리는 뷰
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())  // 콜렉션뷰와 (선택된) 셀데이터
     var selectedColumnData: ServerStruct.CellDataStruct?  // 초기페이지에서 선택된 셀 데이터만 저장하도록 하는 인스턴스
+    var reviewImageUrlArray:[String] = [] // 초기페이지에서 선택된 셀의 리뷰 이미지 배열
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
     let youTubeView = YouTubePlayerView()  // 맛집 유튜브 연동 뷰
+    var youTubeUsing: Bool = false
     let addressMapView = UIView()  // 맛집 주소와 맵 올리는 뷰
     let mapView = GMSMapView() // MapView(viewDidLayoutSubviews에서 사용해야 하기 때문에 클래스에서 설정)
     let telView = UIView()  // 전화걸기 올리는 뷰
@@ -49,6 +52,7 @@ final class PlateViewController: UIViewController {
         
     }
     private func topGuideViewConfig() {
+        
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
         topGuideView.backgroundColor = .white
         view.addSubview(topGuideView)
@@ -85,16 +89,36 @@ final class PlateViewController: UIViewController {
             m.top.equalTo(topGuideView.snp.bottom)
             m.width.leading.bottom.equalToSuperview()
         }
-        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 1800) // 스크롤뷰 높이 설정
+        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 1350) // 스크롤뷰 높이 설정
         
         // 스크롤 가이드뷰 콘피그
         scrollView.addSubview(scrollGuideView)
         scrollGuideView.snp.makeConstraints {
             $0.top.width.leading.equalToSuperview()
-            $0.height.equalTo(1800)  // 스크롤뷰의 높이를 설정
+            
+            if youTubeUsing == false {
+                $0.height.equalTo(1800)  // 스크롤뷰의 높이를 설정
+            } else {
+                $0.height.equalTo(2000)
+            }
         }
     }
     private func plateCollectionViewConfig() {
+        // 선택된 맛집 데이터의 리뷰 이미지만 배열로 생성하는 부분
+        let postArrayCount = selectedColumnData?.postArray.count ?? 0
+        var reviewImageArray:[[ServerStruct.CellDataStruct.PostStruct.ReviewImageStruct]] = [[]]
+        
+        for i in 0..<postArrayCount {
+            guard let tempData = selectedColumnData?.postArray[i].reviewImage else { return }
+            reviewImageArray.append(tempData)
+            
+            let reviewImageCount = selectedColumnData?.postArray[i].reviewImage?.count ?? 0
+            for j in 0..<reviewImageCount {
+                guard let tempData2 = selectedColumnData?.postArray[i].reviewImage?[j].reviewImageUrl else { return }
+                reviewImageUrlArray.append(tempData2)
+            }
+        }
+        
         // plateCollectionView Setting
         plateCollectionView.backgroundColor = .white
         plateCollectionView.dataSource = self
@@ -344,6 +368,7 @@ final class PlateViewController: UIViewController {
             youTubeView.playerVars = ["playsinline": 1 as AnyObject]  // 전체화면 아닌 해당 페이지에서 플레이
             let myVideoURL = NSURL(string: youTubeUrl)
             youTubeView.loadVideoURL(myVideoURL! as URL)
+            youTubeUsing = true
         } else {
             scrollGuideView.addSubview(youTubeView)
             youTubeView.snp.makeConstraints { (m) in
@@ -351,6 +376,7 @@ final class PlateViewController: UIViewController {
                 m.width.leading.equalToSuperview()
                 m.height.equalTo(1)
             }
+            youTubeUsing = false
         }
     }
     private func addressMapViewConfig() {
@@ -777,9 +803,6 @@ final class PlateViewController: UIViewController {
     }
     private func reviewTableViewConfig() {
         // reviewTableView Setting
-        
-        
-        reviewTableView.backgroundColor = .blue
         reviewTableView.dataSource = self
         reviewTableView.delegate = self
         reviewTableView.register(ReviewTableViewCell.self, forCellReuseIdentifier: "ReviewCell")
@@ -790,7 +813,7 @@ final class PlateViewController: UIViewController {
             m.top.equalTo(majorReviewAndButtonView.snp.bottom).offset(10)
             m.leading.equalToSuperview().offset(10)
             m.trailing.equalToSuperview().inset(10)
-            m.bottom.equalToSuperview()
+            m.height.equalTo(300)
         }
     }
     private func requestImage(url: String, handler: @escaping (Data) -> Void) {
@@ -819,13 +842,18 @@ extension PlateViewController: UICollectionViewDelegateFlowLayout {
 }
 extension PlateViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4 // 하드코딩으로 4 잡았습니다 (selectedColumnData?.image.count ?? 0)원데이터
-        //        return arrayOfCellData.filter { $0.pk == pk }.first?.image.count ?? 0 // 고차함수 사용예 (pk는 유닉한 값)
+        return reviewImageUrlArray.count
     }
     // 셀에 이미지 삽입
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = plateCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PlateCollectionViewCell
-        cell.restaurantPicture.image = UIImage(named: "defaultImage")  // 이미지 강제 삽입
+        
+        if let url = URL(string: reviewImageUrlArray[indexPath.item]) {
+            cell.restaurantPicture.kf.setImage(with: url)
+        } else {
+            cell.restaurantPicture.image = UIImage(named: "defaultImage")
+        }
+
         return cell
     }
 }
@@ -838,9 +866,11 @@ extension PlateViewController: UITableViewDataSource {
         let cell = reviewTableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as! ReviewTableViewCell
         
         // 리뷰어 프로필 사진 가져오기
-        requestImage(url: selectedColumnData?.postArray[indexPath.row].author.authorImage ?? "nil") { (Data) in
-            guard let img = UIImage(data: Data) else { fatalError("Bad data") }
-            cell.authorImageView.image = img
+        if let urlString = selectedColumnData?.postArray[indexPath.row].author.authorImage,
+            let url = URL(string: urlString) {
+        cell.authorImageView.kf.setImage(with: url)
+        } else {
+        cell.authorImageView.image = UIImage(named: "defaultImage")
         }
         
         // 리뷰어 이름 가져오기
@@ -872,16 +902,20 @@ extension PlateViewController: UITableViewDataSource {
         } else {
             reviewImageUrl = "defaultImage"
         }
-        requestImage(url: reviewImageUrl) { (Data) in
-            guard let img = UIImage(data: Data) else { fatalError("Bad data") }
-            cell.reviewContentImage.image = img
-        }
         
+        if let url = URL(string: reviewImageUrl) {
+        cell.reviewContentImage.kf.setImage(with: url)
+        } else if reviewImageUrl == "defaultImage" {
+            cell.reviewContentImage.image = UIImage(named: "defaultImage")
+        } else {
+            cell.reviewContentImage.image = UIImage(named: "defaultImage")
+        }
         return cell
     }
 }
 extension PlateViewController: UITableViewDelegate {
+    // 리뷰 테이블 뷰 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        return 380
     }
 }
