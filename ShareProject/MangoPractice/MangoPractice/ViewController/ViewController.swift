@@ -12,6 +12,7 @@ import WebKit
 import CoreLocation
 import Alamofire
 import FBSDKCoreKit
+import Kingfisher
 
 class ViewController: UIViewController {
     
@@ -43,6 +44,7 @@ class ViewController: UIViewController {
             m.leading.trailing.equalToSuperview()
             m.height.equalTo(150)
         }
+//        tabBarIndicatorCreator()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +68,7 @@ class ViewController: UIViewController {
             color: #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1),
             size: CGSize(
                 width: tabBar.frame.width/CGFloat(tabBar.items!.count),
-                height: tabBar.frame.height),  // iPhoneX(height:89)
+                height: tabBar.frame.height),  //   iPhoneX(height:89)  // tabBar.frame.height
             lineHeight: 3.0)
     }
     // 위치 사용권한 체크
@@ -229,19 +231,6 @@ class ViewController: UIViewController {
         print("mapButton tap")
         performSegue(withIdentifier: "showMapView", sender: self)
     }
-    private func requestImage(url: String, handler: @escaping (Data) -> Void) {
-        // 이미지 리퀘스트 알라모파이어 펑션
-        Alamofire.request(url, method: .get)
-            .validate()
-            .responseData { (response) in
-                switch response.result {
-                case .success(let value):
-                    handler(value)
-                case .failure(let error):
-                    print("error = ", error.localizedDescription)
-                }
-        }
-    }
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -257,7 +246,7 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController: UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 셀의 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width / 2.2, height: collectionView.frame.height / 3)
+        return CGSize(width: collectionView.frame.width / 2.2, height: collectionView.frame.width / 1.7)  // collectionView.frame.height / 1.8
     }
     // 콜렉션뷰 셀의 안쪽 여백 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -265,11 +254,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     // 콜렉션뷰 셀의 미니멈 행간 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return CGFloat(10)
+        return CGFloat(5)
     }
     // 콜렉션뷰 셀의 미니멈 열간 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return CGFloat(10)
+        return CGFloat(5)
     }
 }
 extension ViewController: UICollectionViewDataSource {
@@ -295,10 +284,8 @@ extension ViewController: UICollectionViewDataSource {
                 }
             }
             
-            requestImage(url: imageUrlArray.first ?? "defaultImage") { (Data) in
-                guard let img = UIImage(data: Data) else { fatalError("Bad data") }
-                cell.restaurantPicture.image = img
-            }
+            guard let url = URL(string: imageUrlArray.first ?? "nil") else { return cell}
+            cell.restaurantPicture.kf.setImage(with: url)
         } else {
             cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
         }
@@ -314,9 +301,10 @@ extension ViewController: UICollectionViewDataSource {
 extension UIImage {
     // 탭바에 주황색 인디케이터 사용을 위한 익스텐션
     func createSelectionIndicator(color: UIColor, size: CGSize, lineHeight: CGFloat) -> UIImage {
+        
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         color.setFill()
-        UIRectFill(CGRect(origin: CGPoint(x: 0,y: size.height - lineHeight), size: CGSize(width: size.width, height: lineHeight))) //  iPhoneX(Y:89)
+        UIRectFill(CGRect(origin: CGPoint(x: 0,y :size.height - lineHeight), size: CGSize(width: size.width, height: lineHeight)))
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!

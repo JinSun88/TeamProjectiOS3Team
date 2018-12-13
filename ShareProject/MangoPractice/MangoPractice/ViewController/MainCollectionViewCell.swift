@@ -27,6 +27,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
     
     private func configureUI() {    // cell 안에 구성 셋팅
         rankingName.font = UIFont(name: "Helvetica", size: CGFloat(15))
+        rankingName.textColor = #colorLiteral(red: 0.25, green: 0.25, blue: 0.25, alpha: 1)
         gradePoint.textColor = .orange
         gradePoint.font = UIFont(name: "Helvetica", size: CGFloat(20))
         restaurantLocation.font = UIFont(name: "Helvetica", size: CGFloat(10))
@@ -46,7 +47,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
             m.height.equalTo(self.contentView.snp.height).multipliedBy(0.7)
         }
         rankingName.snp.makeConstraints { (m) in
-            m.top.equalTo(restaurantPicture.snp.bottom)
+            m.top.equalTo(restaurantPicture.snp.bottom).offset(5)
             m.leading.equalTo(self.contentView)
             m.trailing.equalTo(self.contentView).multipliedBy(0.8)
         }
@@ -55,11 +56,11 @@ final class MainCollectionViewCell: UICollectionViewCell {
             m.trailing.equalTo(self.contentView)
         }
         restaurantLocation.snp.makeConstraints { (m) in
-            m.top.equalTo(rankingName.snp.bottom)
+            m.top.equalTo(rankingName.snp.bottom).offset(3)
             m.leading.equalTo(self.contentView)
         }
         viewFeedCount.snp.makeConstraints { (m) in
-            m.top.equalTo(restaurantLocation.snp.bottom)
+            m.top.equalTo(restaurantLocation.snp.bottom).offset(3)
             m.leading.equalTo(self.contentView)
         }
     }
