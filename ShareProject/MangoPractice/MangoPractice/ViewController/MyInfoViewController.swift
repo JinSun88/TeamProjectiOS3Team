@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FBSDKCoreKit
 import SnapKit
 
 class MyInfoViewController: UIViewController {
@@ -34,7 +35,16 @@ class MyInfoViewController: UIViewController {
 
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        myImageView.layer.cornerRadius = myImageView.frame.width / 2
+        myImageView.clipsToBounds = true
+        // 레이아웃이 잡히기 전까지 이미지뷰의 width값이 0이기 때문에 레이아웃이 다 호출된 후 이미지뷰 동그랗게
+    }
+    
+    
     private func topViewConfig() {
+        
         view.addSubview(topView)
         topView.addSubview(myImageView)
         topView.addSubview(nameLabel)
@@ -42,17 +52,16 @@ class MyInfoViewController: UIViewController {
         
         view.backgroundColor = #colorLiteral(red: 0.913626194, green: 0.9137828946, blue: 0.9136161804, alpha: 1)
         topView.backgroundColor = .white
-        myImageView.layer.cornerRadius = myImageView.frame.width / 2
-        myImageView.image = UIImage(named: "GFood_selected") // 더미이미지
-        myImageView.contentMode = .scaleAspectFill
-        nameLabel.text = "someone" // 더미 텍스트
         rivisionButton.setImage(UIImage(named: "rivisionButton"), for: .normal)
-    
+        rivisionButton.addTarget(self, action: #selector(rivisionButtonDidTap), for: .touchUpInside)
+
+        getFBUserInfo() //페이스북 데이터 가져오기
         
         topView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.equalToSuperview().multipliedBy(0.3)
         }
+        
         
         myImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
@@ -74,6 +83,32 @@ class MyInfoViewController: UIViewController {
             $0.width.equalTo(60)
         }
 
+    }
+    //Facebook에서 프로필 이미지와 이름 데이터 가져와서 프로필 사진과 이미지로 설정
+    private func getFBUserInfo() {
+        if FBSDKAccessToken.current() != nil {
+            print(FBSDKAccessToken.current()?.permissions ?? "")
+            let graphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "id, name"])
+            let connection = FBSDKGraphRequestConnection()
+
+            connection.add(graphRequest) { (connection, result, error) -> Void in
+                let data = result as! [String : AnyObject]
+
+                self.nameLabel.text = data["name"] as? String
+
+                let FBid = data["id"] as? String
+
+                let url = NSURL(string: "https://graph.facebook.com/\(FBid!)/picture?type=large&return_ssl_resources=1")
+
+                self.myImageView.image = UIImage(data: NSData(contentsOf: url! as URL)! as Data)
+
+            }
+            connection.start()
+        }
+    }
+    
+    @objc func rivisionButtonDidTap(_ sender: UIButton){
+        performSegue(withIdentifier: "showEditMyInfo", sender: self)
     }
     
     private func buttonConfig() {

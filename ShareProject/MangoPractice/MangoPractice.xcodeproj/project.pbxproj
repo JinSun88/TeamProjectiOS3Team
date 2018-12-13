@@ -14,6 +14,7 @@
 		A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EF921AD0C75004D7602 /* MapViewController.swift */; };
 		A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */; };
 		A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */; };
+		A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */; };
 		A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */; };
 		A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */; };
 		A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */; };
@@ -45,6 +46,7 @@
 		A0A32EF921AD0C75004D7602 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = MangoPractice/ViewController/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sadfsdfs.swift; sourceTree = "<group>"; };
+		A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyInfoViewController.swift; sourceTree = "<group>"; };
 		A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollViewController.swift; sourceTree = "<group>"; };
 		A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */,
 				A059663421BD2A6C001D0339 /* ProvisionViewController.swift */,
 				A059663821BE5B62001D0339 /* LoginViewController.swift */,
+				A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */,
 				2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */,
 				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
