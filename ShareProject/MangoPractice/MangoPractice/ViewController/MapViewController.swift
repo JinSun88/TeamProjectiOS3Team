@@ -238,12 +238,20 @@ extension MapViewController: UICollectionViewDelegateFlowLayout {
         mapView.addSubview(centerImage)
         centerImage.snp.makeConstraints {
             $0.centerX.equalTo(mapView)
-            $0.centerY.equalTo(mapView).offset(-16)
+            $0.centerY.equalTo(mapView).offset(-(mapView.frame.height / 20))
             $0.height.equalTo(37)
             $0.width.equalTo(25)
         }
     }
+    // 스크롤 되는 동안 마커 잠깐 사라지게
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        centerImage.removeFromSuperview()
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        centerImage.removeFromSuperview()
+    }
     
+
 }
 
 extension MapViewController: UICollectionViewDataSource {
@@ -274,6 +282,7 @@ extension MapViewController: UICollectionViewDelegate {
         
     }
 }
+
 
 
 

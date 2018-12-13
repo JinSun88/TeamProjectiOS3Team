@@ -11,6 +11,7 @@ import SnapKit
 import WebKit
 import CoreLocation
 import Alamofire
+import FBSDKCoreKit
 
 class ViewController: UIViewController {
     
@@ -24,6 +25,7 @@ class ViewController: UIViewController {
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData: [ServerStruct.CellDataStruct] = []
     //    var arrayOfCellData = CellData().arrayOfCellData // 하드코딩 데이터
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -55,6 +57,8 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(currentPlaceButtonConfig), name: NSNotification.Name(rawValue: "addressSet"), object: nil)
     }
+    
+    
     private func tabBarIndicatorCreator() {
         // 탭바 주황색 인디케이터 실행 펑션
         guard let tabBar = self.tabBarController?.tabBar else { return }

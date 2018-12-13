@@ -223,6 +223,21 @@
             </objects>
             <point key="canvasLocation" x="-1559" y="166"/>
         </scene>
+        <!--Edit My Info View Controller-->
+        <scene sceneID="bQm-pV-cIB">
+            <objects>
+                <viewController id="xcE-Qt-eQm" customClass="EditMyInfoViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nwn-3k-wmy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="COi-lN-TcG"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BpA-vE-9aO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-738" y="-663"/>
+        </scene>
         <!--내정보-->
         <scene sceneID="MJk-5u-jgi">
             <objects>
@@ -236,6 +251,7 @@
                     <tabBarItem key="tabBarItem" title="내정보" image="Avatar" id="TTv-AU-ndR"/>
                     <connections>
                         <segue destination="RcS-Nl-y9y" kind="show" identifier="showSettingVC" id="xZ8-W7-sK3"/>
+                        <segue destination="xcE-Qt-eQm" kind="show" identifier="showEditMyInfo" id="eBN-k9-OGJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e3N-zw-Vcf" userLabel="First Responder" sceneMemberID="firstResponder"/>
