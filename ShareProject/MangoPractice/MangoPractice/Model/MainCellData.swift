@@ -114,6 +114,7 @@ struct ServerStruct: Decodable {
 final class CellData {
     static let shared = CellData()
     var arrayOfCellData: [ServerStruct.CellDataStruct] = []
+    var nextPageUrl: String? = ""
     
     // 서버에서 데이터 가져오는 펑션
     func getDataFromServer() {
@@ -125,10 +126,31 @@ final class CellData {
         do {
             let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
             arrayOfCellData = arrayData.results
+            nextPageUrl = arrayData.next
         } catch {
             print("에러내용: \(error)")
         }
     }
+    
+    func getNextPageDataFromServer() {
+        guard let url = URL(string: nextPageUrl ?? "") else { return }
+        guard let data = try? Data(contentsOf: url) else { print("서버 에러"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
+        let jsonDecoder = JSONDecoder()
+        
+        // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
+        do {
+            let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
+            
+            for i in 0..<arrayData.results.count {
+             arrayOfCellData.append(arrayData.results[i])
+            }
+            print("arrayOfCellData ", "=", arrayOfCellData)
+            nextPageUrl = arrayData.next
+        } catch {
+            print("에러내용: \(error)")
+        }
+    }
+    
 }
 
 // 개발 초반 하드코딩 데이터 입니다

@@ -26,13 +26,13 @@ final class PlateViewController: UIViewController {
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
     let youTubeView = YouTubePlayerView()  // 맛집 유튜브 연동 뷰
-    var youTubeUsing: Bool = false
+    var youTubeUsing: Bool = false // 유튜브가 사용되는지 아닌지를 확인하는 변수(스크롤가이드의 사이즈 영향)
     let addressMapView = UIView()  // 맛집 주소와 맵 올리는 뷰
     let mapView = GMSMapView() // MapView(viewDidLayoutSubviews에서 사용해야 하기 때문에 클래스에서 설정)
     let telView = UIView()  // 전화걸기 올리는 뷰
     let restaurantInfoAndMenuView = UIView()  // 편의정보 & 메뉴 올리는 뷰
     let majorReviewAndButtonView = UIView()  // 주요리뷰 및 맛있다/괜찮다/별로 표시 라벨
-    let reviewTableView = UITableView()
+    let reviewTableView = UITableView() // 리뷰 올라가는 테이블 뷰
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,23 +83,30 @@ final class PlateViewController: UIViewController {
         presentingViewController?.dismiss(animated: true)
     }
     private func scrollViewConfig() {
+        // youTube가 포함되는지 여부를 확인
+        if selectedColumnData?.youTubeUrl?.contains("youtube") ?? false {
+            youTubeUsing = true
+        } else {
+            youTubeUsing = false
+        }
+        
         // 스크롤뷰 콘피그
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { (m) in
             m.top.equalTo(topGuideView.snp.bottom)
             m.width.leading.bottom.equalToSuperview()
         }
-        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 1350) // 스크롤뷰 높이 설정
+        scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: 800)
         
         // 스크롤 가이드뷰 콘피그
         scrollView.addSubview(scrollGuideView)
         scrollGuideView.snp.makeConstraints {
-            $0.top.width.leading.equalToSuperview()
+            $0.top.width.leading.bottom.equalToSuperview()
             
             if youTubeUsing == false {
-                $0.height.equalTo(1800)  // 스크롤뷰의 높이를 설정
+                $0.height.equalTo(1350) // 유튜브 없는 스크롤뷰의 높이를 설정
             } else {
-                $0.height.equalTo(2000)
+                $0.height.equalTo(1550) // 유튜브 있는 스크롤뷰의 높이를 설정
             }
         }
     }
@@ -368,7 +375,6 @@ final class PlateViewController: UIViewController {
             youTubeView.playerVars = ["playsinline": 1 as AnyObject]  // 전체화면 아닌 해당 페이지에서 플레이
             let myVideoURL = NSURL(string: youTubeUrl)
             youTubeView.loadVideoURL(myVideoURL! as URL)
-            youTubeUsing = true
         } else {
             scrollGuideView.addSubview(youTubeView)
             youTubeView.snp.makeConstraints { (m) in
@@ -376,7 +382,6 @@ final class PlateViewController: UIViewController {
                 m.width.leading.equalToSuperview()
                 m.height.equalTo(1)
             }
-            youTubeUsing = false
         }
     }
     private func addressMapViewConfig() {
@@ -816,19 +821,6 @@ final class PlateViewController: UIViewController {
             m.height.equalTo(300)
         }
     }
-    private func requestImage(url: String, handler: @escaping (Data) -> Void) {
-        // 이미지 리퀘스트 알라모파이어 펑션
-        Alamofire.request(url, method: .get)
-            .validate()
-            .responseData { (response) in
-                switch response.result {
-                case .success(let value):
-                    handler(value)
-                case .failure(let error):
-                    print("error = ", error.localizedDescription)
-                }
-        }
-    }
 }
 
 extension PlateViewController: UISearchControllerDelegate {
@@ -853,7 +845,7 @@ extension PlateViewController: UICollectionViewDataSource {
         } else {
             cell.restaurantPicture.image = UIImage(named: "defaultImage")
         }
-
+        
         return cell
     }
 }
@@ -868,9 +860,9 @@ extension PlateViewController: UITableViewDataSource {
         // 리뷰어 프로필 사진 가져오기
         if let urlString = selectedColumnData?.postArray[indexPath.row].author.authorImage,
             let url = URL(string: urlString) {
-        cell.authorImageView.kf.setImage(with: url)
+            cell.authorImageView.kf.setImage(with: url)
         } else {
-        cell.authorImageView.image = UIImage(named: "defaultImage")
+            cell.authorImageView.image = UIImage(named: "defaultImage")
         }
         
         // 리뷰어 이름 가져오기
@@ -904,7 +896,7 @@ extension PlateViewController: UITableViewDataSource {
         }
         
         if let url = URL(string: reviewImageUrl) {
-        cell.reviewContentImage.kf.setImage(with: url)
+            cell.reviewContentImage.kf.setImage(with: url)
         } else if reviewImageUrl == "defaultImage" {
             cell.reviewContentImage.image = UIImage(named: "defaultImage")
         } else {
