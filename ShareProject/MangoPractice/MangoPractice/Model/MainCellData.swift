@@ -121,8 +121,6 @@ final class CellData {
         let url = URL(string: "https://api.fastplate.xyz/api/restaurants/list/")!
         guard let data = try? Data(contentsOf: url) else { print("서버 에러"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
         let jsonDecoder = JSONDecoder()
-        
-        // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
         do {
             let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
             arrayOfCellData = arrayData.results
@@ -132,25 +130,34 @@ final class CellData {
         }
     }
     
-    func getNextPageDataFromServer() {
-        guard let url = URL(string: nextPageUrl ?? "") else { return }
-        guard let data = try? Data(contentsOf: url) else { print("서버 에러"); return }  // 서버통신 안될시 리턴됨(초기화면 깡통됨)
-        let jsonDecoder = JSONDecoder()
-        
-        // 서버에서 들어오는 형식이 다르면 catch로 빠집니다(앱다운 회피)
-        do {
-            let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
-            
-            for i in 0..<arrayData.results.count {
-             arrayOfCellData.append(arrayData.results[i])
+    func getNextPageDataFromServer(_ collectionView: UICollectionView) {
+        // 데이터 페이지네이션 대응 펑션(스크롤 끝에서 데이터 추가받고 리로드 데이터)
+        guard let url = URL(string: nextPageUrl ?? "") else
+        {
+            DispatchQueue.main.async {
+                collectionView.reloadData()
             }
-            print("arrayOfCellData ", "=", arrayOfCellData)
-            nextPageUrl = arrayData.next
-        } catch {
-            print("에러내용: \(error)")
+            return
         }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else { return }
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                let arrayData = try jsonDecoder.decode(ServerStruct.self, from: data)
+                
+                for i in 0..<arrayData.results.count {
+                    self.arrayOfCellData.append(arrayData.results[i])
+                }
+                self.nextPageUrl = arrayData.next
+                DispatchQueue.main.async {
+                    collectionView.reloadData()
+                }
+            } catch {
+                print("에러내용: \(error)")
+            }}.resume()
     }
-    
 }
 
 // 개발 초반 하드코딩 데이터 입니다

@@ -44,7 +44,7 @@ class ViewController: UIViewController {
             m.leading.trailing.equalToSuperview()
             m.height.equalTo(150)
         }
-//        tabBarIndicatorCreator()
+        //        tabBarIndicatorCreator()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -244,22 +244,13 @@ extension ViewController: UICollectionViewDelegate {
     }
     
     // 콜렉션 셀이 하단으로 이동하면 다음 페이지 데이터를 가져옴
-////    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-////        if indexPath.item == arrayOfCellData.count - 1 {
-////            print("when")
-////
-////            // 서버에서 데이터 가져오기
-////            CellData.shared.getNextPageDataFromServer()
-////
-////            // 다음 페이지가 있으면 불러서 어팬드
-////            collectionView.reloadData()
-////
-////
-////            
-////            // 다음 페이지가 없으면 끝
-////
-////        }
-//    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.item == arrayOfCellData.count - 1 {
+            CellData.shared.getNextPageDataFromServer(collectionView)
+            arrayOfCellData = CellData.shared.arrayOfCellData
+        }
+    }
 }
 extension ViewController: UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 셀의 사이즈 설정

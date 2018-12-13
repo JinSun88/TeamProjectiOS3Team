@@ -19,7 +19,9 @@ final class PlateViewController: UIViewController {
     
     let scrollView = UIScrollView()  // 스크롤뷰 위에 올리는 가이드뷰(필수 덕목)
     let scrollGuideView = UIView()
-    let topGuideView = UIView()  // 닫힘버튼(∨), 마이리스트 추가 버튼, 공유하기 버튼 올리는 뷰
+    let topGuideView = UIView()  // 닫힘버튼(∨)
+    let downArrow = UIButton() // topGuideView 안의 닫힘버튼(∨)
+    let restaurantNameLabelOnTop = UILabel() // topGuideView 안의 맛집 이름
     var plateCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())  // 콜렉션뷰와 (선택된) 셀데이터
     var selectedColumnData: ServerStruct.CellDataStruct?  // 초기페이지에서 선택된 셀 데이터만 저장하도록 하는 인스턴스
     var reviewImageUrlArray:[String] = [] // 초기페이지에서 선택된 셀의 리뷰 이미지 배열
@@ -54,7 +56,7 @@ final class PlateViewController: UIViewController {
     private func topGuideViewConfig() {
         
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
-        topGuideView.backgroundColor = .white
+        topGuideView.backgroundColor = UIColor(red: 0.976802, green: 0.47831, blue: 0.170915, alpha: 0)
         view.addSubview(topGuideView)
         topGuideView.snp.makeConstraints { (m) in
             m.top.width.leading.trailing.equalToSuperview()
@@ -62,7 +64,6 @@ final class PlateViewController: UIViewController {
         }
         
         // topGuideLabel 위에 DownArrow 버튼 설정
-        let downArrow = UIButton()
         let downArrowImage = UIImage(named: "downArrowWhite")
         let tintedImage = downArrowImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         downArrow.setImage(tintedImage, for: .normal)
@@ -77,12 +78,22 @@ final class PlateViewController: UIViewController {
             m.width.equalTo(30)
         }
         downArrow.addTarget(self, action: #selector(downArrowAction), for: .touchUpInside)
+        
+        topGuideView.addSubview(restaurantNameLabelOnTop)
+        restaurantNameLabelOnTop.snp.makeConstraints { (m) in
+            m.leading.equalTo(downArrow.snp.trailing).offset(20)
+            m.centerY.equalTo(downArrow)
+            m.width.equalToSuperview().multipliedBy(0.7)
+        }
+        restaurantNameLabelOnTop.text = selectedColumnData?.name
+        restaurantNameLabelOnTop.backgroundColor = .red
     }
     @objc private func downArrowAction(sender: UIButton) {
         // downArrow 버튼 클릭하면 현재뷰컨트롤러가 dismiss
         presentingViewController?.dismiss(animated: true)
     }
     private func scrollViewConfig() {
+        scrollView.delegate = self
         // youTube가 포함되는지 여부를 확인
         if selectedColumnData?.youTubeUrl?.contains("youtube") ?? false {
             youTubeUsing = true
@@ -909,5 +920,26 @@ extension PlateViewController: UITableViewDelegate {
     // 리뷰 테이블 뷰 높이 설정
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 380
+    }
+}
+
+extension PlateViewController: UIScrollViewDelegate {
+    // 스크롤시 topGuideView의 색 변경
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentPositionY = scrollView.contentOffset.y
+        
+        //        let point = CGPoint(x: 0, y: currentPositionY) // 콜렉션뷰의 와이 위치가 겹치면 트루(feat.강사님)
+        //        print(middleInfoBarView.point(inside: point, with: nil))
+        
+        if middleInfoBarView.frame.minY < currentPositionY &&
+            middleInfoBarView.frame.minY + 30 > currentPositionY {
+            
+            // topGuideView 배경색 변경
+            let alphaData = (1 / 30) * (currentPositionY - middleInfoBarView.frame.minY)
+            topGuideView.backgroundColor = UIColor(red: 0.976802, green: 0.47831, blue: 0.170915, alpha: alphaData)
+            
+            // downArrow 색 변경
+            downArrow.tintColor = UIColor.white.withAlphaComponent(alphaData / 1)
+        }
     }
 }
