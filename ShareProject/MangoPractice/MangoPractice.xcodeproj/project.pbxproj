@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */; };
 		5AB6FFE8170A1FA3F466A88D /* Pods_MangoPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */; };
 		A059663521BD2A6C001D0339 /* ProvisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A059663421BD2A6C001D0339 /* ProvisionViewController.swift */; };
 		A059663921BE5B62001D0339 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A059663821BE5B62001D0339 /* LoginViewController.swift */; };
@@ -32,7 +31,6 @@
 		AF001BED21985ACB00716B7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF001BEC21985ACB00716B7A /* Assets.xcassets */; };
 		AF001BF021985ACB00716B7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BEE21985ACB00716B7A /* LaunchScreen.storyboard */; };
 		AF0342E921A6A70D00DC6289 /* PlateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */; };
-		AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */; };
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
 		AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */; };
@@ -44,7 +42,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealTableViewCell.swift; sourceTree = "<group>"; };
 		56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MangoPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		613CEC43A6853698D5C2CAC9 /* Pods-MangoPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.release.xcconfig"; sourceTree = "<group>"; };
 		A059663421BD2A6C001D0339 /* ProvisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionViewController.swift; sourceTree = "<group>"; };
@@ -72,7 +69,6 @@
 		AF001BEF21985ACB00716B7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AF001BF121985ACB00716B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateCollectionViewCell.swift; sourceTree = "<group>"; };
-		AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealViewController.swift; sourceTree = "<group>"; };
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
 		AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
@@ -96,15 +92,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F63A41B21B0DCD100450AE2 /* EATDeal */ = {
-			isa = PBXGroup;
-			children = (
-				2F63A41C21B0DF9A00450AE2 /* EatDealTableViewCell.swift */,
-				AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */,
-			);
-			path = EATDeal;
-			sourceTree = "<group>";
-		};
 		353397ECAA6C75C2EF662DAB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +121,6 @@
 		AF001BE421985AC900716B7A /* MangoPractice */ = {
 			isa = PBXGroup;
 			children = (
-				2F63A41B21B0DCD100450AE2 /* EATDeal */,
 				AF04DF2D21A26E9B00F49887 /* ViewController */,
 				AF04DF2C21A26E8400F49887 /* Model */,
 				AF001BE521985AC900716B7A /* AppDelegate.swift */,
@@ -207,8 +193,8 @@
 				AF001BDE21985AC900716B7A /* Sources */,
 				AF001BDF21985AC900716B7A /* Frameworks */,
 				AF001BE021985AC900716B7A /* Resources */,
-				AE0B9DA035A61D711516EF77 /* [CP] Embed Pods Frameworks */,
-				74B2F58FD713B261F01406D3 /* [CP] Copy Pods Resources */,
+				8A4BA250762C18C0A6C5747B /* [CP] Embed Pods Frameworks */,
+				48E4F1C0ACEF328D80E44279 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -266,7 +252,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		74B2F58FD713B261F01406D3 /* [CP] Copy Pods Resources */ = {
+		48E4F1C0ACEF328D80E44279 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -290,7 +276,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AE0B9DA035A61D711516EF77 /* [CP] Embed Pods Frameworks */ = {
+		8A4BA250762C18C0A6C5747B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -352,7 +338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */,
-				2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */,
 				A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */,
 				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
@@ -362,7 +347,6 @@
 				A059663521BD2A6C001D0339 /* ProvisionViewController.swift in Sources */,
 				A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */,
 				AF95617321BE5592002F3288 /* RestaurantData.swift in Sources */,
-				AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */,
 				A059663921BE5B62001D0339 /* LoginViewController.swift in Sources */,
 				A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */,
 				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,

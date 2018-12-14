@@ -924,7 +924,18 @@ extension PlateViewController: UITableViewDelegate {
     
     // 리뷰 터치시 액션
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("Touched")
+        // 선택된 셀의 컬럼 데이터를 넘겨버림
+        let destination = ReviewDetailViewController()
+        destination.selectedColumnData = selectedColumnData
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
     }
 }
 
