@@ -15,6 +15,10 @@
 		A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */; };
 		A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */; };
 		A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */; };
+		A0A5618B21C257B900934FDD /* PurchasedEatDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618A21C257B900934FDD /* PurchasedEatDealViewController.swift */; };
+		A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618C21C257CC00934FDD /* WantToGoViewController.swift */; };
+		A0A5618F21C257E800934FDD /* MyRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618E21C257E800934FDD /* MyRestaurantViewController.swift */; };
+		A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5619221C270F100934FDD /* WantToGoCollectionViewCell.swift */; };
 		A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */; };
 		A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */; };
 		A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */; };
@@ -47,6 +51,10 @@
 		A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0A32EFD21AE7628004D7602 /* sadfsdfs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sadfsdfs.swift; sourceTree = "<group>"; };
 		A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyInfoViewController.swift; sourceTree = "<group>"; };
+		A0A5618A21C257B900934FDD /* PurchasedEatDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasedEatDealViewController.swift; sourceTree = "<group>"; };
+		A0A5618C21C257CC00934FDD /* WantToGoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToGoViewController.swift; sourceTree = "<group>"; };
+		A0A5618E21C257E800934FDD /* MyRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantViewController.swift; sourceTree = "<group>"; };
+		A0A5619221C270F100934FDD /* WantToGoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToGoCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollViewController.swift; sourceTree = "<group>"; };
 		A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
@@ -165,6 +173,10 @@
 				A059663421BD2A6C001D0339 /* ProvisionViewController.swift */,
 				A059663821BE5B62001D0339 /* LoginViewController.swift */,
 				A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */,
+				A0A5618A21C257B900934FDD /* PurchasedEatDealViewController.swift */,
+				A0A5618C21C257CC00934FDD /* WantToGoViewController.swift */,
+				A0A5619221C270F100934FDD /* WantToGoCollectionViewCell.swift */,
+				A0A5618E21C257E800934FDD /* MyRestaurantViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -335,6 +347,7 @@
 			files = (
 				A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */,
 				2F63A41D21B0DF9A00450AE2 /* EatDealTableViewCell.swift in Sources */,
+				A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */,
 				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
 				A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */,
@@ -344,12 +357,15 @@
 				AF95617321BE5592002F3288 /* RestaurantData.swift in Sources */,
 				AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */,
 				A059663921BE5B62001D0339 /* LoginViewController.swift in Sources */,
+				A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */,
 				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,
 				AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,
 				AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */,
 				AF0342E921A6A70D00DC6289 /* PlateCollectionViewCell.swift in Sources */,
+				A0A5618B21C257B900934FDD /* PurchasedEatDealViewController.swift in Sources */,
+				A0A5618F21C257E800934FDD /* MyRestaurantViewController.swift in Sources */,
 				A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */,
 				A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */,
 				AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */,

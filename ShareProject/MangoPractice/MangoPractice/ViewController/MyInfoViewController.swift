@@ -133,6 +133,7 @@ class MyInfoViewController: UIViewController {
         nextButton.setImage(UIImage(named: "nextButton"), for: .normal)
         nextButton.contentMode = .scaleAspectFit
         nextButtonView.backgroundColor = .white
+        purchasedEatDealButton.addTarget(self, action: #selector(purchasedEatDealButtonDidTap), for: .touchUpInside)
         
         wantToGoButton.setTitle("     가고싶다", for: .normal)
         wantToGoButton.setTitleColor(UIColor.black, for: .normal)
@@ -142,6 +143,7 @@ class MyInfoViewController: UIViewController {
         nextButton1.setImage(UIImage(named: "nextButton"), for: .normal)
         nextButton1.contentMode = .scaleAspectFit
         nextButtonView1.backgroundColor = .white
+        wantToGoButton.addTarget(self, action: #selector(wantToGoButtonDidTap), for: .touchUpInside)
         
         
         myRestaurantButton.setTitle("     내가 등록한 식당", for: .normal)
@@ -152,6 +154,7 @@ class MyInfoViewController: UIViewController {
         nextButton2.setImage(UIImage(named: "nextButton"), for: .normal)
         nextButton2.contentMode = .scaleAspectFit
         nextButtonView2.backgroundColor = .white
+        myRestaurantButton.addTarget(self, action: #selector(myRestaurantButtonDidTap), for: .touchUpInside)
         
         settingButton.setTitle("     설정", for: .normal)
         settingButton.setTitleColor(UIColor.black, for: .normal)
@@ -248,10 +251,24 @@ class MyInfoViewController: UIViewController {
         
     }
     
-    @objc func settingButtonDidTap(_sender: UIButton) {
+    @objc func settingButtonDidTap(_ sender: UIButton) {
         performSegue(withIdentifier: "showSettingVC", sender: self)
     }
     
+    @objc func purchasedEatDealButtonDidTap(_ sender: UIButton) {
+        performSegue(withIdentifier: "showPurchased", sender: self)
+
+    }
+    
+    @objc func wantToGoButtonDidTap(_ sender: UIButton) {
+        performSegue(withIdentifier: "showWantToGo", sender: self)
+
+    }
+    
+    @objc func myRestaurantButtonDidTap(_ sender: UIButton) {
+        performSegue(withIdentifier: "showMyRestaurnat", sender: self)
+
+    }
 
 
 

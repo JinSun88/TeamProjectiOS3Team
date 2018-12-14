@@ -38,7 +38,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Cv-E6-Duw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-839" y="880"/>
+            <point key="canvasLocation" x="-614" y="1173"/>
         </scene>
         <!--EAT딜-->
         <scene sceneID="QSd-xg-uBY">
@@ -202,7 +202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2cl-lZ-j0k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2262" y="166"/>
+            <point key="canvasLocation" x="-2673" y="-619"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="GHr-Ij-ddE">
@@ -221,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1WV-Zz-DcK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1559" y="166"/>
+            <point key="canvasLocation" x="-1695" y="-663"/>
         </scene>
         <!--Edit My Info View Controller-->
         <scene sceneID="bQm-pV-cIB">
@@ -238,6 +238,51 @@
             </objects>
             <point key="canvasLocation" x="-738" y="-663"/>
         </scene>
+        <!--My Restaurant View Controller-->
+        <scene sceneID="Ue5-GX-kfn">
+            <objects>
+                <viewController id="FFo-w8-XDV" customClass="MyRestaurantViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vMc-lK-g0G">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="dz5-OS-Yet"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jXp-Uk-91Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2231" y="1496"/>
+        </scene>
+        <!--Want To Go View Controller-->
+        <scene sceneID="Kaq-qC-2EV">
+            <objects>
+                <viewController id="jFq-f2-EdV" customClass="WantToGoViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Av5-Zu-3aD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="aCn-wI-gf3"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C10-LC-6jp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2230" y="795"/>
+        </scene>
+        <!--Purchased Eat Deal View Controller-->
+        <scene sceneID="H19-mF-WXK">
+            <objects>
+                <viewController id="bYR-UK-gg6" customClass="PurchasedEatDealViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oIg-1f-4mt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="duo-6h-pea"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K81-UX-Ps7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2279" y="98"/>
+        </scene>
         <!--내정보-->
         <scene sceneID="MJk-5u-jgi">
             <objects>
@@ -252,6 +297,9 @@
                     <connections>
                         <segue destination="RcS-Nl-y9y" kind="show" identifier="showSettingVC" id="xZ8-W7-sK3"/>
                         <segue destination="xcE-Qt-eQm" kind="show" identifier="showEditMyInfo" id="eBN-k9-OGJ"/>
+                        <segue destination="bYR-UK-gg6" kind="show" identifier="showPurchased" id="OBr-UJ-Pq8"/>
+                        <segue destination="jFq-f2-EdV" kind="show" identifier="showWantToGo" id="Hbe-q2-LG3"/>
+                        <segue destination="FFo-w8-XDV" kind="show" identifier="showMyRestaurnat" id="Lj7-ql-FTc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e3N-zw-Vcf" userLabel="First Responder" sceneMemberID="firstResponder"/>

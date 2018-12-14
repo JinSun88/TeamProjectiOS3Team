@@ -69,7 +69,7 @@ class MapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(rankingName.snp.bottom)
             $0.leading.equalTo(restaurantPicture.snp.trailing).offset(10)
             $0.height.equalTo(contentArea).multipliedBy(0.25)
-            $0.width.equalTo(contentArea).multipliedBy(0.4)
+            $0.width.equalTo(contentArea).multipliedBy(0.9)
         }
 
         viewFeedCount.snp.makeConstraints {
