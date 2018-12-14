@@ -924,7 +924,7 @@ extension PlateViewController: UITableViewDelegate {
     
     // 리뷰 터치시 액션
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("Touched")
+//        print("Touched!")
     }
 }
 
