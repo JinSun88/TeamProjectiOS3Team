@@ -60,10 +60,14 @@ final class PlateViewController: UIViewController {
         view.addSubview(topGuideView)
         topGuideView.snp.makeConstraints { (m) in
             m.top.width.leading.trailing.equalToSuperview()
-            m.height.equalTo(100)
+            m.height.equalTo(80)
         }
         
         // topGuideLabel 위에 DownArrow 버튼 설정
+        let window = UIApplication.shared.keyWindow
+        guard let unsafeHeight = window?.safeAreaInsets.top else { return }
+        let unsafeHeightHalf = unsafeHeight / 2
+        
         let downArrowImage = UIImage(named: "downArrowWhite")
         let tintedImage = downArrowImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         downArrow.setImage(tintedImage, for: .normal)
@@ -72,7 +76,7 @@ final class PlateViewController: UIViewController {
         
         topGuideView.addSubview(downArrow)
         downArrow.snp.makeConstraints { (m) in
-            m.centerY.equalToSuperview().offset(20)
+            m.centerY.equalToSuperview().offset(unsafeHeightHalf)
             m.leading.equalToSuperview().offset(20)
             m.height.equalTo(30)
             m.width.equalTo(30)
@@ -86,7 +90,7 @@ final class PlateViewController: UIViewController {
             m.width.equalToSuperview().multipliedBy(0.7)
         }
         restaurantNameLabelOnTop.text = selectedColumnData?.name
-        restaurantNameLabelOnTop.backgroundColor = .red
+        restaurantNameLabelOnTop.font = UIFont(name: "Helvetica", size: 18)
     }
     @objc private func downArrowAction(sender: UIButton) {
         // downArrow 버튼 클릭하면 현재뷰컨트롤러가 dismiss
@@ -867,6 +871,7 @@ extension PlateViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reviewTableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as! ReviewTableViewCell
+        cell.selectionStyle = .none  // 터치해도 색 변하지 않음
         
         // 리뷰어 프로필 사진 가져오기
         if let urlString = selectedColumnData?.postArray[indexPath.row].author.authorImage,
@@ -924,7 +929,18 @@ extension PlateViewController: UITableViewDelegate {
     
     // 리뷰 터치시 액션
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("Touched")
+        // 선택된 셀의 컬럼 데이터를 넘겨버림
+        let destination = ReviewDetailViewController()
+        destination.selectedColumnData = selectedColumnData
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
     }
 }
 
@@ -942,9 +958,13 @@ extension PlateViewController: UIScrollViewDelegate {
             // topGuideView 배경색 변경
             let alphaData = (1 / 30) * (currentPositionY - middleInfoBarView.frame.minY)
             topGuideView.backgroundColor = UIColor(red: 0.976802, green: 0.47831, blue: 0.170915, alpha: alphaData)
-            
-            // downArrow 색 변경
-            downArrow.tintColor = UIColor.white.withAlphaComponent(alphaData / 1)
+        }
+        
+        // downArrow 색 변경
+        if currentPositionY > middleInfoBarView.frame.minY + 30 {
+            downArrow.tintColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1)
+        } else if currentPositionY < middleInfoBarView.frame.minY {
+            downArrow.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
         }
     }
 }
