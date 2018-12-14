@@ -30,6 +30,7 @@
 		AF04DF2B21A26D2700F49887 /* EatDealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */; };
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
+		AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */; };
 		AF95617121BDF2D4002F3288 /* PlateMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */; };
 		AF95617321BE5592002F3288 /* RestaurantData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617221BE5592002F3288 /* RestaurantData.swift */; };
 		AF95617521BE63A2002F3288 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617421BE63A2002F3288 /* ReviewTableViewCell.swift */; };
@@ -64,6 +65,7 @@
 		AF04DF2A21A26D2700F49887 /* EatDealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealViewController.swift; sourceTree = "<group>"; };
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
+		AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
 		AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateMoreInfoViewController.swift; sourceTree = "<group>"; };
 		AF95617221BE5592002F3288 /* RestaurantData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantData.swift; sourceTree = "<group>"; };
 		AF95617421BE63A2002F3288 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				A059663421BD2A6C001D0339 /* ProvisionViewController.swift */,
 				A059663821BE5B62001D0339 /* LoginViewController.swift */,
 				A0A5618621C0F57600934FDD /* EditMyInfoViewController.swift */,
+				AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */,
 				A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */,
 				AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */,
+				AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */,
 				AF95617121BDF2D4002F3288 /* PlateMoreInfoViewController.swift in Sources */,
 				A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */,
 				AF95617521BE63A2002F3288 /* ReviewTableViewCell.swift in Sources */,
