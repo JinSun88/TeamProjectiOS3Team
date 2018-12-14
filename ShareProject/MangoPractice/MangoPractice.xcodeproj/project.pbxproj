@@ -190,8 +190,8 @@
 				AF001BDE21985AC900716B7A /* Sources */,
 				AF001BDF21985AC900716B7A /* Frameworks */,
 				AF001BE021985AC900716B7A /* Resources */,
-				9087408701416C09375B6583 /* [CP] Embed Pods Frameworks */,
-				626020C4F3D2F5E699528B7E /* [CP] Copy Pods Resources */,
+				8A4BA250762C18C0A6C5747B /* [CP] Embed Pods Frameworks */,
+				48E4F1C0ACEF328D80E44279 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,7 +249,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		626020C4F3D2F5E699528B7E /* [CP] Copy Pods Resources */ = {
+		48E4F1C0ACEF328D80E44279 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -273,7 +273,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9087408701416C09375B6583 /* [CP] Embed Pods Frameworks */ = {
+		8A4BA250762C18C0A6C5747B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
