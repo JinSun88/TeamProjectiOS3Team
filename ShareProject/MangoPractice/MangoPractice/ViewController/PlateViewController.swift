@@ -921,6 +921,11 @@ extension PlateViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 380
     }
+    
+    // 리뷰 터치시 액션
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("Touched")
+    }
 }
 
 extension PlateViewController: UIScrollViewDelegate {
