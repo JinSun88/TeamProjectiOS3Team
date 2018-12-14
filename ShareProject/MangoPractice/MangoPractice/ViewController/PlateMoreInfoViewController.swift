@@ -35,10 +35,14 @@ class PlateMoreInfoViewController: UIViewController {
         view.addSubview(topGuideView)
         topGuideView.snp.makeConstraints { (m) in
             m.top.width.equalToSuperview()
-            m.height.equalTo(100)
+            m.height.equalTo(80)
         }
         
         // leftArrow 버튼 설정
+        let window = UIApplication.shared.keyWindow
+        guard let unsafeHeight = window?.safeAreaInsets.top else { return }
+        let unsafeHeightHalf = unsafeHeight / 2
+        
         let leftArrow = UIButton()
         let leftArrowImage = UIImage(named: "leftArrowWhite")?.withAlignmentRectInsets(UIEdgeInsets(top: -3, left: -3, bottom: -3, right: -3))
         leftArrow.setBackgroundImage(leftArrowImage, for: .normal)
@@ -46,7 +50,7 @@ class PlateMoreInfoViewController: UIViewController {
         
         topGuideView.addSubview(leftArrow)
         leftArrow.snp.makeConstraints { (m) in
-            m.centerY.equalToSuperview().offset(20)
+            m.centerY.equalToSuperview().offset(unsafeHeightHalf)
             m.leading.equalToSuperview().offset(15)
             m.height.equalTo(30)
             m.width.equalTo(30)
@@ -56,7 +60,7 @@ class PlateMoreInfoViewController: UIViewController {
         // restaurant Name display
         let restaurantNameLabel = UILabel()
         restaurantNameLabel.textColor = UIColor(red: 243/255, green: 242/255, blue: 243/255, alpha: 1)
-        restaurantNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        restaurantNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
         restaurantNameLabel.text = selectedColumnData?.name ?? "@@"
         
         topGuideView.addSubview(restaurantNameLabel)
