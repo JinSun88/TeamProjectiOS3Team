@@ -72,7 +72,7 @@ class WantToGoViewController: UIViewController {
         mainCollectionView.register(WantToGoCollectionViewCell.self, forCellWithReuseIdentifier: "CELL")
         
         mainCollectionView.snp.makeConstraints {
-            $0.top.equalTo(topView.snp.bottom)
+            $0.top.equalTo(topView.snp.bottom).offset(1)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -82,7 +82,7 @@ extension WantToGoViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: collectionView.frame.width / 2.2, height: collectionView.frame.width / 1.7)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return CGFloat(5)
@@ -101,11 +101,12 @@ extension WantToGoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "CELL", for: indexPath) as! WantToGoCollectionViewCell
         
-        cell.restaurantPicture.image = UIImage(named: "defaultImage") // 임시 디폴트 이미지
+        cell.restaurantPicture.image = UIImage(named: "blur-breakfast-close-up-376464") // 임시 디폴트 이미지
         cell.rankingName.text = "\(arrayOfCellData[indexPath.row].name)"
         cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint)"
         cell.restaurantLocation.text = "\(arrayOfCellData[indexPath.row].location)"
         cell.viewFeedCount.text = "\(arrayOfCellData[indexPath.item].viewFeedCount)"
+        
         
         return cell
     }

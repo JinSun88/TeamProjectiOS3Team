@@ -73,7 +73,7 @@ class MyRestaurantViewController: UIViewController {
         
         mainTableView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.top.equalTo(topView.snp.bottom)
+            $0.top.equalTo(topView.snp.bottom).offset(1)
         }
     }
 
@@ -91,7 +91,7 @@ extension MyRestaurantViewController: UITableViewDataSource {
         if cell == nil {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "CELL")
         }
-        cell!.imageView?.image = UIImage(named: "defaultImage")// 디폴트 이미지 삽입
+        cell!.imageView?.image = UIImage(named: "blur-breakfast-close-up-376464")// 디폴트 이미지 삽입
         cell!.textLabel?.text = "\(arrayOfCellData[indexPath.row].name)"
         cell!.detailTextLabel?.text = "\(arrayOfCellData[indexPath.row].address)"
         
