@@ -27,6 +27,8 @@ final class PlateViewController: UIViewController {
     var reviewImageUrlArray:[String] = [] // 초기페이지에서 선택된 셀의 리뷰 이미지 배열
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
+    let middleButtonsView2 = UIView() // 스크롤시 고정되는 뷰
+    var middleButtonsView2IsOn: Bool = false
     let youTubeView = YouTubePlayerView()  // 맛집 유튜브 연동 뷰
     var youTubeUsing: Bool = false // 유튜브가 사용되는지 아닌지를 확인하는 변수(스크롤가이드의 사이즈 영향)
     let addressMapView = UIView()  // 맛집 주소와 맵 올리는 뷰
@@ -91,6 +93,7 @@ final class PlateViewController: UIViewController {
         }
         restaurantNameLabelOnTop.text = selectedColumnData?.name
         restaurantNameLabelOnTop.font = UIFont(name: "Helvetica", size: 18)
+        restaurantNameLabelOnTop.textColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 0)
     }
     @objc private func downArrowAction(sender: UIButton) {
         // downArrow 버튼 클릭하면 현재뷰컨트롤러가 dismiss
@@ -338,6 +341,179 @@ final class PlateViewController: UIViewController {
             m.top.bottom.equalToSuperview()
             m.leading.equalTo(writeReviewView.snp.trailing)
             m.width.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+        }
+        
+        uploadPicView.addSubview(uploadPicButton)
+        uploadPicButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        uploadPicButton.addTarget(self, action: #selector(uploadPicButtonTapped), for: .touchUpInside)
+        
+        uploadPicImageView.image = UIImage(named: "CameraEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -7, left: -5, bottom: 0, right: -5))
+        uploadPicImageView.contentMode = .scaleAspectFit
+        uploadPicView.addSubview(uploadPicImageView)
+        uploadPicImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        uploadPicLabel.text = "사진올리기"
+        uploadPicLabel.textColor = .orange
+        uploadPicLabel.font = UIFont(name: "Helvetica", size: 13)
+        uploadPicLabel.textAlignment = .center
+        uploadPicView.addSubview(uploadPicLabel)
+        uploadPicLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+    }
+    private func middleButtonsViewConfig2() {
+        middleButtonsView2IsOn = true
+        // 스크롤시 고정되는 부분
+        // middleButtonsView Auto-Layout 셋팅
+        middleButtonsView2.backgroundColor = .white
+        view.addSubview(middleButtonsView2)
+        middleButtonsView2.snp.makeConstraints { (m) in
+            m.top.equalTo(topGuideView.snp.bottom).offset(5)
+            m.width.equalToSuperview()
+            m.height.equalTo(scrollGuideView.snp.width).multipliedBy(0.2)
+        }
+        let upperGrayBar = UIView()
+        upperGrayBar.backgroundColor = UIColor(red: 243/255, green: 242/255, blue: 243/255, alpha: 1)
+        middleButtonsView2.addSubview(upperGrayBar)
+        upperGrayBar.snp.makeConstraints { (m) in
+            m.top.equalTo(topGuideView.snp.bottom)
+            m.height.equalTo(5)
+            m.width.equalToSuperview()
+        }
+        let bottomGrayBar = UIView()
+        bottomGrayBar.backgroundColor = UIColor(red: 243/255, green: 242/255, blue: 243/255, alpha: 1)
+        middleButtonsView2.addSubview(bottomGrayBar)
+        bottomGrayBar.snp.makeConstraints { (m) in
+            m.top.equalTo(middleButtonsView2.snp.bottom)
+            m.height.equalTo(5)
+            m.width.equalToSuperview()
+        }
+        
+        // 가고싶다~사진올리기 버튼 및 라벨 올리기
+        let want2goView = UIView()
+        let want2goButton = UIButton()
+        let want2goImageView = UIImageView()
+        let want2goLabel = UILabel()
+        
+        middleButtonsView2.addSubview(want2goView)
+        want2goView.snp.makeConstraints { (m) in
+            m.top.leading.bottom.equalToSuperview()
+            m.width.equalToSuperview().multipliedBy(0.25)
+        }
+        
+        want2goView.addSubview(want2goButton)
+        want2goButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        want2goButton.addTarget(self, action: #selector(want2goButtonTapped), for: .touchUpInside)
+        
+        want2goImageView.image = UIImage(named: "StarEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -5, left: -5, bottom: -5, right: -5))
+        want2goImageView.contentMode = .scaleAspectFit
+        want2goView.addSubview(want2goImageView)
+        want2goImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        want2goLabel.text = "가고싶다"
+        want2goLabel.textColor = .orange
+        want2goLabel.font = UIFont(name: "Helvetica", size: 13)
+        want2goLabel.textAlignment = .center
+        want2goView.addSubview(want2goLabel)
+        want2goLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        let checkInView = UIView()
+        let checkInButton = UIButton()
+        let checkInImageView = UIImageView()
+        let checkInLabel = UILabel()
+        
+        middleButtonsView2.addSubview(checkInView)
+        checkInView.snp.makeConstraints { (m) in
+            m.top.bottom.equalToSuperview()
+            m.leading.equalTo(want2goView.snp.trailing)
+            m.width.equalTo(middleButtonsView.snp.width).multipliedBy(0.25)
+        }
+        
+        checkInView.addSubview(checkInButton)
+        checkInButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        checkInButton.addTarget(self, action: #selector(checkInButtonTapped), for: .touchUpInside)
+        
+        checkInImageView.image = UIImage(named: "CheckInEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -4, left: -2, bottom: 0, right: -2))
+        checkInImageView.contentMode = .scaleAspectFit
+        checkInView.addSubview(checkInImageView)
+        checkInImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        checkInLabel.text = "체크인"
+        checkInLabel.textColor = .orange
+        checkInLabel.font = UIFont(name: "Helvetica", size: 13)
+        checkInLabel.textAlignment = .center
+        checkInView.addSubview(checkInLabel)
+        checkInLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        let writeReviewView = UIView()
+        let writeReviewButton = UIButton()
+        let writeReviewImageView = UIImageView()
+        let writeReviewLabel = UILabel()
+        
+        middleButtonsView2.addSubview(writeReviewView)
+        writeReviewView.snp.makeConstraints { (m) in
+            m.top.bottom.equalToSuperview()
+            m.leading.equalTo(checkInView.snp.trailing)
+            m.width.equalToSuperview().multipliedBy(0.25)
+        }
+        
+        writeReviewView.addSubview(writeReviewButton)
+        writeReviewButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        writeReviewButton.addTarget(self, action: #selector(writeReviewButtonTapped), for: .touchUpInside)
+        
+        writeReviewImageView.image = UIImage(named: "PenEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -9, left: -7, bottom: -5, right: -7))
+        writeReviewImageView.contentMode = .scaleAspectFit
+        writeReviewView.addSubview(writeReviewImageView)
+        writeReviewImageView.snp.makeConstraints { (m) in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.7)
+        }
+        
+        writeReviewLabel.text = "리뷰쓰기"
+        writeReviewLabel.textColor = .orange
+        writeReviewLabel.font = UIFont(name: "Helvetica", size: 13)
+        writeReviewLabel.textAlignment = .center
+        writeReviewView.addSubview(writeReviewLabel)
+        writeReviewLabel.snp.makeConstraints { (m) in
+            m.leading.trailing.bottom.equalToSuperview()
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        let uploadPicView = UIView()
+        let uploadPicButton = UIButton()
+        let uploadPicImageView = UIImageView()
+        let uploadPicLabel = UILabel()
+        
+        middleButtonsView2.addSubview(uploadPicView)
+        uploadPicView.snp.makeConstraints { (m) in
+            m.top.bottom.equalToSuperview()
+            m.leading.equalTo(writeReviewView.snp.trailing)
+            m.width.equalToSuperview().multipliedBy(0.25)
         }
         
         uploadPicView.addSubview(uploadPicButton)
@@ -932,6 +1108,7 @@ extension PlateViewController: UITableViewDelegate {
         // 선택된 셀의 컬럼 데이터를 넘겨버림
         let destination = ReviewDetailViewController()
         destination.selectedColumnData = selectedColumnData
+        destination.selectedPostData = selectedColumnData?.postArray[indexPath.row]
         
         // 화면 전환 액션
         let transition = CATransition()
@@ -955,16 +1132,30 @@ extension PlateViewController: UIScrollViewDelegate {
         if middleInfoBarView.frame.minY < currentPositionY &&
             middleInfoBarView.frame.minY + 30 > currentPositionY {
             
-            // topGuideView 배경색 변경
+            // topGuideView 배경색, 맛집 이름색 변경
             let alphaData = (1 / 30) * (currentPositionY - middleInfoBarView.frame.minY)
             topGuideView.backgroundColor = UIColor(red: 0.976802, green: 0.47831, blue: 0.170915, alpha: alphaData)
+            restaurantNameLabelOnTop.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: alphaData)
         }
         
-        // downArrow 색 변경
+        // downArrow, topGuideView 2차색 변경(상기로는 빠른 스크롤시 색이 미쳐 바뀌지 않음)
         if currentPositionY > middleInfoBarView.frame.minY + 30 {
+            topGuideView.backgroundColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
             downArrow.tintColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1)
+            restaurantNameLabelOnTop.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         } else if currentPositionY < middleInfoBarView.frame.minY {
+            topGuideView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1)
             downArrow.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+            restaurantNameLabelOnTop.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
+        }
+        
+        // 일정 위치에서 middleButtonView2를 생성, 소멸 시킴
+        if currentPositionY > middleButtonsView.frame.minY - 5 && middleButtonsView2IsOn == false {
+            middleButtonsViewConfig2()
+        } else if currentPositionY < middleButtonsView.frame.minY - 5 && middleButtonsView2IsOn == true {
+            middleButtonsView2.removeFromSuperview()
+            middleButtonsView2.subviews.forEach{ $0.removeFromSuperview() }
+            middleButtonsView2IsOn = false
         }
     }
 }
