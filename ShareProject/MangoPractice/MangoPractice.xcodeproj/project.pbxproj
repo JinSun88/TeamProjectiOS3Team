@@ -23,6 +23,8 @@
 		A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */; };
 		A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC6321B1164C00B01784 /* MyInfoViewController.swift */; };
 		A0C2AC3A21C353030035441A /* PurchasedEatDealCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C2AC3921C353030035441A /* PurchasedEatDealCollectionViewCell.swift */; };
+		A0C2AC4421C7A7A70035441A /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C2AC4321C7A7A70035441A /* SearchCollectionViewCell.swift */; };
+		A0C2AC4621C7A90F0035441A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C2AC4521C7A90F0035441A /* SearchViewController.swift */; };
 		A0F06FA521B4E43E0066A5E1 /* LocationSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */; };
 		A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */; };
 		AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE521985AC900716B7A /* AppDelegate.swift */; };
@@ -59,6 +61,8 @@
 		A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
 		A0B8CC6321B1164C00B01784 /* MyInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoViewController.swift; sourceTree = "<group>"; };
 		A0C2AC3921C353030035441A /* PurchasedEatDealCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasedEatDealCollectionViewCell.swift; sourceTree = "<group>"; };
+		A0C2AC4321C7A7A70035441A /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		A0C2AC4521C7A90F0035441A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectViewController.swift; sourceTree = "<group>"; };
 		A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewFlowLayout.swift; sourceTree = "<group>"; };
 		AF001BE221985AC900716B7A /* MangoPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangoPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +173,8 @@
 				A0A5619221C270F100934FDD /* WantToGoCollectionViewCell.swift */,
 				A0A5618E21C257E800934FDD /* MyRestaurantViewController.swift */,
 				AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */,
+				A0C2AC4521C7A90F0035441A /* SearchViewController.swift */,
+				A0C2AC4321C7A7A70035441A /* SearchCollectionViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0C2AC4621C7A90F0035441A /* SearchViewController.swift in Sources */,
 				A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */,
 				A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */,
 				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
@@ -351,6 +358,7 @@
 				A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */,
 				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,
 				AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */,
+				A0C2AC4421C7A7A70035441A /* SearchCollectionViewCell.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,
 				AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */,
