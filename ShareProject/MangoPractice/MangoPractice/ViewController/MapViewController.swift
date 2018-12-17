@@ -96,6 +96,8 @@ class MapViewController: UIViewController {
         
         searchButton.setImage(searchButtonImage, for: .normal)
         searchButton.imageView?.contentMode = .scaleAspectFit
+        searchButton.addTarget(self, action: #selector(searchButtonDidTap), for: .touchUpInside)
+        
         
         searchButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -104,6 +106,11 @@ class MapViewController: UIViewController {
             $0.height.equalTo(43)
         }
     }
+    
+    @objc func searchButtonDidTap(_ sender: UIButton) {
+        performSegue(withIdentifier: "showSearchVC", sender: self)
+    }
+
     
     private func mapViewConfig() {
         
