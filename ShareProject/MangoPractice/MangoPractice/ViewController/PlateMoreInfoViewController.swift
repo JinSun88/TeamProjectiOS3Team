@@ -235,42 +235,198 @@ class PlateMoreInfoViewController: UIViewController {
             restDayDataLabel.textAlignment = .right
         }
         
-//        // "가격정보" 텍스트 라벨 & 데이터 라벨
-//        let restDayLabel = UILabel()
-//        let restDayDataLabel = UILabel()
-//        let restDayData = selectedColumnData?.holiday ?? ""
-//
-//        if restDayData == "" {  // restDayData에 데이터가 없을 때
-//            infoView.addSubview(restDayLabel)
-//            restDayLabel.snp.makeConstraints { (m) in
-//                m.top.equalTo(restHourLabel.snp.bottom)
-//                m.leading.equalTo(convinienceInfoLabel)
-//                m.width.equalTo(80)
-//                m.height.equalTo(0)
-//            }
-//        } else {  // restDayData에 데이터가 있을 때
-//            infoView.addSubview(restDayLabel)
-//            restDayLabel.snp.makeConstraints { (m) in
-//                m.top.equalTo(restHourLabel.snp.bottom).offset(10)
-//                m.leading.equalTo(convinienceInfoLabel)
-//                m.width.equalTo(80)
-//                m.height.equalTo(25)
-//            }
-//            restDayLabel.text = "휴일"
-//            restDayLabel.textColor = .gray
-//            restDayLabel.font = UIFont(name: "Helvetica", size: 15)
-//
-//            infoView.addSubview(restDayDataLabel)
-//            restDayDataLabel.snp.makeConstraints { (m) in
-//                m.top.height.equalTo(restDayLabel)
-//                m.trailing.equalToSuperview().inset(10)
-//                m.width.equalToSuperview().multipliedBy(0.5)
-//            }
-//
-//            restDayDataLabel.text = "\(restDayData)"
-//            restDayDataLabel.textColor = .black
-//            restDayDataLabel.font = UIFont(name: "Helvetica", size: 15)
-//            restDayDataLabel.textAlignment = .right
-//        }
+        // "가격정보" 텍스트 라벨 & 데이터 라벨
+        let priceLevelLabel = UILabel()
+        let priceLevelDataLabel = UILabel()
+        let priceLevelData = selectedColumnData?.priceLevel ?? ""
+
+        if priceLevelData == "" {  // priceLevelData에 데이터가 없을 때
+            infoView.addSubview(priceLevelLabel)
+            priceLevelLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(restDayLabel.snp.bottom)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(0)
+            }
+        } else {  // priceLevelData에 데이터가 있을 때
+            infoView.addSubview(priceLevelLabel)
+            priceLevelLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(restDayLabel.snp.bottom).offset(10)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            priceLevelLabel.text = "가격정보"
+            priceLevelLabel.textColor = .gray
+            priceLevelLabel.font = UIFont(name: "Helvetica", size: 15)
+
+            infoView.addSubview(priceLevelDataLabel)
+            priceLevelDataLabel.snp.makeConstraints { (m) in
+                m.top.height.equalTo(priceLevelLabel)
+                m.trailing.equalToSuperview().inset(10)
+                m.width.equalToSuperview().multipliedBy(0.5)
+            }
+
+            priceLevelDataLabel.text = "\(priceLevelData)"
+            priceLevelDataLabel.textColor = .black
+            priceLevelDataLabel.font = UIFont(name: "Helvetica", size: 15)
+            priceLevelDataLabel.textAlignment = .right
+        }
+        
+        // "라스트오더" 텍스트 라벨 & 데이터 라벨
+        let lastOrderLabel = UILabel()
+        let lastOrderDataLabel = UILabel()
+        let lastOrderData = selectedColumnData?.lastOrder ?? ""
+        
+        if lastOrderData == "" {  // lastOrderData에 데이터가 없을 때
+            infoView.addSubview(lastOrderLabel)
+            lastOrderLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(priceLevelLabel.snp.bottom)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(0)
+            }
+        } else {  // lastOrderData에 데이터가 있을 때
+            infoView.addSubview(lastOrderLabel)
+            lastOrderLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(priceLevelLabel.snp.bottom).offset(10)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            lastOrderLabel.text = "라스트오더"
+            lastOrderLabel.textColor = .gray
+            lastOrderLabel.font = UIFont(name: "Helvetica", size: 15)
+            
+            infoView.addSubview(lastOrderDataLabel)
+            lastOrderDataLabel.snp.makeConstraints { (m) in
+                m.top.height.equalTo(lastOrderLabel)
+                m.trailing.equalToSuperview().inset(10)
+                m.width.equalToSuperview().multipliedBy(0.5)
+            }
+            
+            lastOrderDataLabel.text = "\(lastOrderData)"
+            lastOrderDataLabel.textColor = .black
+            lastOrderDataLabel.font = UIFont(name: "Helvetica", size: 15)
+            lastOrderDataLabel.textAlignment = .right
+        }
+        
+        // "음식종류" 텍스트 라벨 & 데이터 라벨
+        let foodTypeLabel = UILabel()
+        let foodTypeDataLabel = UILabel()
+        let foodTypeData = selectedColumnData?.foodType ?? ""
+        
+        if foodTypeData == "" {  // foodTypeData에 데이터가 없을 때
+            infoView.addSubview(foodTypeLabel)
+            foodTypeLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(lastOrderLabel.snp.bottom)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(0)
+            }
+        } else {  // foodTypeData에 데이터가 있을 때
+            infoView.addSubview(foodTypeLabel)
+            foodTypeLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(lastOrderLabel.snp.bottom).offset(10)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            foodTypeLabel.text = "음식종류"
+            foodTypeLabel.textColor = .gray
+            foodTypeLabel.font = UIFont(name: "Helvetica", size: 15)
+            
+            infoView.addSubview(foodTypeDataLabel)
+            foodTypeDataLabel.snp.makeConstraints { (m) in
+                m.top.height.equalTo(foodTypeLabel)
+                m.trailing.equalToSuperview().inset(10)
+                m.width.equalToSuperview().multipliedBy(0.5)
+            }
+            
+            foodTypeDataLabel.text = "\(foodTypeData)"
+            foodTypeDataLabel.textColor = .black
+            foodTypeDataLabel.font = UIFont(name: "Helvetica", size: 15)
+            foodTypeDataLabel.textAlignment = .right
+        }
+        
+        // "주차가능" 텍스트 라벨 & 데이터 라벨
+        let parkingLabel = UILabel()
+        let parkingDataLabel = UILabel()
+        let parkingData = selectedColumnData?.parking ?? ""
+        
+        if parkingData == "" {  // parkingData에 데이터가 없을 때
+            infoView.addSubview(parkingLabel)
+            parkingLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(foodTypeLabel.snp.bottom)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(0)
+            }
+        } else {  // parkingData에 데이터가 있을 때
+            infoView.addSubview(parkingLabel)
+            parkingLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(foodTypeLabel.snp.bottom).offset(10)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            parkingLabel.text = "주차가능"
+            parkingLabel.textColor = .gray
+            parkingLabel.font = UIFont(name: "Helvetica", size: 15)
+            
+            infoView.addSubview(parkingDataLabel)
+            parkingDataLabel.snp.makeConstraints { (m) in
+                m.top.height.equalTo(parkingLabel)
+                m.trailing.equalToSuperview().inset(10)
+                m.width.equalToSuperview().multipliedBy(0.5)
+            }
+            
+            parkingDataLabel.text = "\(parkingData)"
+            parkingDataLabel.textColor = .black
+            parkingDataLabel.font = UIFont(name: "Helvetica", size: 15)
+            parkingDataLabel.textAlignment = .right
+        }
+        
+        // "웹사이트" 텍스트 라벨 & 데이터 라벨
+        let websiteLabel = UILabel()
+        let websiteDataLabel = UITextView()
+        let websiteData = selectedColumnData?.website ?? ""
+        
+        if websiteData == "" {  // websiteData에 데이터가 없을 때
+            infoView.addSubview(websiteLabel)
+            websiteLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(parkingLabel.snp.bottom)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(0)
+            }
+        } else {  // websiteData에 데이터가 있을 때
+            infoView.addSubview(websiteLabel)
+            websiteLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(parkingLabel.snp.bottom).offset(10)
+                m.leading.equalTo(convinienceInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            websiteLabel.text = "웹사이트"
+            websiteLabel.textColor = .gray
+            websiteLabel.font = UIFont(name: "Helvetica", size: 15)
+            
+            infoView.addSubview(websiteDataLabel)
+            websiteDataLabel.snp.makeConstraints { (m) in
+                m.top.height.equalTo(websiteLabel)
+                m.trailing.equalToSuperview().inset(10)
+                m.width.equalToSuperview().multipliedBy(0.7)
+            }
+            
+            websiteDataLabel.text = "\(websiteData)"
+            websiteDataLabel.textColor = .black
+            websiteDataLabel.font = UIFont(name: "Helvetica", size: 15)
+            websiteDataLabel.textAlignment = .right
+            websiteDataLabel.isEditable = false
+            websiteDataLabel.dataDetectorTypes = UIDataDetectorTypes.all
+            websiteDataLabel.translatesAutoresizingMaskIntoConstraints = false
+            websiteDataLabel.isScrollEnabled = true
+        }
     }
 }

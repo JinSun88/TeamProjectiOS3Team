@@ -37,6 +37,7 @@ final class PlateViewController: UIViewController {
     let restaurantInfoAndMenuView = UIView()  // 편의정보 & 메뉴 올리는 뷰
     let majorReviewAndButtonView = UIView()  // 주요리뷰 및 맛있다/괜찮다/별로 표시 라벨
     let reviewTableView = UITableView() // 리뷰 올라가는 테이블 뷰
+    let moreReviewView = UIView() // 마지막 "리뷰 더보기" 뷰
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +54,7 @@ final class PlateViewController: UIViewController {
         restaurantInfoAndMenuViewConfig()
         majorReviewAndButtonViewConfig()
         reviewTableViewConfig()
-        
+        moreReviewViewConfig()
     }
     private func topGuideViewConfig() {
         
@@ -188,7 +189,7 @@ final class PlateViewController: UIViewController {
             m.bottom.equalTo(middleInfoBarView.snp.centerY)
         }
         
-        restaurantViewFeedCountLabel.text = "👁‍🗨\(selectedColumnData?.viewNum ?? 0) 🖋\(selectedColumnData?.reviewNum ?? 0)"
+        restaurantViewFeedCountLabel.text = "👁‍🗨\(selectedColumnData?.viewNum ?? 0)  🖋\(selectedColumnData?.reviewNum ?? 0)  ⭐️ \(selectedColumnData?.wantNum ?? 0)"
         restaurantViewFeedCountLabel.font = UIFont(name: "Helvetica" , size: 13)
         restaurantViewFeedCountLabel.textColor = #colorLiteral(red: 0.4862189293, green: 0.4863065481, blue: 0.4862134457, alpha: 1)
         middleInfoBarView.addSubview(restaurantViewFeedCountLabel)
@@ -565,7 +566,10 @@ final class PlateViewController: UIViewController {
             }
             youTubeView.playerVars = ["playsinline": 1 as AnyObject]  // 전체화면 아닌 해당 페이지에서 플레이
             let myVideoURL = NSURL(string: youTubeUrl)
-            youTubeView.loadVideoURL(myVideoURL! as URL)
+            
+            DispatchQueue.main.async {
+                self.youTubeView.loadVideoURL(myVideoURL! as URL)
+            }
         } else {
             scrollGuideView.addSubview(youTubeView)
             youTubeView.snp.makeConstraints { (m) in
@@ -989,13 +993,64 @@ final class PlateViewController: UIViewController {
         
     }
     @objc private func goodButtonTapped() {
-        print("goodButtonTapped")
+        let destination = ReviewOnlyViewController()
+        destination.selectedColumnData = selectedColumnData
+        if let tempArray = (selectedColumnData?.postArray.filter { $0.reviewRate == 5 }) {
+            destination.selectedRatePostArray = tempArray
+            destination.selectedRate = "5"
+        } else {
+            destination.selectedRatePostArray = (selectedColumnData?.postArray ?? nil)!
+            destination.selectedRate = "0"
+        }
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
     }
     @objc private func sosoButtonTapped() {
-        print("sosoButtonTapped")
+        let destination = ReviewOnlyViewController()
+        destination.selectedColumnData = selectedColumnData
+        if let tempArray = (selectedColumnData?.postArray.filter { $0.reviewRate == 3 }) {
+            destination.selectedRatePostArray = tempArray
+            destination.selectedRate = "3"
+        } else {
+            destination.selectedRatePostArray = (selectedColumnData?.postArray ?? nil)!
+            destination.selectedRate = "0"
+        }
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
     }
     @objc private func badButtonTapped() {
-        print("badButtonTapped")
+        let destination = ReviewOnlyViewController()
+        destination.selectedColumnData = selectedColumnData
+        if let tempArray = (selectedColumnData?.postArray.filter { $0.reviewRate == 1 }) {
+            destination.selectedRatePostArray = tempArray
+            destination.selectedRate = "1"
+        } else {
+            destination.selectedRatePostArray = (selectedColumnData?.postArray ?? nil)!
+            destination.selectedRate = "0"
+        }
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
     }
     private func reviewTableViewConfig() {
         // reviewTableView Setting
@@ -1012,15 +1067,89 @@ final class PlateViewController: UIViewController {
             m.height.equalTo(300)
         }
     }
+    private func moreReviewViewConfig() {
+        scrollGuideView.addSubview(moreReviewView)
+        moreReviewView.snp.makeConstraints { (m) in
+            m.height.equalTo(17)
+            m.width.equalToSuperview().multipliedBy(0.5)
+            m.trailing.equalToSuperview().inset(15)
+            m.bottom.equalToSuperview().inset(20)
+        }
+        
+        let moreReviewButton = UIButton()
+        moreReviewView.addSubview(moreReviewButton)
+        moreReviewButton.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        moreReviewButton.setTitle("리뷰 더 보기 ❯", for: .normal)
+        moreReviewButton.setTitleColor(#colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1), for: .normal)
+        moreReviewButton.contentHorizontalAlignment = .trailing
+        moreReviewButton.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+        moreReviewButton.addTarget(self, action: #selector(moreReviewButtonTapped), for: .touchUpInside)
+    }
+    @objc private func moreReviewButtonTapped() {
+        let destination = ReviewOnlyViewController()
+        destination.selectedColumnData = selectedColumnData
+        
+        if let tempArray = selectedColumnData?.postArray {
+            destination.selectedRatePostArray = tempArray
+            destination.selectedRate = "0"
+        } else {
+            destination.selectedRatePostArray = (selectedColumnData?.postArray ?? nil)!
+            destination.selectedRate = "0"
+        }
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
+    }
 }
-
-extension PlateViewController: UISearchControllerDelegate {
-    // 터치시 이동할 내용 들어갈 예정
+extension PlateViewController: UICollectionViewDelegate {
+    // 상단 리뷰 이미지 콜렉션뷰 터치시 액션
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let destination = ReviewDetailViewController()
+        destination.selectedColumnData = selectedColumnData
+        
+        let selectedImageUrl = reviewImageUrlArray[indexPath.row]
+        let postArrayCount = selectedColumnData?.postArray.count ?? 0
+        
+        for i in 0..<postArrayCount {
+            let reviewImageCount = selectedColumnData?.postArray[i].reviewImage?.count ?? 0
+            
+            for j in 0..<reviewImageCount {
+                if selectedImageUrl == selectedColumnData?.postArray[i].reviewImage?[j].reviewImageUrl {
+                    guard let tempArray = selectedColumnData?.postArray[i] else { return }
+                    destination.selectedPostData = tempArray
+                }
+            }
+        }
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
+    }
 }
 extension PlateViewController: UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 셀의 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.height, height: collectionView.frame.height)
+    }
+    // 콜렉션뷰 열간 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return CGFloat(2)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return CGFloat(2)
     }
 }
 extension PlateViewController: UICollectionViewDataSource {
@@ -1120,7 +1249,6 @@ extension PlateViewController: UITableViewDelegate {
         present(destination, animated: false, completion: nil)
     }
 }
-
 extension PlateViewController: UIScrollViewDelegate {
     // 스크롤시 topGuideView의 색 변경
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -1159,3 +1287,4 @@ extension PlateViewController: UIScrollViewDelegate {
         }
     }
 }
+// ------> 리뷰 스크롤에 색변경, 스티키 헤더가 반응함... 상담 필요
