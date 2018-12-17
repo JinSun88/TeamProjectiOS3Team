@@ -11,6 +11,8 @@ import SnapKit
 
 final class MainCollectionViewCell: UICollectionViewCell {
     let restaurantPicture = UIImageView()
+    var want2goButton = UIButton()
+    var want2goIsOn: Bool?
     let rankingName = UILabel()
     let restaurantLocation = UILabel()
     let viewFeedCount = UILabel()
@@ -36,6 +38,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         viewFeedCount.textColor = .gray
         
         self.contentView.addSubview(restaurantPicture)
+        self.contentView.addSubview(want2goButton)
         self.contentView.addSubview(rankingName)
         self.contentView.addSubview(restaurantLocation)
         self.contentView.addSubview(viewFeedCount)
@@ -45,6 +48,11 @@ final class MainCollectionViewCell: UICollectionViewCell {
         restaurantPicture.snp.makeConstraints { (m) in
             m.top.leading.trailing.equalToSuperview()
             m.height.equalTo(self.contentView.snp.height).multipliedBy(0.7)
+        }
+        want2goButton.snp.makeConstraints { (m) in
+            m.top.equalTo(restaurantPicture).offset(5)
+            m.trailing.equalTo(restaurantPicture).inset(5)
+            m.height.width.equalTo(30)
         }
         rankingName.snp.makeConstraints { (m) in
             m.top.equalTo(restaurantPicture.snp.bottom).offset(5)
@@ -58,6 +66,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
         restaurantLocation.snp.makeConstraints { (m) in
             m.top.equalTo(rankingName.snp.bottom).offset(3)
             m.leading.equalTo(self.contentView)
+            m.trailing.equalToSuperview()
         }
         viewFeedCount.snp.makeConstraints { (m) in
             m.top.equalTo(restaurantLocation.snp.bottom).offset(3)
