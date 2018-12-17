@@ -99,10 +99,29 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Sih-LG-LdZ"/>
                     </view>
+                    <connections>
+                        <segue destination="YZj-cF-w1S" kind="presentation" identifier="showSearchVC" id="xZD-xj-Qv5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A38-Eg-7oO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137" y="-647"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="3l8-91-Hm8">
+            <objects>
+                <viewController id="c7J-hy-ICu" customClass="SearchViewController" customModule="MangoPractice" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a1y-3p-zmX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="XNg-Ls-1O7"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="U4P-mI-iMf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2so-ES-XS2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1984.8" y="-660.71964017991013"/>
         </scene>
         <!--맛집찾기-->
         <scene sceneID="tne-QT-ifu">
@@ -260,6 +279,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F4e-fG-VPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="127.28635682158921"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="sl8-SM-W6e">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YZj-cF-w1S" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JIO-AW-cNg">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="c7J-hy-ICu" kind="relationship" relationship="rootViewController" id="jaP-Om-Vt0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="06Z-B9-xlx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045.5999999999999" y="-660.71964017991013"/>
         </scene>
     </scenes>
     <resources>

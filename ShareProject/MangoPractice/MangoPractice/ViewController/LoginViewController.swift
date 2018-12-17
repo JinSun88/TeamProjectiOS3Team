@@ -8,30 +8,23 @@
 
 import UIKit
 import FBSDKLoginKit
+import Alamofire
 
 class LoginViewController: UIViewController {
     let backGroundImageViw = UIImageView()
     let FBLoginButton = FBSDKLoginButton()
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        FBLoginButton.delegate = self as FBSDKLoginButtonDelegate
+        FBLoginButton.delegate = self as FBSDKLoginButtonDelegate
         FBLoginButton.center = self.view.center
         FBLoginButton.readPermissions = ["public_profile"]
         view.addSubview(FBLoginButton)
         
-        print("LoginView viewdidload")
-//        FBLoginButton.addTarget(self, action: #selector(loginFaceBook), for: .touchUpInside)
+        print(FBSDKAccessToken.current())
         
-//        if FBSDKAccessToken.current() != nil && FBLoginSuccess == true {
-//            print("Logged In")
-//            performSegue(withIdentifier: "showVC", sender: nil)
-//
-//        } else {
-//            print("Not Logged In")
-//        }
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,33 +35,47 @@ class LoginViewController: UIViewController {
         }
     }
     
-//    @objc func loginFaceBook(_ sender: UIButton) {
-//        let FBLoginManager = FBSDKLoginManager()
-//        FBLoginManager.logIn(withReadPermissions: ["public_profile"], from: self) { (result, error) in
-//            if (error == nil) {
-//                let FBLoginResult: FBSDKLoginManagerLoginResult = result!
-//                if (FBLoginResult.grantedPermissions.contains("public_profile")) {
-//                    self.getFBUserData()
-//                }
-//            }
-//        }
-//
-//    }
-//
-//    private func getFBUserData() {
-//        if((FBSDKAccessToken.current()) != nil) {
-//            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large) "])?.start(completionHandler: { (connection, result, error) -> Void in
-//                if (error == nil) {
-//                    print(result ?? "")
-//                    self.performSegue(withIdentifier: "showVC", sender: self)
-//                }
-//            })
-//        }
-//    }
+    //    deinit {
+    //        print("Deinit")
+    //    }
     
-    
-    deinit {
-        print("Deinit")
+}
+
+extension LoginViewController: FBSDKLoginButtonDelegate {
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+        let graphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "id, name"])
+        let connection = FBSDKGraphRequestConnection()
+        
+        connection.add(graphRequest) { (connection, result, error) -> Void in
+            let data = result as! [String : AnyObject]
+            let FBid = data["id"] as? String
+            let url = "https://api.fastplate.xyz/api/auth-token/facebook/"
+            let params: Parameters = [
+                "access_token": FBSDKAccessToken.current() ?? "",
+                "facebook_user_id": FBid ?? ""
+            ]
+            
+            Alamofire.request(url, method: .post, parameters: params)
+                .validate()
+                .responseJSON { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        print(value)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+            
+        }
+        connection.start()
     }
+    
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("Logout")
+    }
+    
+    
 }
 
