@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     var arrayOfCellData: [ServerStruct.CellDataStruct] = []
     //    var arrayOfCellData = CellData().arrayOfCellData // 하드코딩 데이터
+    var want2goIsOn: Bool = false
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -231,6 +232,12 @@ class ViewController: UIViewController {
         print("mapButton tap")
         performSegue(withIdentifier: "showMapView", sender: self)
     }
+    @objc private func want2goButtonTapped() {
+        print("star tapped")
+        
+        want2goIsOn.toggle()
+        mainCollectionView.reloadData()
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -239,7 +246,6 @@ extension ViewController: UICollectionViewDelegate {
         
         let destination = PlateViewController()
         destination.selectedColumnData = arrayOfCellData[indexPath.row] // 선택된 셀의 컬럼 데이터를 넘겨버림
-        //  destination.pk = arrayOfCellData[indexPath.row].pk    // 선택한 셀의 pk값을 저장
         present(destination, animated: true)  // 플레이트뷰 컨트롤러를 띄움
     }
     
@@ -298,6 +304,15 @@ extension ViewController: UICollectionViewDataSource {
         } else {
             cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
         }
+        
+        // 별모양  ---->>> 전체가 토글됨 셀마다 분기쳐야함. 유저의 "wannago_set" 데이터를 가져와서 맛집 pk와 비교, 같으면 표시, 아니면 디폴트
+        if want2goIsOn == false {
+        cell.want2goButton.setImage(UIImage(named: "starEmpty2"), for: .normal)
+        } else {
+        cell.want2goButton.setImage(UIImage(named: "starFull2"), for: .normal)
+        }
+        cell.want2goButton.addTarget(self, action: #selector(want2goButtonTapped), for: .touchUpInside)
+        // 별모양
         
         cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
         cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? "0.0")"
