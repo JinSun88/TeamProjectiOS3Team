@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FC126DE21C7CC3B00726E61 /* EatDealMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */; };
+		2FC126DF21C7CC3B00726E61 /* EatOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */; };
+		2FC126E021C7CC3B00726E61 /* EatSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */; };
+		2FC126E221C7CC4D00726E61 /* EatDealMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126E121C7CC4D00726E61 /* EatDealMainCell.swift */; };
+		2FC126E421C7CC5700726E61 /* EatDealdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126E321C7CC5700726E61 /* EatDealdata.swift */; };
 		5AB6FFE8170A1FA3F466A88D /* Pods_MangoPractice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */; };
 		A059663521BD2A6C001D0339 /* ProvisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A059663421BD2A6C001D0339 /* ProvisionViewController.swift */; };
 		A059663921BE5B62001D0339 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A059663821BE5B62001D0339 /* LoginViewController.swift */; };
@@ -45,6 +50,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatDealMainViewController.swift; sourceTree = "<group>"; };
+		2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatOrderViewController.swift; sourceTree = "<group>"; };
+		2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatSelectedViewController.swift; sourceTree = "<group>"; };
+		2FC126E121C7CC4D00726E61 /* EatDealMainCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatDealMainCell.swift; sourceTree = "<group>"; };
+		2FC126E321C7CC5700726E61 /* EatDealdata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatDealdata.swift; sourceTree = "<group>"; };
 		56177E1FBBD3A8249ABB8835 /* Pods_MangoPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MangoPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		613CEC43A6853698D5C2CAC9 /* Pods-MangoPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MangoPractice.release.xcconfig"; path = "Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice.release.xcconfig"; sourceTree = "<group>"; };
 		A059663421BD2A6C001D0339 /* ProvisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +155,7 @@
 				AFE65A4421BA6FB10041AC9A /* ReviewData.swift */,
 				A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */,
 				AF95617221BE5592002F3288 /* RestaurantData.swift */,
+				2FC126E321C7CC5700726E61 /* EatDealdata.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,7 +188,14 @@
 				AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */,
 				A0C2AC4521C7A90F0035441A /* SearchViewController.swift */,
 				A0C2AC4321C7A7A70035441A /* SearchCollectionViewCell.swift */,
+<<<<<<< HEAD
+				2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */,
+				2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */,
+				2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */,
+				2FC126E121C7CC4D00726E61 /* EatDealMainCell.swift */,
+=======
 				AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */,
+>>>>>>> 66b9cbeb7bd85ff88c737280deca2796d4768b42
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -346,11 +364,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FC126E021C7CC3B00726E61 /* EatSelectedViewController.swift in Sources */,
 				A0C2AC4621C7A90F0035441A /* SearchViewController.swift in Sources */,
 				A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */,
 				A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */,
 				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
+				2FC126E221C7CC4D00726E61 /* EatDealMainCell.swift in Sources */,
 				A0C2AC3A21C353030035441A /* PurchasedEatDealCollectionViewCell.swift in Sources */,
 				A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */,
 				A0A32EFE21AE7628004D7602 /* sadfsdfs.swift in Sources */,
@@ -358,9 +378,11 @@
 				A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */,
 				AF95617321BE5592002F3288 /* RestaurantData.swift in Sources */,
 				A059663921BE5B62001D0339 /* LoginViewController.swift in Sources */,
+				2FC126DF21C7CC3B00726E61 /* EatOrderViewController.swift in Sources */,
 				A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */,
 				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,
 				AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */,
+				2FC126DE21C7CC3B00726E61 /* EatDealMainViewController.swift in Sources */,
 				A0C2AC4421C7A7A70035441A /* SearchCollectionViewCell.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,
@@ -375,6 +397,7 @@
 				AF95617121BDF2D4002F3288 /* PlateMoreInfoViewController.swift in Sources */,
 				A0A32EFA21AD0C75004D7602 /* MapViewController.swift in Sources */,
 				AF95617521BE63A2002F3288 /* ReviewTableViewCell.swift in Sources */,
+				2FC126E421C7CC5700726E61 /* EatDealdata.swift in Sources */,
 				A0F06FA521B4E43E0066A5E1 /* LocationSelectViewController.swift in Sources */,
 				AF80FC0821C7DCB8003BB551 /* ReviewOnlyViewController.swift in Sources */,
 			);

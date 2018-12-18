@@ -31,3 +31,6 @@ final class PlateCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+
+
+
