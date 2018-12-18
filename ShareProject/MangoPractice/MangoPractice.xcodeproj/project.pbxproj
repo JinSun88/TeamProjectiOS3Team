@@ -41,6 +41,7 @@
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
 		AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */; };
+		AF80FC0821C7DCB8003BB551 /* ReviewOnlyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */; };
 		AF95617121BDF2D4002F3288 /* PlateMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */; };
 		AF95617321BE5592002F3288 /* RestaurantData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617221BE5592002F3288 /* RestaurantData.swift */; };
 		AF95617521BE63A2002F3288 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617421BE63A2002F3288 /* ReviewTableViewCell.swift */; };
@@ -86,6 +87,7 @@
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
 		AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
+		AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewOnlyViewController.swift; sourceTree = "<group>"; };
 		AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateMoreInfoViewController.swift; sourceTree = "<group>"; };
 		AF95617221BE5592002F3288 /* RestaurantData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantData.swift; sourceTree = "<group>"; };
 		AF95617421BE63A2002F3288 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
@@ -164,11 +166,11 @@
 				AF001BE721985AC900716B7A /* ViewController.swift */,
 				AFFEA06921993C4300FF7AF5 /* MainCollectionViewCell.swift */,
 				AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */,
+				A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */,
 				AF0342E821A6A70D00DC6289 /* PlateCollectionViewCell.swift */,
 				AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */,
 				AF95617421BE63A2002F3288 /* ReviewTableViewCell.swift */,
 				A0A32EF921AD0C75004D7602 /* MapViewController.swift */,
-				A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */,
 				A0A32EFB21AE7317004D7602 /* MapCollectionViewCell.swift */,
 				A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */,
 				A0B8CC6321B1164C00B01784 /* MyInfoViewController.swift */,
@@ -186,10 +188,14 @@
 				AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */,
 				A0C2AC4521C7A90F0035441A /* SearchViewController.swift */,
 				A0C2AC4321C7A7A70035441A /* SearchCollectionViewCell.swift */,
+<<<<<<< HEAD
 				2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */,
 				2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */,
 				2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */,
 				2FC126E121C7CC4D00726E61 /* EatDealMainCell.swift */,
+=======
+				AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */,
+>>>>>>> 66b9cbeb7bd85ff88c737280deca2796d4768b42
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -214,8 +220,8 @@
 				AF001BDE21985AC900716B7A /* Sources */,
 				AF001BDF21985AC900716B7A /* Frameworks */,
 				AF001BE021985AC900716B7A /* Resources */,
-				7C1F5A775F1D059F05F64AB5 /* [CP] Embed Pods Frameworks */,
-				9B3C5C840F58B0260FCCCFBD /* [CP] Copy Pods Resources */,
+				7966282F69F8EC2B2EEB24EB /* [CP] Embed Pods Frameworks */,
+				D9422EF17B98057B3AF9A49A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -273,7 +279,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7C1F5A775F1D059F05F64AB5 /* [CP] Embed Pods Frameworks */ = {
+		7966282F69F8EC2B2EEB24EB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -309,7 +315,25 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9B3C5C840F58B0260FCCCFBD /* [CP] Copy Pods Resources */ = {
+		D24CF5C2E73847D90B4B964F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MangoPractice-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D9422EF17B98057B3AF9A49A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -331,24 +355,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D24CF5C2E73847D90B4B964F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MangoPractice-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -393,6 +399,7 @@
 				AF95617521BE63A2002F3288 /* ReviewTableViewCell.swift in Sources */,
 				2FC126E421C7CC5700726E61 /* EatDealdata.swift in Sources */,
 				A0F06FA521B4E43E0066A5E1 /* LocationSelectViewController.swift in Sources */,
+				AF80FC0821C7DCB8003BB551 /* ReviewOnlyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
