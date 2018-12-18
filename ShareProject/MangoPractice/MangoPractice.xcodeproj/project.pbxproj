@@ -188,14 +188,11 @@
 				AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */,
 				A0C2AC4521C7A90F0035441A /* SearchViewController.swift */,
 				A0C2AC4321C7A7A70035441A /* SearchCollectionViewCell.swift */,
-<<<<<<< HEAD
 				2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */,
 				2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */,
 				2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */,
 				2FC126E121C7CC4D00726E61 /* EatDealMainCell.swift */,
-=======
 				AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */,
->>>>>>> 66b9cbeb7bd85ff88c737280deca2796d4768b42
 			);
 			path = ViewController;
 			sourceTree = "<group>";
