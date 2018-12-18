@@ -185,12 +185,13 @@ class ReviewDetailViewController: UIViewController {
         }
         
         contentsView.addSubview(reviewContentImage)
-        reviewContentImage.snp.makeConstraints { (m) in   // ---->> 이미지 사이즈에 공백!!!
+        reviewContentImage.snp.makeConstraints { (m) in
             m.top.equalTo(reviewContent.snp.bottom).offset(10)
             m.left.right.equalTo(contentsView).inset(10)
             m.bottom.equalTo(contentsView).inset(10)
+            m.height.equalTo(335)
         }
-        reviewContentImage.contentMode = .scaleAspectFit
+        reviewContentImage.contentMode = .scaleAspectFill
         reviewContentImage.layer.masksToBounds = true
     }
 }

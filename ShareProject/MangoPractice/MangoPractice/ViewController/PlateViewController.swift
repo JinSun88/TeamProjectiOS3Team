@@ -27,6 +27,9 @@ final class PlateViewController: UIViewController {
     var reviewImageUrlArray:[String] = [] // 초기페이지에서 선택된 셀의 리뷰 이미지 배열
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
+    let uploadPicBackgroundView = UIView() // 사진올리기 실행시 베이스 뷰
+    let imagePicker = UIImagePickerController() // 포토라이브러리 컨트롤러
+    let photoLibraryImageView = UIImageView() // 포토라이브러리 표시되는 이미지뷰
     let middleButtonsView2 = UIView() // 스크롤시 고정되는 뷰
     var middleButtonsView2IsOn: Bool = false
     let youTubeView = YouTubePlayerView()  // 맛집 유튜브 연동 뷰
@@ -48,6 +51,7 @@ final class PlateViewController: UIViewController {
         plateCollectionViewConfig()
         middleInfoBarConfig()
         middleButtonsViewConfig()
+        imagePicker.delegate = self // 사진 라이브러리 접근
         youTubeWebView()
         addressMapViewConfig()
         telViewConfig()
@@ -552,7 +556,147 @@ final class PlateViewController: UIViewController {
         print("writeReviewButtonTapped")
     }
     @objc private func uploadPicButtonTapped() {
-        print("uploadPicButtonTapped")
+        // 베이스 백그라운드 뷰(흐릿)
+        view.addSubview(uploadPicBackgroundView)
+        uploadPicBackgroundView.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        uploadPicBackgroundView.backgroundColor = UIColor(white: 0.01, alpha: 0.9)
+        
+        // 사진올리기 라벨
+        let uploadPicLabel = UILabel()
+        uploadPicBackgroundView.addSubview(uploadPicLabel)
+        uploadPicLabel.snp.makeConstraints { (m) in
+            m.centerX.equalToSuperview()
+            m.top.equalToSuperview().offset(40)
+        }
+        uploadPicLabel.text = "사진올리기"
+        uploadPicLabel.textColor = .white
+        uploadPicLabel.font = UIFont.systemFont(ofSize: 20)
+        
+        /// 이미지 업로드 부분(feat 강사님)
+        //        Alamofire.upload(multipartFormData: {
+        //            $0.append(<#T##data: Data##Data#>, withName: <#T##String#>)
+        //        }, with: <#T##URLRequestConvertible#>, encodingCompletion: <#T##((SessionManager.MultipartFormDataEncodingResult) -> Void)?##((SessionManager.MultipartFormDataEncodingResult) -> Void)?##(SessionManager.MultipartFormDataEncodingResult) -> Void#>)
+        ///
+        
+        // x 버튼
+        let xButton = UIButton()
+        uploadPicBackgroundView.addSubview(xButton)
+        xButton.snp.makeConstraints { (m) in
+            m.top.centerY.equalTo(uploadPicLabel)
+            m.width.height.equalTo(32)
+            m.trailing.equalToSuperview().inset(20)
+        }
+        let xIcon = UIImage(named: "x")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        xButton.setImage(xIcon, for: .normal)
+        xButton.tintColor = .white
+        xButton.imageView?.contentMode = .scaleAspectFit
+        xButton.addTarget(self, action: #selector(xButtonTapped), for: .touchUpInside)
+        
+        // 포토라이브러리 이미지뷰 세팅
+        photoLibraryImageView.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
+        uploadPicBackgroundView.addSubview(photoLibraryImageView)
+        photoLibraryImageView.snp.makeConstraints { (m) in
+            m.top.equalTo(uploadPicLabel.snp.bottom).offset(30)
+            m.centerX.equalToSuperview()
+            m.width.height.equalTo(uploadPicBackgroundView).multipliedBy(0.7)
+        }
+        
+        // 포토라이브러리 이미지뷰에서 바텀까지 centerY를 잡는 뷰
+        let centerYView = UIView()
+        uploadPicBackgroundView.addSubview(centerYView)
+        centerYView.snp.makeConstraints { (m) in
+            m.leading.trailing.equalToSuperview()
+            m.top.equalTo(photoLibraryImageView.snp.bottom)
+            m.bottom.equalToSuperview()
+        }
+        
+        // 포토라이브러리 불러오기 버튼
+        let photoLibraryLoadButton = UIButton()
+        uploadPicBackgroundView.addSubview(photoLibraryLoadButton)
+        photoLibraryLoadButton.snp.makeConstraints { (m) in
+            m.leading.equalToSuperview().offset(40)
+            m.centerY.equalTo(centerYView)
+            m.width.equalTo(80)
+            m.height.equalTo(50)
+        }
+        photoLibraryLoadButton.setTitle("내 사진", for: .normal)
+        photoLibraryLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        photoLibraryLoadButton.addTarget(self, action: #selector(photoLibraryLoadButtonTapped), for: .touchUpInside)
+        photoLibraryLoadButton.layer.cornerRadius = 10
+        
+        // 카메라 불러오기 버튼
+        let cameraLoadButton = UIButton()
+        uploadPicBackgroundView.addSubview(cameraLoadButton)
+        cameraLoadButton.snp.makeConstraints { (m) in
+            m.trailing.equalToSuperview().inset(40)
+            m.centerY.equalTo(centerYView)
+            m.width.equalTo(80)
+            m.height.equalTo(50)
+        }
+        cameraLoadButton.setTitle("카메라", for: .normal)
+        cameraLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        cameraLoadButton.addTarget(self, action: #selector(cameraLoadButtonTapped), for: .touchUpInside)
+        cameraLoadButton.layer.cornerRadius = 10
+        
+        // 업로드 확정 버튼
+        let uploadButton = UIButton()
+        uploadPicBackgroundView.addSubview(uploadButton)
+        uploadButton.snp.makeConstraints { (m) in
+            m.centerY.equalTo(centerYView)
+            m.centerX.equalToSuperview()
+            m.width.height.equalTo(80)
+        }
+        let uploadImage = UIImage(named: "uploadCloud")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        uploadButton.setImage(uploadImage, for: .normal)
+        uploadButton.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
+    }
+    @objc private func xButtonTapped() { // x 버튼 눌렀을 때 디스미스
+        let xButtonAlert = UIAlertController(title: nil, message: "현재 화면을 닫을 경우 사진이 더이상 업로드되지 않습니다", preferredStyle: .actionSheet)
+        xButtonAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        xButtonAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
+            self.uploadPicBackgroundView.removeFromSuperview()
+            self.uploadPicBackgroundView.subviews.forEach { $0.removeFromSuperview() }
+            self.photoLibraryImageView.image = nil
+        }))
+        self.present(xButtonAlert, animated: true)
+    }
+    @objc func photoLibraryLoadButtonTapped() { // 포토라이브러리 불러오기
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    @objc func cameraLoadButtonTapped() {
+        print("camera light action")
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    @objc func uploadButtonTapped() { // --> 업로드 버튼 탭!!!
+        let uploadButtonAlert = UIAlertController(title: nil, message: "사진을 올리시겠습니까?", preferredStyle: .actionSheet)
+        uploadButtonAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        uploadButtonAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
+            // 컨펌 했을 때 액션
+            
+            
+            ////////
+            self.uploadPicBackgroundView.removeFromSuperview()
+            self.uploadPicBackgroundView.subviews.forEach { $0.removeFromSuperview() }
+            self.photoLibraryImageView.image = nil
+            
+            let uploadConfirmAlert = UIAlertController(title: nil, message: "완료 되었습니다.", preferredStyle: .alert)
+            self.present(uploadConfirmAlert, animated: true)
+            
+            let when = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: when){
+                uploadConfirmAlert.dismiss(animated: true, completion: nil)
+            }
+        }))
+        self.present(uploadButtonAlert, animated: true)
     }
     private func youTubeWebView() {
         guard let youTubeUrl = selectedColumnData?.youTubeUrl else { return }  // 유튜브 URL에 "youtube" 포함되어 있으면이 유튜브 플레이어 표시, 없으면 높이 1 스크롤 가이드뷰를 생성
@@ -611,6 +755,7 @@ final class PlateViewController: UIViewController {
         marker.icon = UIImage(named: "MapMarkerImage")
         marker.map = mapView
         mapView.isMyLocationEnabled = false
+        mapView.settings.scrollGestures = false
         
         // 맵뷰 오토레이아웃
         addressMapView.addSubview(mapView)
@@ -1252,6 +1397,8 @@ extension PlateViewController: UITableViewDelegate {
 extension PlateViewController: UIScrollViewDelegate {
     // 스크롤시 topGuideView의 색 변경
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == self.scrollView else { return } // 스크롤뷰(자기자신)만 반응하도록 설정. 테이블뷰는 반응하지 않음
+        
         let currentPositionY = scrollView.contentOffset.y
         
         //        let point = CGPoint(x: 0, y: currentPositionY) // 콜렉션뷰의 와이 위치가 겹치면 트루(feat.강사님)
@@ -1287,4 +1434,18 @@ extension PlateViewController: UIScrollViewDelegate {
         }
     }
 }
-// ------> 리뷰 스크롤에 색변경, 스티키 헤더가 반응함... 상담 필요
+extension PlateViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let pickedImage = info[.originalImage] as? UIImage {
+            photoLibraryImageView.contentMode = .scaleAspectFit
+            photoLibraryImageView.image = pickedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
