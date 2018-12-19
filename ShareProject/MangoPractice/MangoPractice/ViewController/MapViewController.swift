@@ -45,6 +45,7 @@ class MapViewController: UIViewController {
         collectionViewConfig()
         makeMaker()
         
+        
         // 주소 가져오는 처리가 완료되면 currentPlaceButtonConfig를 재실행합니다.
         locationManager.startUpdatingLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(currentPlaceLabelButtonConfig), name: NSNotification.Name(rawValue: "addressSetAtMapViewController"), object: nil)

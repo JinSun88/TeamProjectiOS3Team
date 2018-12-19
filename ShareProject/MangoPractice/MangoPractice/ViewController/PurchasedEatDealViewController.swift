@@ -14,13 +14,20 @@ class PurchasedEatDealViewController: UIViewController {
     let backButton = UIButton()
     let titleLabel = UILabel()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    var arrayOfCellData = CellDataOrigin().arrayOfCellData //임시로 하드코딩 데이터 삽입
+//    var arrayOfCellData = CellDataOrigin().arrayOfCellData //임시로 하드코딩 데이터 삽입
+    var result: [Result] = []
+    var images: [Eatdealimage] = []
+    var urls = [String]()
+    var nextViewImage: UIImage?
+
+
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         topViewConfig()
         mainCollectionViewConfig()
+        getData()
 
     }
     
@@ -82,6 +89,29 @@ class PurchasedEatDealViewController: UIViewController {
         }
         
     }
+    
+    private func getData() {
+        let url = URL(string: "https://fastplate.xyz/api/eatdeals/list/")!
+        let dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else { return }
+            let jsonObject =  try! JSONDecoder().decode(EatDealData.self, from: data)
+            self.result = jsonObject.results
+            
+            for i in jsonObject.results.makeIterator() {
+                self.images.append(contentsOf: i.eatdealimages)
+            }
+            
+            for i in self.images.makeIterator() {
+                self.urls.append(i.image)
+            }
+            
+            DispatchQueue.main.async {
+                self.mainCollectionView.reloadData()
+            }
+        }
+        dataTask.resume()
+        
+    }
 }
 extension PurchasedEatDealViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -100,16 +130,26 @@ extension PurchasedEatDealViewController: UICollectionViewDelegateFlowLayout {
 
 extension PurchasedEatDealViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrayOfCellData.count
+//        return 2
+        return result.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "CELL", for: indexPath) as! PurchasedEatDealCollectionViewCell
-        cell.imageView.image = UIImage(named: "blur-breakfast-close-up-376464") //임시 디폴트 이미지 삽입
-        cell.subNameLabel.text = "\(arrayOfCellData[indexPath.row].address)"
-        cell.nameLabel.text = "\(arrayOfCellData[indexPath.row].name)"
-        cell.priceLabel.text = "\(arrayOfCellData[indexPath.row].gradePoint)"
+        cell.subNameLabel.text = result[indexPath.row].subName
+        cell.nameLabel.text = result[indexPath.row].dealName
+        cell.priceLabel.text = "￦\(result[indexPath.row].discountPrice.withComma)"
         cell.dateLabel.text = "2018-12-21~2019-03-07"
+        
+        guard let url = URL(string: urls[indexPath.row]) else { return cell }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else { return }
+            let image = UIImage(data: data)
+            DispatchQueue.main.async {
+                cell.imageView.image = image
+            }
+        }
+        task.resume()
         
         return cell
     }
@@ -118,5 +158,39 @@ extension PurchasedEatDealViewController: UICollectionViewDataSource {
 }
 
 extension PurchasedEatDealViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let url = URL(string: urls[indexPath.row]) else { return }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else { return }
+            let image = UIImage(data: data)
+            self.nextViewImage = image
+            
+        }
+        task.resume()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let eatSelectedViewController = storyboard.instantiateViewController(withIdentifier: "EatSelectedViewController") as! EatSelectedViewController
+        
+        DispatchQueue.main.async {
+            
+            eatSelectedViewController.mainImages = self.nextViewImage!
+            eatSelectedViewController.dealName = self.result[indexPath.row].dealName
+            eatSelectedViewController.subName = self.result[indexPath.row].subName
+            eatSelectedViewController.startDate = self.result[indexPath.row].startDate
+            eatSelectedViewController.endDate = self.result[indexPath.row].endDate
+            eatSelectedViewController.basePrice = self.result[indexPath.row].basePrice
+            eatSelectedViewController.discountRate = self.result[indexPath.row].discountRate
+            eatSelectedViewController.discountPrice = self.result[indexPath.row].discountPrice
+            eatSelectedViewController.introduceRes = self.result[indexPath.row].introduceRes
+            eatSelectedViewController.introduceMenu = self.result[indexPath.row].introduceMenu
+            eatSelectedViewController.caution = self.result[indexPath.row].caution
+            eatSelectedViewController.howToUse = self.result[indexPath.row].howToUse
+            eatSelectedViewController.refund = self.result[indexPath.row].refund
+            eatSelectedViewController.inquiry = self.result[indexPath.row].inquiry
+        }
+        
+        present(eatSelectedViewController, animated: true, completion: nil)
+    }
     
 }
