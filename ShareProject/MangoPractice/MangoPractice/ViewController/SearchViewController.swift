@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SearchViewController: UIViewController {
     let topView = UIView()
@@ -240,6 +241,27 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
+        let searchString = searchController.searchBar.text!
+
+        
+        let url = "https://api.fastplate.xyz/api/restaurants/list/?page=1&ordering=-rate_average&search="
+        let param: Parameters = [
+            "search" : searchString
+        ]
+        Alamofire.request(url, method: .get, parameters: param)
+            .validate()
+            .responseData { (response) in
+                switch response.result {
+                case .success(let value):
+                    let result = try! JSONDecoder().decode(ServerStruct.self, from: value)
+                    self.arrayOfCellData = result.results
+                    print(result.results)
+                    
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+        }
+        
         mainCollectionView.reloadData()
     }
     

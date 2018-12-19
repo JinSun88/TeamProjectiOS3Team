@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import SnapKit
+import Kingfisher
 
 class MyInfoViewController: UIViewController {
     let topView = UIView()
@@ -27,6 +28,7 @@ class MyInfoViewController: UIViewController {
     let nextButton2 = UIButton()
     let nextButtonView3 = UIView()
     let nextButton3 = UIButton()
+    var userData: [UserData] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,8 +56,13 @@ class MyInfoViewController: UIViewController {
         topView.backgroundColor = .white
         rivisionButton.setImage(UIImage(named: "rivisionButton"), for: .normal)
         rivisionButton.addTarget(self, action: #selector(rivisionButtonDidTap), for: .touchUpInside)
-
-        getFBUserInfo() //페이스북 데이터 가져오기
+//        nameLabel.text = userData[1].userCellData?.user.fullName
+//        
+//        let url = URL(string: userData[1].userCellData?.user.userImage ?? "")
+//        myImageView.kf.setImage(with: url)
+        
+        
+                    getFBUserInfo() //페이스북 데이터 가져오기
         
         topView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
