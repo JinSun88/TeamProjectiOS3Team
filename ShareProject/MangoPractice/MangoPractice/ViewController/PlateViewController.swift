@@ -27,6 +27,7 @@ final class PlateViewController: UIViewController {
     var reviewImageUrlArray:[String] = [] // 초기페이지에서 선택된 셀의 리뷰 이미지 배열
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
+    let writeReviewBackgroundView = UIView() // 리뷰쓰기 실행시 베이스 뷰
     let uploadPicBackgroundView = UIView() // 사진올리기 실행시 베이스 뷰
     let imagePicker = UIImagePickerController() // 포토라이브러리 컨트롤러
     let photoLibraryImageView = UIImageView() // 포토라이브러리 표시되는 이미지뷰
@@ -375,7 +376,7 @@ final class PlateViewController: UIViewController {
     }
     private func middleButtonsViewConfig2() {
         middleButtonsView2IsOn = true
-        // 스크롤시 고정되는 부분
+        // 스크롤시 고정되는 부분(신규 생성)
         // middleButtonsView Auto-Layout 셋팅
         middleButtonsView2.backgroundColor = .white
         view.addSubview(middleButtonsView2)
@@ -553,7 +554,134 @@ final class PlateViewController: UIViewController {
         print("checkInButtonTapped")
     }
     @objc private func writeReviewButtonTapped() {
-        print("writeReviewButtonTapped")
+        // 베이스 백그라운드 뷰(흐릿)
+        view.addSubview(writeReviewBackgroundView)
+        writeReviewBackgroundView.snp.makeConstraints { (m) in
+            m.edges.equalToSuperview()
+        }
+        writeReviewBackgroundView.backgroundColor = UIColor(white: 0.01, alpha: 0.9)
+        
+        // "리뷰 쓰기" 라벨
+        let writeReviewLabel = UILabel()
+        writeReviewBackgroundView.addSubview(writeReviewLabel)
+        writeReviewLabel.snp.makeConstraints { (m) in
+            m.centerX.equalToSuperview()
+            m.top.equalToSuperview().offset(40)
+        }
+        writeReviewLabel.text = "리뷰 쓰기"
+        writeReviewLabel.textColor = .white
+        writeReviewLabel.font = UIFont.systemFont(ofSize: 20)
+        
+        // x 버튼
+        let xButtonOfWriteReview = UIButton()
+        writeReviewBackgroundView.addSubview(xButtonOfWriteReview)
+        xButtonOfWriteReview.snp.makeConstraints { (m) in
+            m.top.centerY.equalTo(writeReviewLabel)
+            m.width.height.equalTo(32)
+            m.trailing.equalToSuperview().inset(20)
+        }
+        let xIcon = UIImage(named: "x")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        xButtonOfWriteReview.setImage(xIcon, for: .normal)
+        xButtonOfWriteReview.tintColor = .white
+        xButtonOfWriteReview.imageView?.contentMode = .scaleAspectFit
+        xButtonOfWriteReview.addTarget(self, action: #selector(xButtonOfWriteReviewTapped), for: .touchUpInside)
+        
+        // 포토라이브러리 이미지뷰 세팅
+        photoLibraryImageView.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
+        writeReviewBackgroundView.addSubview(photoLibraryImageView)
+        photoLibraryImageView.snp.makeConstraints { (m) in
+            m.top.equalTo(writeReviewLabel.snp.bottom).offset(15)
+            m.leading.equalToSuperview().offset(30)
+            m.trailing.equalToSuperview().inset(30)
+            m.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
+        // 맛있다! 괜찮다 별로 선택 뷰
+        let rateSelectAndWriteView = UIView()
+        writeReviewBackgroundView.addSubview(rateSelectAndWriteView)
+        rateSelectAndWriteView.snp.makeConstraints { (m) in
+            m.top.equalTo(photoLibraryImageView.snp.bottom).offset(15)
+            m.leading.trailing.equalTo(photoLibraryImageView)
+            m.height.equalToSuperview().multipliedBy(0.5)
+        }
+        rateSelectAndWriteView.backgroundColor = .white
+        
+        let goodButton = UIButton()
+        let goodButtonLabel = UILabel()
+        let sosoButton = UIButton()
+        let sosoButtonLabel = UILabel()
+        let badButton = UIButton()
+        let badButtonLabel = UILabel()
+        
+        writeReviewBackgroundView.addSubview(goodButton)
+        goodButton.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(10)
+            m.leading.equalToSuperview().offset(10)
+            m.width.height.equalTo(writeReviewBackgroundView.snp.width).multipliedBy(0.3)
+        }
+        writeReviewBackgroundView.addSubview(goodButtonLabel)
+        
+//
+//        // 포토라이브러리 이미지뷰에서 바텀까지 centerY를 잡는 뷰
+//        let centerYView = UIView()
+//        uploadPicBackgroundView.addSubview(centerYView)
+//        centerYView.snp.makeConstraints { (m) in
+//            m.leading.trailing.equalToSuperview()
+//            m.top.equalTo(photoLibraryImageView.snp.bottom)
+//            m.bottom.equalToSuperview()
+//        }
+//
+//        // 포토라이브러리 불러오기 버튼
+//        let photoLibraryLoadButton = UIButton()
+//        uploadPicBackgroundView.addSubview(photoLibraryLoadButton)
+//        photoLibraryLoadButton.snp.makeConstraints { (m) in
+//            m.leading.equalToSuperview().offset(40)
+//            m.centerY.equalTo(centerYView)
+//            m.width.equalTo(80)
+//            m.height.equalTo(50)
+//        }
+//        photoLibraryLoadButton.setTitle("내 사진", for: .normal)
+//        photoLibraryLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+//        photoLibraryLoadButton.addTarget(self, action: #selector(photoLibraryLoadButtonTapped), for: .touchUpInside)
+//        photoLibraryLoadButton.layer.cornerRadius = 10
+//
+//        // 카메라 불러오기 버튼
+//        let cameraLoadButton = UIButton()
+//        uploadPicBackgroundView.addSubview(cameraLoadButton)
+//        cameraLoadButton.snp.makeConstraints { (m) in
+//            m.trailing.equalToSuperview().inset(40)
+//            m.centerY.equalTo(centerYView)
+//            m.width.equalTo(80)
+//            m.height.equalTo(50)
+//        }
+//        cameraLoadButton.setTitle("카메라", for: .normal)
+//        cameraLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+//        cameraLoadButton.addTarget(self, action: #selector(cameraLoadButtonTapped), for: .touchUpInside)
+//        cameraLoadButton.layer.cornerRadius = 10
+//
+//        // 업로드 확정 버튼
+//        let uploadButton = UIButton()
+//        uploadPicBackgroundView.addSubview(uploadButton)
+//        uploadButton.snp.makeConstraints { (m) in
+//            m.centerY.equalTo(centerYView)
+//            m.centerX.equalToSuperview()
+//            m.width.height.equalTo(80)
+//        }
+//        let uploadImage = UIImage(named: "uploadCloud")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+//        uploadButton.setImage(uploadImage, for: .normal)
+//        uploadButton.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+//        uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
+//
+    }
+    @objc private func xButtonOfWriteReviewTapped() {  // 리뷰쓰기의 x버튼 실행 시
+        let xButtonAlert = UIAlertController(title: nil, message: "현재 화면을 닫을 경우 리뷰가 더이상 업로드되지 않습니다", preferredStyle: .actionSheet)
+        xButtonAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        xButtonAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
+            self.writeReviewBackgroundView.removeFromSuperview()
+            self.writeReviewBackgroundView.subviews.forEach { $0.removeFromSuperview() }
+            self.photoLibraryImageView.image = nil
+        }))
+        self.present(xButtonAlert, animated: true)
     }
     @objc private func uploadPicButtonTapped() {
         // 베이스 백그라운드 뷰(흐릿)
@@ -653,7 +781,7 @@ final class PlateViewController: UIViewController {
         uploadButton.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
         uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
     }
-    @objc private func xButtonTapped() { // x 버튼 눌렀을 때 디스미스
+    @objc private func xButtonTapped() { // 사진 올리기의 x 버튼 눌렀을 때 디스미스
         let xButtonAlert = UIAlertController(title: nil, message: "현재 화면을 닫을 경우 사진이 더이상 업로드되지 않습니다", preferredStyle: .actionSheet)
         xButtonAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         xButtonAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
@@ -978,7 +1106,60 @@ final class PlateViewController: UIViewController {
         moreInfoButton.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
         moreInfoButton.addTarget(self, action: #selector(moreInfoButtonTapped), for: .touchUpInside)
         
-        // !!! 메뉴가 들어오면 메뉴 표시해야 함 !!!
+        // 메뉴
+        guard let menuText = selectedColumnData?.menuText else { return }
+        if menuText != "" { // 메뉴 텍스트가 "" 가 아닐때(메뉴 정보가 있을 때)
+          let menuLabel = UILabel() // "메뉴 텍스트" 콘피그
+            restaurantInfoAndMenuView.addSubview(menuLabel)
+            menuLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(moreInfoButton.snp.bottom)
+                m.leading.equalToSuperview().offset(10)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            menuLabel.text = "메뉴"
+            menuLabel.textColor = .darkGray
+            menuLabel.font = UIFont.boldSystemFont(ofSize: 17)
+            
+            // 메뉴 텍스트의 음식과 가격을 분리
+            let menuTextArr = menuText.components(separatedBy: " ")
+            let menuTextArrCount = menuTextArr.count
+            var menuNameData: String = ""
+            
+            for i in 0..<menuTextArrCount-1 { // 메뉴(마지막에서 두번째 배열까지)와 가격(마지막 배열)
+                menuNameData += menuTextArr[i]
+            }
+            let menuPriceData = menuTextArr.last ?? "업데이트중"
+            
+            // 메뉴 이름 라벨
+            let menuNameLabel = UILabel()
+            restaurantInfoAndMenuView.addSubview(menuNameLabel)
+            menuNameLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(menuLabel.snp.bottom)
+                m.leading.equalTo(restaurantInfoLabel)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            menuNameLabel.text = "메뉴"
+            menuNameLabel.textColor = .gray
+            menuNameLabel.font = UIFont(name: "Helvetica", size: 15)
+            menuNameLabel.textAlignment = .left
+            menuNameLabel.text = "\(menuNameData)"
+            
+            // 메뉴 가격 라벨
+            let menuPriceLabel = UILabel()
+            restaurantInfoAndMenuView.addSubview(menuPriceLabel)
+            menuPriceLabel.snp.makeConstraints { (m) in
+                m.top.equalTo(menuLabel.snp.bottom)
+                m.trailing.equalToSuperview().inset(10)
+                m.width.equalTo(80)
+                m.height.equalTo(25)
+            }
+            menuPriceLabel.textColor = .gray
+            menuPriceLabel.font = UIFont(name: "Helvetica", size: 15)
+            menuPriceLabel.textAlignment = .right
+            menuPriceLabel.text = "\(menuPriceData)"
+        }
     }
     @objc private func moreInfoButtonTapped() {
         // 선택된 셀의 컬럼 데이터를 넘겨버림

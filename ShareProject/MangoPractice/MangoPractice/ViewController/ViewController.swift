@@ -160,7 +160,7 @@ class ViewController: UIViewController {
         // 횡스크롤 배너
         view.addSubview(adScrollView)
         adScrollView.frame = CGRect(x: view.frame.origin.x, y: 105, width: view.frame.width, height: 150)
-        adScrollView.showsHorizontalScrollIndicator = false // 횡스크롤바 없음
+        adScrollView.showsHorizontalScrollIndicator = false // 횡스크롤바 인디케이터 없음
         adScrollView.isPagingEnabled = true
         
         // 횡스크롤 배너에 이미지 넣기

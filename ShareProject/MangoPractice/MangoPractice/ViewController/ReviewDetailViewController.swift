@@ -15,6 +15,8 @@ class ReviewDetailViewController: UIViewController {
     let topGuideView = UIView()
     let scrollView = UIScrollView()
     let contentsView = UIView()
+    let reviewContent = UILabel()
+    let reviewImageScrollView = UIScrollView() // 횡스크롤뷰
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +25,6 @@ class ReviewDetailViewController: UIViewController {
         scrollViewConfig()
         contentsViewConfig()
     }
-    
     private func topGuideViewConfig() {
         // 가장위에 라벨(topGuideView) 작성, 위치 잡기
         topGuideView.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
@@ -157,7 +158,6 @@ class ReviewDetailViewController: UIViewController {
         }
         
         // 리뷰 내용
-        let reviewContent = UILabel()
         contentsView.addSubview(reviewContent)
         reviewContent.snp.makeConstraints { (m) in
             m.top.equalTo(authorImageView.snp.bottom).offset(5)
@@ -173,25 +173,68 @@ class ReviewDetailViewController: UIViewController {
             reviewContent.text = "@@"
         }
         
-        // 리뷰 내용 밑에 이미지
-        let reviewContentImage = UIImageView()
+        // 횡스크롤에 이미지 넣기
+        var reviewContentImageData: [String] = []
         let reviewImageCount = selectedPostData?.reviewImage?.count ?? 0
-        if reviewImageCount > 0,
-            let reviewContentImageData = selectedPostData?.reviewImage?[0].reviewImageUrl,
-            let imageUrl = URL(string: reviewContentImageData) {
-            reviewContentImage.kf.setImage(with: imageUrl)
-        } else {
-            reviewContentImage.image = UIImage(named: "defaultImage")
+        
+        for i in 0..<reviewImageCount {
+            reviewContentImageData.append(selectedPostData?.reviewImage?[i].reviewImageUrl ?? "")
         }
         
-        contentsView.addSubview(reviewContentImage)
-        reviewContentImage.snp.makeConstraints { (m) in
+        reviewImageScrollView.showsHorizontalScrollIndicator = false // 횡스크롤바 인디케이터 없음
+        reviewImageScrollView.isPagingEnabled = true
+        contentsView.addSubview(reviewImageScrollView)
+        
+        reviewImageScrollView.snp.makeConstraints { (m) in
             m.top.equalTo(reviewContent.snp.bottom).offset(10)
             m.left.right.equalTo(contentsView).inset(10)
             m.bottom.equalTo(contentsView).inset(10)
             m.height.equalTo(335)
         }
-        reviewContentImage.contentMode = .scaleAspectFill
-        reviewContentImage.layer.masksToBounds = true
+        
+        // 이미지 갯수 만큼 이미지뷰 배열을 만든다
+        var reviewImageArray: [UIImageView] = []
+        
+        for _ in 0..<reviewImageCount {
+            let reviewImageView = UIImageView()
+            reviewImageArray.append(reviewImageView)
+        }
+        
+        //  순서에 따라 이미지뷰 생성, 이미지 삽입
+        for i in 0..<reviewContentImageData.count {
+            
+            if i == 0 {  // 배열 첫번째 일때
+                reviewImageArray[i].contentMode = .scaleToFill
+                guard let imageUrl = URL(string: reviewContentImageData[i]) else { return }
+                reviewImageArray[i].kf.setImage(with: imageUrl)
+                reviewImageScrollView.addSubview(reviewImageArray[i])
+                reviewImageArray[i].snp.makeConstraints { m in
+                    m.leading.equalTo(reviewImageScrollView.contentLayoutGuide.snp.leading)
+                    m.top.bottom.equalTo(reviewImageScrollView.contentLayoutGuide)
+                    m.size.equalTo(reviewImageScrollView)
+                }
+            } else if i > 0 && i <= (reviewContentImageData.count - 2) {  // 그외 배열일 때
+                reviewImageArray[i].contentMode = .scaleToFill
+                guard let imageUrl = URL(string: reviewContentImageData[i]) else { return }
+                reviewImageArray[i].kf.setImage(with: imageUrl)
+                reviewImageScrollView.addSubview(reviewImageArray[i])
+                reviewImageArray[i].snp.makeConstraints { m in
+                    m.leading.equalTo(reviewImageArray[i-1].snp.trailing)
+                    m.top.bottom.equalTo(reviewImageScrollView.contentLayoutGuide)
+                    m.size.equalTo(reviewImageScrollView)
+                }
+            } else { // 마지막 배열 일 때
+                reviewImageArray[i].contentMode = .scaleToFill
+                guard let imageUrl = URL(string: reviewContentImageData[i]) else { return }
+                reviewImageArray[i].kf.setImage(with: imageUrl)
+                reviewImageScrollView.addSubview(reviewImageArray[i])
+                reviewImageArray[i].snp.makeConstraints { m in
+                    m.leading.equalTo(reviewImageArray[i-1].snp.trailing)
+                    m.top.bottom.equalTo(reviewImageScrollView.contentLayoutGuide)
+                    m.trailing.equalTo(reviewImageScrollView.contentLayoutGuide)
+                    m.size.equalTo(reviewImageScrollView)
+                }
+            }
+        }
     }
 }
