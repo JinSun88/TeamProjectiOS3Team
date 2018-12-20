@@ -13,6 +13,7 @@ import Alamofire
 class LoginViewController: UIViewController {
     let backGroundImageViw = UIImageView()
     let FBLoginButton = FBSDKLoginButton()
+//    static let myToken = "60491dacbde0ced0de7d15a8bc797c2e20900ae6"
     
     
     override func viewDidLoad() {
@@ -29,8 +30,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("LoginView viewdidappear")
-        if FBSDKAccessToken.current() != nil{
+        if FBSDKAccessToken.current() != nil {
             performSegue(withIdentifier: "showVC",sender:self)
         }
     }
@@ -47,21 +47,40 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
         let graphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "id, name"])
         let connection = FBSDKGraphRequestConnection()
         
-        connection.add(graphRequest) { (connection, result, error) -> Void in
-            let data = result as! [String : AnyObject]
-            let FBid = data["id"] as? String
-            let url = "https://api.fastplate.xyz/api/auth-token/facebook/"
-            let params: Parameters = [
-                "access_token": FBSDKAccessToken.current() ?? "",
-                "facebook_user_id": FBid ?? ""
-            ]
+        connection.add(graphRequest) { (connection, response, error) -> Void in
+            let data = response as! [String : AnyObject]
+            let FBid = data["id"] as! String
+            let token = result.token.tokenString!
             
+//            print("id: ", FBid)
+//            print("token :", token)
+            
+            let url = "https://api.fastplate.xyz/api/members/auth-token/facebook/"
+            let params: Parameters = [
+                "access_token": token,
+                "facebook_user_id": FBid
+            ]
+
             Alamofire.request(url, method: .post, parameters: params)
                 .validate()
-                .responseJSON { (response) in
+                .responseData { (response) in
                     switch response.result {
                     case .success(let value):
-                        print(value)
+                        let result = try! JSONDecoder().decode(LoginData.self, from: value)
+                        UserData.shared.userCellData = result
+//                        print(UserData.shared.userCellData)
+                        User.shared.token = result.token
+                        
+                        // 유저 디폴트 구축
+                        let userDefaultesToken = UserDefaults.standard
+                        userDefaultesToken.set(result.token, forKey: "userToken")
+                        userDefaultesToken.synchronize()
+                        
+                        // 유저 디폴트 사용
+                        let something = UserDefaults.standard.string(forKey: "userToken")
+                        print(something)
+                        
+
                     case .failure(let error):
                         print(error.localizedDescription)
                     }

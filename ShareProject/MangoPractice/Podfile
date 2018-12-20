@@ -10,9 +10,9 @@ pod 'YouTubePlayer-Swift', '~> 1.0'
 pod 'Alamofire', '~> 4.7'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
-pod 'FBSDKCoreKit'
-pod 'FBSDKShareKit'
-pod 'FBSDKLoginKit'
+pod 'FBSDKCoreKit', '~> 4.38.1'
+pod 'FBSDKShareKit', '~> 4.38.1'
+pod 'FBSDKLoginKit', '~> 4.38.1'
 pod 'Kingfisher'
 
 

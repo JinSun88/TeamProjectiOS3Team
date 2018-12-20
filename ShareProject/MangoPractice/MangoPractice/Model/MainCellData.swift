@@ -40,6 +40,7 @@ struct ServerStruct: Decodable {
         let rateGood: Int?  // 맛있다 갯수
         let rateNormal: Int? // 괜찮다 갯수
         let rateBad: Int? // 별로 갯수
+        let menuText: String? // 메뉴
         let postArray: [PostStruct]
         
         struct PostStruct: Decodable {
@@ -107,6 +108,7 @@ struct ServerStruct: Decodable {
             case rateNormal = "rate_normal"
             case rateBad = "rate_bad"
             case postArray = "post_set"
+            case menuText = "menu_text"
         }
     }
 }

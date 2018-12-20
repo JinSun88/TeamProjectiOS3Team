@@ -32,6 +32,8 @@
 		A0C2AC4621C7A90F0035441A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0C2AC4521C7A90F0035441A /* SearchViewController.swift */; };
 		A0F06FA521B4E43E0066A5E1 /* LocationSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */; };
 		A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */; };
+		A0F42CEF21CA254100A605EA /* LoginData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F42CEE21CA254100A605EA /* LoginData.swift */; };
+		A0F42CF121CA340C00A605EA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F42CF021CA340C00A605EA /* User.swift */; };
 		AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE521985AC900716B7A /* AppDelegate.swift */; };
 		AF001BE821985AC900716B7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF001BE721985AC900716B7A /* ViewController.swift */; };
 		AF001BEB21985AC900716B7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF001BE921985AC900716B7A /* Main.storyboard */; };
@@ -76,6 +78,8 @@
 		A0C2AC4521C7A90F0035441A /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A0F06FA421B4E43E0066A5E1 /* LocationSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectViewController.swift; sourceTree = "<group>"; };
 		A0F06FC421B7C6C80066A5E1 /* MapViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewFlowLayout.swift; sourceTree = "<group>"; };
+		A0F42CEE21CA254100A605EA /* LoginData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginData.swift; sourceTree = "<group>"; };
+		A0F42CF021CA340C00A605EA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF001BE221985AC900716B7A /* MangoPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangoPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF001BE521985AC900716B7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF001BE721985AC900716B7A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 				A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */,
 				AF95617221BE5592002F3288 /* RestaurantData.swift */,
 				2FC126E321C7CC5700726E61 /* EatDealdata.swift */,
+				A0F42CEE21CA254100A605EA /* LoginData.swift */,
+				A0F42CF021CA340C00A605EA /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -379,6 +385,7 @@
 				A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */,
 				AFE65A4521BA6FB10041AC9A /* ReviewData.swift in Sources */,
 				AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */,
+				A0F42CF121CA340C00A605EA /* User.swift in Sources */,
 				2FC126DE21C7CC3B00726E61 /* EatDealMainViewController.swift in Sources */,
 				A0C2AC4421C7A7A70035441A /* SearchCollectionViewCell.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
@@ -387,6 +394,7 @@
 				AF0342E921A6A70D00DC6289 /* PlateCollectionViewCell.swift in Sources */,
 				A0A5618B21C257B900934FDD /* PurchasedEatDealViewController.swift in Sources */,
 				A0A5618F21C257E800934FDD /* MyRestaurantViewController.swift in Sources */,
+				A0F42CEF21CA254100A605EA /* LoginData.swift in Sources */,
 				A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */,
 				A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */,
 				AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */,
