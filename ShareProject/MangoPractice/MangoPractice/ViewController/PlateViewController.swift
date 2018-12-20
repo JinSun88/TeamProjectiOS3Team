@@ -27,7 +27,12 @@ final class PlateViewController: UIViewController {
     var reviewImageUrlArray:[String] = [] // 초기페이지에서 선택된 셀의 리뷰 이미지 배열
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
+    let want2goImageView = UIImageView()
+    let want2goImageView0 = UIImageView()
+    let checkInImageView0 = UIImageView()
+    let checkInImageView = UIImageView()
     let writeReviewBackgroundView = UIView() // 리뷰쓰기 실행시 베이스 뷰
+    
     let goodButton = UIButton()
     let goodButtonLabel = UILabel()
     let sosoButton = UIButton()
@@ -247,7 +252,7 @@ final class PlateViewController: UIViewController {
         // 가고싶다~사진올리기 버튼 및 라벨 올리기
         let want2goView = UIView()
         let want2goButton = UIButton()
-        let want2goImageView = UIImageView()
+//        let want2goImageView0 = UIImageView()
         let want2goLabel = UILabel()
         
         middleButtonsView.addSubview(want2goView)
@@ -262,10 +267,10 @@ final class PlateViewController: UIViewController {
         }
         want2goButton.addTarget(self, action: #selector(want2goButtonTapped), for: .touchUpInside)
         
-        want2goImageView.image = UIImage(named: "StarEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -5, left: -5, bottom: -5, right: -5))
-        want2goImageView.contentMode = .scaleAspectFit
-        want2goView.addSubview(want2goImageView)
-        want2goImageView.snp.makeConstraints { (m) in
+        want2goImageView0.image = UIImage(named: "StarEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -5, left: -5, bottom: -5, right: -5))
+        want2goImageView0.contentMode = .scaleAspectFit
+        want2goView.addSubview(want2goImageView0)
+        want2goImageView0.snp.makeConstraints { (m) in
             m.top.leading.trailing.equalToSuperview()
             m.height.equalToSuperview().multipliedBy(0.7)
         }
@@ -282,7 +287,7 @@ final class PlateViewController: UIViewController {
         
         let checkInView = UIView()
         let checkInButton = UIButton()
-        let checkInImageView = UIImageView()
+//        let checkInImageView = UIImageView()
         let checkInLabel = UILabel()
         
         middleButtonsView.addSubview(checkInView)
@@ -298,10 +303,10 @@ final class PlateViewController: UIViewController {
         }
         checkInButton.addTarget(self, action: #selector(checkInButtonTapped), for: .touchUpInside)
         
-        checkInImageView.image = UIImage(named: "CheckInEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -4, left: -2, bottom: 0, right: -2))
-        checkInImageView.contentMode = .scaleAspectFit
-        checkInView.addSubview(checkInImageView)
-        checkInImageView.snp.makeConstraints { (m) in
+        checkInImageView0.image = UIImage(named: "CheckInEmpty")?.withAlignmentRectInsets(UIEdgeInsets(top: -4, left: -2, bottom: 0, right: -2))
+        checkInImageView0.contentMode = .scaleAspectFit
+        checkInView.addSubview(checkInImageView0)
+        checkInImageView0.snp.makeConstraints { (m) in
             m.top.leading.trailing.equalToSuperview()
             m.height.equalToSuperview().multipliedBy(0.7)
         }
@@ -420,7 +425,7 @@ final class PlateViewController: UIViewController {
         // 가고싶다~사진올리기 버튼 및 라벨 올리기
         let want2goView = UIView()
         let want2goButton = UIButton()
-        let want2goImageView = UIImageView()
+//        let want2goImageView = UIImageView()
         let want2goLabel = UILabel()
         
         middleButtonsView2.addSubview(want2goView)
@@ -455,7 +460,7 @@ final class PlateViewController: UIViewController {
         
         let checkInView = UIView()
         let checkInButton = UIButton()
-        let checkInImageView = UIImageView()
+//        let checkInImageView = UIImageView()
         let checkInLabel = UILabel()
         
         middleButtonsView2.addSubview(checkInView)
@@ -570,7 +575,6 @@ final class PlateViewController: UIViewController {
         
         guard let want2goCount = UserData.shared.userCellData?.user.wannaGo?.count else { return }
         var want2goArray: [Int] = []
-        var postPk:Int = 0
         
         for i in 0..<want2goCount {
             want2goArray.append(UserData.shared.userCellData?.user.wannaGo?[i].restaurant ?? 0)
@@ -579,24 +583,26 @@ final class PlateViewController: UIViewController {
         print(" want2goArray", "=", want2goArray)
         
         if want2goArray.contains(restaurantPk) { // 있으면 지워
-            let url = "https://fastplate.xyz/api/restaurants/list/wannago/\(restaurantPk)"  // -->>> 수정작업중
+            want2goImageView0.image = UIImage(named: "StarEmpty")
+            want2goImageView.image = UIImage(named: "StarEmpty")
+            let url = "https://api.fastplate.xyz/api/restaurants/ios/wannago/\(restaurantPk)/"
             print("url:", url)
             let header: HTTPHeaders = [
                 "Authorization" : "token \(UserDefaults.standard.string(forKey: "userToken") ?? "")"
             ]
             
-            Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: header)
+            Alamofire.request(url, method: .delete, headers: header)  //encoding: JSONEncoding.default,
                 .validate()
                 .responseData { (response) in
                     switch response.result {
                     case .success(let value):
-                        let result = try! JSONDecoder().decode(want2goData.self, from: value)
+//                        let result = try! JSONDecoder().decode(want2goData.self, from: value)
                         
-                        print(result)
+//                        print(result)
                         CellData.shared.getUserDataFromServer()
                         
                         // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "want2goUpdated"), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "wantGoUpdated"), object: nil)
                         
                     case .failure(let error):
                         print(error.localizedDescription)
@@ -604,6 +610,8 @@ final class PlateViewController: UIViewController {
             }
             
         } else { // 없으면 만들어
+            want2goImageView.image = UIImage(named: "StarFull")
+            want2goImageView0.image = UIImage(named: "StarFull")
             let url = "https://fastplate.xyz/api/restaurants/list/wannago/"
             let header: HTTPHeaders = [
                 "Authorization" : "token \(UserDefaults.standard.string(forKey: "userToken") ?? "")"
@@ -612,7 +620,7 @@ final class PlateViewController: UIViewController {
                 "restaurant": selectedColumnData?.pk ?? 0
             ]
             
-            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header)
+            Alamofire.request(url, method: .post, parameters: params, headers: header) // , encoding: JSONEncoding.default
                 .validate()
                 .responseData { (response) in
                     switch response.result {
@@ -633,6 +641,75 @@ final class PlateViewController: UIViewController {
     }
     @objc private func checkInButtonTapped() {
         print("checkInButtonTapped")
+        
+        guard let restaurantPk = selectedColumnData?.pk else { return }
+        print(" restaurantPk", "=",restaurantPk )
+        
+        guard let checkInCount = UserData.shared.userCellData?.user.checkIn?.count else { return }
+        var checkInArray: [Int] = []
+        
+        for i in 0..<checkInCount {
+            checkInArray.append(UserData.shared.userCellData?.user.checkIn?[i].restaurant ?? 0)
+        }
+        
+        print(" checkInArray", "=", checkInArray)
+        
+        if checkInArray.contains(restaurantPk) { // 있으면 지워
+            checkInImageView0.image = UIImage(named: "CheckInEmpty")
+            checkInImageView.image = UIImage(named: "CheckInEmpty")
+            let url = "https://api.fastplate.xyz/api/restaurants/ios/checkin/\(restaurantPk)/"
+            print("url:", url)
+            let header: HTTPHeaders = [
+                "Authorization" : "token \(UserDefaults.standard.string(forKey: "userToken") ?? "")"
+            ]
+            
+            Alamofire.request(url, method: .delete, headers: header)  //encoding: JSONEncoding.default,
+                .validate()
+                .responseData { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        //                        let result = try! JSONDecoder().decode(want2goData.self, from: value)
+                        
+                        //                        print(result)
+                        CellData.shared.getUserDataFromServer()
+                        
+                        // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "checkInUpdated"), object: nil)
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+            
+        } else { // 없으면 만들어
+            checkInImageView.image = UIImage(named: "CheckInFull")
+            checkInImageView0.image = UIImage(named: "CheckInFull")
+            let url = "https://fastplate.xyz/api/restaurants/list/checkin/"
+            let header: HTTPHeaders = [
+                "Authorization" : "token \(UserDefaults.standard.string(forKey: "userToken") ?? "")"
+            ]
+            let params: Parameters = [
+                "restaurant": selectedColumnData?.pk ?? 0
+            ]
+            
+            Alamofire.request(url, method: .post, parameters: params, headers: header) // , encoding: JSONEncoding.default
+                .validate()
+                .responseData { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let result = try! JSONDecoder().decode(checkInData.self, from: value)
+                        
+                        print(result)
+                        CellData.shared.getUserDataFromServer()
+                        
+                        // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "checkInUpdated"), object: nil)
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+        }
     }
     @objc private func writeReviewButtonTapped() {
         // 베이스 백그라운드 뷰(흐릿)

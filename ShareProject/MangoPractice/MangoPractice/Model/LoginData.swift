@@ -20,6 +20,12 @@ struct LoginData: Decodable {
         let pk: Int
         let userName: String
         let wannaGo: [wannaGoStruct]?
+        let checkIn: [checkInStruct]?
+        
+        struct checkInStruct: Decodable {
+            let pk: Int
+            let restaurant: Int
+        }
         
         struct wannaGoStruct: Decodable {
             let pk: Int
@@ -32,6 +38,7 @@ struct LoginData: Decodable {
             case pk
             case userName = "username"
             case wannaGo = "wannago_set"
+            case checkIn = "checkin_set"
         }
     }
 }

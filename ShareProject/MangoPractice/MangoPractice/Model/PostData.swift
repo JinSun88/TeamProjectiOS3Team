@@ -28,3 +28,8 @@ struct want2goData: Decodable {
     let pk: Int
     let restaurant: Int
 }
+
+struct checkInData: Decodable {
+    let pk: Int
+    let restaurant: Int
+}
