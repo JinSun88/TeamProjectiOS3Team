@@ -83,8 +83,8 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                         userDefaultesToken.synchronize()
                         
                         // 유저 디폴트 사용
-                        let something = UserDefaults.standard.string(forKey: "userToken")
-                        print(something)
+//                        let something = UserDefaults.standard.string(forKey: "userToken")
+//                        print(something)
                         
 
                     case .failure(let error):
