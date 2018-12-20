@@ -13,5 +13,6 @@ final class User {
     
     var token: String?
     var userName: String?
+    var userId: String?
 }
 

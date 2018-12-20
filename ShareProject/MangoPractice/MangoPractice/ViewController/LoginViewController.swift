@@ -76,11 +76,14 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
                         UserData.shared.userCellData = result
 //                        print(UserData.shared.userCellData)
                         User.shared.token = result.token
+
+                        
+                    
                         
                         // 유저 디폴트 구축
-                        let userDefaultesToken = UserDefaults.standard
-                        userDefaultesToken.set(result.token, forKey: "userToken")
-                        userDefaultesToken.synchronize()
+//                        let userDefaultesToken = UserDefaults.standard
+//                        userDefaultesToken.set(result.token, forKey: "userToken")
+//                        userDefaultesToken.synchronize()
                         
                         // 유저 디폴트 사용
 //                        let something = UserDefaults.standard.string(forKey: "userToken")
