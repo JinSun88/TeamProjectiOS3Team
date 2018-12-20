@@ -18,6 +18,8 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
     var result : [Result] = []
     var images : [Eatdealimage] = []
     
+    var labelImage : [UIImage?] = [UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "new"), UIImage(named: "hot"), UIImage(named: "re"), UIImage(named: "re")]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,11 +80,13 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "mainCell", for: indexPath) as! EatDealMainCell
         
+        cell.descriptionLabel.text = "  ⦁\(result[indexPath.row].description)"
         cell.mainTitlelabel.text = result[indexPath.row].dealName
         cell.subTitleLabel.text = result[indexPath.row].subName
         cell.beforePriceLabel.attributedText = "￦\(result[indexPath.row].basePrice.withComma)".strikeThrough()
         cell.priceLabel.text = "￦\(result[indexPath.row].discountPrice.withComma)"
         cell.saleLabel.text = "   \(result[indexPath.row].discountRate)%"
+        cell.labelImage.image = labelImage[indexPath.row]
         
         guard let url = URL(string: urls[indexPath.row]) else { return cell }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -121,6 +125,7 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
             eatSelectedViewController.basePrice = self.result[indexPath.row].basePrice
             eatSelectedViewController.discountRate = self.result[indexPath.row].discountRate
             eatSelectedViewController.discountPrice = self.result[indexPath.row].discountPrice
+            eatSelectedViewController.descriptions = self.result[indexPath.row].description
             eatSelectedViewController.introduceRes = self.result[indexPath.row].introduceRes
             eatSelectedViewController.introduceMenu = self.result[indexPath.row].introduceMenu
             eatSelectedViewController.caution = self.result[indexPath.row].caution

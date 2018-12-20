@@ -11,11 +11,13 @@ import UIKit
 class EatDealMainCell: UITableViewCell {
     
     @IBOutlet weak var mainImage: UIImageView!
-    @IBOutlet weak var newLabel: UILabel!
     @IBOutlet weak var saleLabel: UILabel!
     @IBOutlet weak var beforePriceLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var mainTitlelabel: UILabel!
     @IBOutlet weak var subTitleLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var labelImage: UIImageView!
+    
     
 }

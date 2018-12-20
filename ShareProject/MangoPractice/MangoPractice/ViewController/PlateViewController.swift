@@ -608,10 +608,10 @@ final class PlateViewController: UIViewController {
         
         let goodButton = UIButton()
         let goodButtonLabel = UILabel()
-        let sosoButton = UIButton()
-        let sosoButtonLabel = UILabel()
-        let badButton = UIButton()
-        let badButtonLabel = UILabel()
+        _ = UIButton()
+        _ = UILabel()
+        _ = UIButton()
+        _ = UILabel()
         
         writeReviewBackgroundView.addSubview(goodButton)
         goodButton.snp.makeConstraints { (m) in

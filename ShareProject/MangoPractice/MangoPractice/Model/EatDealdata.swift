@@ -20,12 +20,13 @@ struct Result: Codable {
     let dealName, subName, startDate, endDate: String
     let basePrice, discountRate, discountPrice: Int
     let introduceRes, introduceMenu, caution, howToUse: String
-    let refund, inquiry: String
+    let refund, inquiry, description: String
     let eatdealimages: [Eatdealimage]
     
     
     enum CodingKeys: String, CodingKey {
         case restaurant
+        case description
         case dealName = "deal_name"
         case subName = "sub_name"
         case startDate = "start_date"
@@ -46,4 +47,3 @@ struct Eatdealimage: Codable {
     let pk: Int
     let image: String
 }
-
