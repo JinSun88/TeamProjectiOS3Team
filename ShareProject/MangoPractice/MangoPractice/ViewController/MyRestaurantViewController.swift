@@ -14,7 +14,23 @@ class MyRestaurantViewController: UIViewController {
     let backButton = UIButton()
     let titleLabel = UILabel()
     var mainTableView = UITableView(frame: CGRect.zero)
-    var arrayOfCellData = CellDataOrigin().arrayOfCellData //임시로 하드코딩 데이터 삽입
+    
+    struct CellDataStructOrigin {
+        let pk: Int
+        let ranking: Int
+        let name: String
+        let image: UIImage
+        let location: String
+        let viewFeedCount: String
+        let gradePoint: Double
+        let youTubeUrl: String?
+        let address: String
+        let latitude: Double
+        let longitude: Double
+        let telNumber: String
+    }
+
+    var arrayOfCellData: [CellDataStructOrigin]  = [CellDataStructOrigin(pk: 41, ranking: 41, name: "베트남쌀국수남사이곤", image: UIImage(named: "defaultImage")!, location: "성동구", viewFeedCount: "0", gradePoint: 0.0, youTubeUrl: "", address: "서울시 성동구 행당동 292-32", latitude: 127.0330699, longitude: 37.5610696, telNumber: "02-2282-1580")]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +107,7 @@ extension MyRestaurantViewController: UITableViewDataSource {
         if cell == nil {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "CELL")
         }
-        cell!.imageView?.image = UIImage(named: "blur-breakfast-close-up-376464")// 디폴트 이미지 삽입
+        cell!.imageView?.image = arrayOfCellData[indexPath.row].image
         cell!.textLabel?.text = "\(arrayOfCellData[indexPath.row].name)"
         cell!.detailTextLabel?.text = "\(arrayOfCellData[indexPath.row].address)"
         

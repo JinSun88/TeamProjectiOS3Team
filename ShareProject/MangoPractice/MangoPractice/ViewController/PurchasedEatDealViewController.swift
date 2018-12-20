@@ -14,7 +14,6 @@ class PurchasedEatDealViewController: UIViewController {
     let backButton = UIButton()
     let titleLabel = UILabel()
     var mainCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-//    var arrayOfCellData = CellDataOrigin().arrayOfCellData //임시로 하드코딩 데이터 삽입
     var result: [Result] = []
     var images: [Eatdealimage] = []
     var urls = [String]()
@@ -130,7 +129,6 @@ extension PurchasedEatDealViewController: UICollectionViewDelegateFlowLayout {
 
 extension PurchasedEatDealViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 2
         return result.count
     }
     
