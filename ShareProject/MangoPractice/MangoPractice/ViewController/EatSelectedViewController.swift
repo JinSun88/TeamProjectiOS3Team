@@ -23,7 +23,8 @@ class EatSelectedViewController: UIViewController {
     @IBOutlet weak var howToUseLabel: UILabel!
     @IBOutlet weak var refundLabel: UILabel!
     @IBOutlet weak var inquiryLabel: UILabel!
-
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     var mainImages = UIImage()
     var dealName = String()
     var subName = String()
@@ -32,6 +33,7 @@ class EatSelectedViewController: UIViewController {
     var basePrice = Int()
     var discountRate = Int()
     var discountPrice = Int()
+    var descriptions = String()
     var introduceRes = String()
     var introduceMenu = String()
     var caution = String()
@@ -42,6 +44,7 @@ class EatSelectedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         labelPush()
     }
     
@@ -63,7 +66,6 @@ class EatSelectedViewController: UIViewController {
         dismiss(animated: true, completion: nil)
 
     }
- 
     @IBAction func unwindToEatSelectedViewController(_ unwindSegue: UIStoryboardSegue) {
         
     }
@@ -91,6 +93,7 @@ class EatSelectedViewController: UIViewController {
         self.basePriceLabel.attributedText = "￦\(basePrice.withComma)".strikeThrough()
         self.discountRateLabel.text = "\(discountRate)%"
         self.discountPriceLabel.text = "￦\(discountPrice.withComma)"
+        self.descriptionLabel.text = descriptions
         self.introduceResLabel.text = "● 식당 소개\n\n\(introduceRes)"
         self.introduceMenuLabel.text = "● 메뉴 소개\n\n\(introduceMenu)"
         self.cautionLabel.text = "❗️유의 사항 (꼭! 확인해주세요)\n\n\(caution)"
@@ -117,7 +120,3 @@ extension Int {
         return decimalFormatter.string(from: self as NSNumber)!
     }
 }
-
-
-
-

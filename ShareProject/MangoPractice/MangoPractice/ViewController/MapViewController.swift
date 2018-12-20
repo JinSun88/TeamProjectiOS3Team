@@ -270,7 +270,25 @@ extension MapViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = mapCollectionView.dequeueReusableCell(withReuseIdentifier: "CELL", for: indexPath) as! MapCollectionViewCell
         
-        cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
+        var imageUrlArray: [String] = []  // 이미지 URL이 들어갈 배열 생성
+        let postArrayCount = arrayOfCellData[indexPath.item].postArray.count  // 포스트(리뷰)가 몇개 인지 확인
+        if postArrayCount > 0 {  // 포스트(리뷰)가 0보다 많으면
+            
+            for i in 0..<postArrayCount {
+                let imageArrayCount = arrayOfCellData[indexPath.item].postArray[i].reviewImage?.count ?? 0  // 포스트(리뷰)에 이미지 어레이가 몇개 인지 확인
+                
+                for j in 0..<imageArrayCount {  // 리뷰 어레이 있는 모든 이미지를 가져오겠다!
+                    let urlOfReviewImages = arrayOfCellData[indexPath.item].postArray[i].reviewImage![j].reviewImageUrl
+                    imageUrlArray.append(urlOfReviewImages)
+                }
+            }
+            
+            guard let url = URL(string: imageUrlArray.first ?? "nil") else { return cell}
+            cell.restaurantPicture.kf.setImage(with: url)
+        } else {
+            cell.restaurantPicture.image = UIImage(named: "defaultImage") // 강제 디폴트 이미지 삽입
+        }
+        
         cell.rankingName.text = "\(indexPath.row + 1). \(arrayOfCellData[indexPath.item].name)"
         cell.gradePoint.text = "\(arrayOfCellData[indexPath.item].gradePoint ?? "0.0")"
         cell.restaurantLocation.text = arrayOfCellData[indexPath.item].address

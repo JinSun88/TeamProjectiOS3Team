@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FA18A7021CB9E58009F9721 /* EatDealEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA18A6F21CB9E58009F9721 /* EatDealEndViewController.swift */; };
 		2FC126DE21C7CC3B00726E61 /* EatDealMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */; };
 		2FC126DF21C7CC3B00726E61 /* EatOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */; };
 		2FC126E021C7CC3B00726E61 /* EatSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */; };
@@ -23,6 +24,7 @@
 		A0A5618D21C257CC00934FDD /* WantToGoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618C21C257CC00934FDD /* WantToGoViewController.swift */; };
 		A0A5618F21C257E800934FDD /* MyRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5618E21C257E800934FDD /* MyRestaurantViewController.swift */; };
 		A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A5619221C270F100934FDD /* WantToGoCollectionViewCell.swift */; };
+		A0A8C39C21CB8B7F00EC891B /* MainSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A8C39B21CB8B7F00EC891B /* MainSearchViewController.swift */; };
 		A0A985A721BA4F6000A2CBD8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */; };
 		A0ABEBAC21AFD88100DF1806 /* EnrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */; };
 		A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */; };
@@ -53,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FA18A6F21CB9E58009F9721 /* EatDealEndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EatDealEndViewController.swift; sourceTree = "<group>"; };
 		2FC126DB21C7CC3A00726E61 /* EatDealMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatDealMainViewController.swift; sourceTree = "<group>"; };
 		2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatOrderViewController.swift; sourceTree = "<group>"; };
 		2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EatSelectedViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +73,7 @@
 		A0A5618C21C257CC00934FDD /* WantToGoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToGoViewController.swift; sourceTree = "<group>"; };
 		A0A5618E21C257E800934FDD /* MyRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRestaurantViewController.swift; sourceTree = "<group>"; };
 		A0A5619221C270F100934FDD /* WantToGoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantToGoCollectionViewCell.swift; sourceTree = "<group>"; };
+		A0A8C39B21CB8B7F00EC891B /* MainSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchViewController.swift; sourceTree = "<group>"; };
 		A0A985A621BA4F6000A2CBD8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A0ABEBAB21AFD88100DF1806 /* EnrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollViewController.swift; sourceTree = "<group>"; };
 		A0B8CC5F21B102EC00B01784 /* RestaurantService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantService.swift; sourceTree = "<group>"; };
@@ -201,7 +205,9 @@
 				2FC126DD21C7CC3A00726E61 /* EatSelectedViewController.swift */,
 				2FC126DC21C7CC3A00726E61 /* EatOrderViewController.swift */,
 				2FC126E121C7CC4D00726E61 /* EatDealMainCell.swift */,
+				2FA18A6F21CB9E58009F9721 /* EatDealEndViewController.swift */,
 				AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */,
+				A0A8C39B21CB8B7F00EC891B /* MainSearchViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -345,6 +351,30 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		66950CBF19EAEBD5E3B50DA7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D24CF5C2E73847D90B4B964F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,6 +422,7 @@
 				A0F42CF121CA340C00A605EA /* User.swift in Sources */,
 				2FC126DE21C7CC3B00726E61 /* EatDealMainViewController.swift in Sources */,
 				A0C2AC4421C7A7A70035441A /* SearchCollectionViewCell.swift in Sources */,
+				2FA18A7021CB9E58009F9721 /* EatDealEndViewController.swift in Sources */,
 				AF001BE821985AC900716B7A /* ViewController.swift in Sources */,
 				AF001BE621985AC900716B7A /* AppDelegate.swift in Sources */,
 				AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */,
@@ -400,6 +431,7 @@
 				A0A5618F21C257E800934FDD /* MyRestaurantViewController.swift in Sources */,
 				A0F42CEF21CA254100A605EA /* LoginData.swift in Sources */,
 				A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */,
+				A0A8C39C21CB8B7F00EC891B /* MainSearchViewController.swift in Sources */,
 				A0B8CC6021B102EC00B01784 /* RestaurantService.swift in Sources */,
 				AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */,
 				AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */,
