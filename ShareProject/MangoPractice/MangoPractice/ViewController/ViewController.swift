@@ -135,6 +135,7 @@ class ViewController: UIViewController {
         topGuideView.addSubview(searchButton)
         searchButton.setImage(searchButtonImage, for: .normal)
         searchButton.imageView?.contentMode = .scaleAspectFit
+        searchButton.addTarget(self, action: #selector(searchButtonDidTap), for: .touchUpInside)
         
         searchButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
@@ -143,6 +144,12 @@ class ViewController: UIViewController {
             $0.height.equalTo(40)
         }
     }
+    @objc func searchButtonDidTap(_ sender: UIButton) {
+        performSegue(withIdentifier: "showMainSearch", sender: nil)
+        
+    }
+    
+    
     @objc private func currentPlaceButtonConfig() {
         // 현위치 버튼 위치, 폰트 사이즈, text 지정
         

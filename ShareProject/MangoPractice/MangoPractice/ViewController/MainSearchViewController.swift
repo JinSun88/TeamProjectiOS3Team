@@ -1,15 +1,15 @@
 //
-//  SearchViewController.swift
+//  MainSearchViewController.swift
 //  MangoPractice
 //
-//  Created by jinsunkim on 14/12/2018.
+//  Created by jinsunkim on 20/12/2018.
 //  Copyright © 2018 Bernard Hur. All rights reserved.
 //
 
 import UIKit
 import Alamofire
 
-class SearchViewController: UIViewController {
+class MainSearchViewController: UIViewController {
     let topView = UIView()
     let backButton = UIBarButtonItem()
     let searchController = UISearchController(searchResultsController: nil)
@@ -17,7 +17,7 @@ class SearchViewController: UIViewController {
     var arrayOfCellData: [ServerStruct.CellDataStruct] = []
     var searchActive: Bool = false
     
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +61,7 @@ class SearchViewController: UIViewController {
     
 }
 
-extension SearchViewController: UICollectionViewDelegateFlowLayout {
+extension MainSearchViewController: UICollectionViewDelegateFlowLayout {
     // 콜렉션뷰 셀의 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width / 2.2, height: collectionView.frame.width / 1.7)  // collectionView.frame.height / 1.8
@@ -81,7 +81,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension SearchViewController: UICollectionViewDataSource {
+extension MainSearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrayOfCellData.count
         
@@ -117,11 +117,11 @@ extension SearchViewController: UICollectionViewDataSource {
         return cell
         
     }
-
+    
     
 }
 
-extension SearchViewController: UICollectionViewDelegate {
+extension MainSearchViewController: UICollectionViewDelegate {
     // 콜렉션셀을 터치하면 상세페이지(PlateViewController)로 이동
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("didSelectItemAt indexPath")
@@ -136,13 +136,13 @@ extension SearchViewController: UICollectionViewDelegate {
     
 }
 
-extension SearchViewController: UISearchControllerDelegate {
-
+extension MainSearchViewController: UISearchControllerDelegate {
+    
     
 }
 
 
-extension SearchViewController: UISearchBarDelegate {
+extension MainSearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
         if searchController.isActive {
@@ -150,7 +150,7 @@ extension SearchViewController: UISearchBarDelegate {
         } else {
             dismiss(animated: true)
         }
-
+        
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -160,9 +160,9 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
-
+        
         let searchString = searchController.searchBar.text!
-
+        
         
         let url = "https://api.fastplate.xyz/api/restaurants/list/?page=1&ordering=-rate_average&search="
         let param: Parameters = [
@@ -193,5 +193,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
 }
+
+
 
 
