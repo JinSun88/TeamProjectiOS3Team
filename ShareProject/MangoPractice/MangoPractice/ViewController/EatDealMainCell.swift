@@ -18,5 +18,4 @@ class EatDealMainCell: UITableViewCell {
     @IBOutlet weak var mainTitlelabel: UILabel!
     @IBOutlet weak var subTitleLabel: UILabel!
     
-
 }

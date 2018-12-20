@@ -12,6 +12,7 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBOutlet weak var tableView: UITableView!
     
+    let refreshControl = UIRefreshControl()
     var nextViewImage: UIImage?
     var urls = [String]()
     var result : [Result] = []
@@ -21,6 +22,8 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
         
         getdata()
+        reloadDataTableView()
+        
     }
     
     func getdata() {
@@ -44,6 +47,23 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
             }
         }
         dataTask.resume()
+    }
+    
+    func reloadDataTableView() {
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
+        refreshControl.tintColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refreshData(_ sender:Any) {
+        self.refreshControl.beginRefreshing()
+        let delay = 2
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
     }
     
     @IBAction func unwindToEatDealMainView(_ unwindSegue: UIStoryboardSegue) {
@@ -92,7 +112,7 @@ class EatDealMainViewController: UIViewController, UITableViewDelegate, UITableV
         let eatSelectedViewController = storyboard.instantiateViewController(withIdentifier: "EatSelectedViewController") as! EatSelectedViewController
         
         DispatchQueue.main.async {
-            
+        
             eatSelectedViewController.mainImages = self.nextViewImage!
             eatSelectedViewController.dealName = self.result[indexPath.row].dealName
             eatSelectedViewController.subName = self.result[indexPath.row].subName

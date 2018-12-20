@@ -42,6 +42,7 @@ class EatSelectedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         labelPush()
     }
     
@@ -63,7 +64,6 @@ class EatSelectedViewController: UIViewController {
         dismiss(animated: true, completion: nil)
 
     }
- 
     @IBAction func unwindToEatSelectedViewController(_ unwindSegue: UIStoryboardSegue) {
         
     }
@@ -117,7 +117,3 @@ extension Int {
         return decimalFormatter.string(from: self as NSNumber)!
     }
 }
-
-
-
-
