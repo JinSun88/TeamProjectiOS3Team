@@ -19,7 +19,12 @@ struct LoginData: Decodable {
         let userImage: String?
         let pk: Int
         let userName: String
-        let wannaGo: [Int]?
+        let wannaGo: [wannaGoStruct]?
+        
+        struct wannaGoStruct: Decodable {
+            let pk: Int
+            let restaurant: Int
+        }
         
         enum  CodingKeys: String, CodingKey {
             case fullName = "full_name"

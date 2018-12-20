@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 struct ServerStruct: Decodable {
     let count: Int  // 전체 맛집 데이터수
@@ -57,7 +58,7 @@ struct ServerStruct: Decodable {
                 
                 enum CodingKeys: String, CodingKey {
                     case authorPk = "pk"
-                    case authorName = "username"
+                    case authorName = "full_name"
                     case authorImage = "img_profile"
                 }
             }
@@ -160,6 +161,35 @@ final class CellData {
                 print("에러내용: \(error)")
             }}.resume()
     }
+    
+    func getUserDataFromServer() {
+        
+        let url = "https://api.fastplate.xyz/api/members/auth-token/facebook/"
+        
+        let params: Parameters = [
+            "access_token": UserDefaults.standard.string(forKey: "authToken") ?? "" ,
+            "facebook_user_id": UserDefaults.standard.string(forKey: "authFBid") ?? ""
+        ]
+        
+        Alamofire.request(url, method: .post, parameters: params)
+            .validate()
+            .responseData { (response) in
+                switch response.result {
+                case .success(let value):
+                    let result = try! JSONDecoder().decode(LoginData.self, from: value)
+                    
+                    UserData.shared.userCellData = result
+                    print("UserData.shared.userCellData", UserData.shared.userCellData ?? "no userData")
+                    
+                    // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "getUserData"), object: nil)
+                    
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+        }
+    }
+    
 }
 
 // 개발 초반 하드코딩 데이터 입니다

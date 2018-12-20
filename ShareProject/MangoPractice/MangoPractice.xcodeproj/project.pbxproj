@@ -43,6 +43,7 @@
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
 		AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */; };
+		AF73581A21CA7A82002B695B /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF73581921CA7A82002B695B /* PostData.swift */; };
 		AF80FC0821C7DCB8003BB551 /* ReviewOnlyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */; };
 		AF95617121BDF2D4002F3288 /* PlateMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */; };
 		AF95617321BE5592002F3288 /* RestaurantData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617221BE5592002F3288 /* RestaurantData.swift */; };
@@ -91,6 +92,7 @@
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
 		AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
+		AF73581921CA7A82002B695B /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewOnlyViewController.swift; sourceTree = "<group>"; };
 		AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateMoreInfoViewController.swift; sourceTree = "<group>"; };
 		AF95617221BE5592002F3288 /* RestaurantData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantData.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				AF95617221BE5592002F3288 /* RestaurantData.swift */,
 				2FC126E321C7CC5700726E61 /* EatDealdata.swift */,
 				A0F42CEE21CA254100A605EA /* LoginData.swift */,
+				AF73581921CA7A82002B695B /* PostData.swift */,
 				A0F42CF021CA340C00A605EA /* User.swift */,
 			);
 			path = Model;
@@ -223,8 +226,8 @@
 				AF001BDE21985AC900716B7A /* Sources */,
 				AF001BDF21985AC900716B7A /* Frameworks */,
 				AF001BE021985AC900716B7A /* Resources */,
-				7966282F69F8EC2B2EEB24EB /* [CP] Embed Pods Frameworks */,
-				D9422EF17B98057B3AF9A49A /* [CP] Copy Pods Resources */,
+				CFD740026E16A79B008C75F2 /* [CP] Embed Pods Frameworks */,
+				31BA5114E8FBEF32A310C6E9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -282,7 +285,31 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7966282F69F8EC2B2EEB24EB /* [CP] Embed Pods Frameworks */ = {
+		31BA5114E8FBEF32A310C6E9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CFD740026E16A79B008C75F2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -336,30 +363,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D9422EF17B98057B3AF9A49A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MangoPractice/Pods-MangoPractice-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -371,6 +374,7 @@
 				A0C2AC4621C7A90F0035441A /* SearchViewController.swift in Sources */,
 				A0A5618721C0F57600934FDD /* EditMyInfoViewController.swift in Sources */,
 				A0A5619321C270F100934FDD /* WantToGoCollectionViewCell.swift in Sources */,
+				AF73581A21CA7A82002B695B /* PostData.swift in Sources */,
 				A0F06FC521B7C6C80066A5E1 /* MapViewFlowLayout.swift in Sources */,
 				A0A32EFC21AE7317004D7602 /* MapCollectionViewCell.swift in Sources */,
 				2FC126E221C7CC4D00726E61 /* EatDealMainCell.swift in Sources */,

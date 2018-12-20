@@ -28,9 +28,20 @@ final class PlateViewController: UIViewController {
     let middleInfoBarView = UIView()  // 맛집명, 뷰수, 리뷰수, 평점 올리는 뷰
     let middleButtonsView = UIView()  // 가고싶다~사진올리기 버튼들을 올리는 뷰
     let writeReviewBackgroundView = UIView() // 리뷰쓰기 실행시 베이스 뷰
+    let goodButton = UIButton()
+    let goodButtonLabel = UILabel()
+    let sosoButton = UIButton()
+    let sosoButtonLabel = UILabel()
+    let badButton = UIButton()
+    let badButtonLabel = UILabel()
+    var reviewRateValue: Int = 0
+    let reviewTextField = UITextField()
+    var reviewContentLabel = UILabel()
     let uploadPicBackgroundView = UIView() // 사진올리기 실행시 베이스 뷰
     let imagePicker = UIImagePickerController() // 포토라이브러리 컨트롤러
     let photoLibraryImageView = UIImageView() // 포토라이브러리 표시되는 이미지뷰
+    var resultFromServer: PostData? // 리뷰 올릴시 반환되는 서버 데이터(밸류)
+    var picForUpload = UIImage(named: "defaultImage")
     let middleButtonsView2 = UIView() // 스크롤시 고정되는 뷰
     var middleButtonsView2IsOn: Bool = false
     let youTubeView = YouTubePlayerView()  // 맛집 유튜브 연동 뷰
@@ -60,6 +71,10 @@ final class PlateViewController: UIViewController {
         majorReviewAndButtonViewConfig()
         reviewTableViewConfig()
         moreReviewViewConfig()
+        
+        // getPostPk 작업이 완료되면   실행합니다.
+        NotificationCenter.default.addObserver(self, selector: #selector(uploadPostImage), name: NSNotification.Name(rawValue: "getPostPk"), object: nil)
+        reviewTextField.delegate = self
     }
     private func topGuideViewConfig() {
         
@@ -549,6 +564,72 @@ final class PlateViewController: UIViewController {
     }
     @objc private func want2goButtonTapped() {
         print("want2goButtonTapped")
+        
+        guard let restaurantPk = selectedColumnData?.pk else { return }
+        print(" restaurantPk", "=",restaurantPk )
+        
+        guard let want2goCount = UserData.shared.userCellData?.user.wannaGo?.count else { return }
+        var want2goArray: [Int] = []
+        var postPk:Int = 0
+        
+        for i in 0..<want2goCount {
+            want2goArray.append(UserData.shared.userCellData?.user.wannaGo?[i].restaurant ?? 0)
+        }
+        
+        print(" want2goArray", "=", want2goArray)
+        
+        if want2goArray.contains(restaurantPk) { // 있으면 지워
+            let url = "https://fastplate.xyz/api/restaurants/list/wannago/\(restaurantPk)"  // -->>> 수정작업중
+            print("url:", url)
+            let header: HTTPHeaders = [
+                "Authorization" : "token \(UserDefaults.standard.string(forKey: "userToken") ?? "")"
+            ]
+            
+            Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: header)
+                .validate()
+                .responseData { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let result = try! JSONDecoder().decode(want2goData.self, from: value)
+                        
+                        print(result)
+                        CellData.shared.getUserDataFromServer()
+                        
+                        // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "want2goUpdated"), object: nil)
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+            
+        } else { // 없으면 만들어
+            let url = "https://fastplate.xyz/api/restaurants/list/wannago/"
+            let header: HTTPHeaders = [
+                "Authorization" : "token \(UserDefaults.standard.string(forKey: "userToken") ?? "")"
+            ]
+            let params: Parameters = [
+                "restaurant": selectedColumnData?.pk ?? 0
+            ]
+            
+            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header)
+                .validate()
+                .responseData { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let result = try! JSONDecoder().decode(want2goData.self, from: value)
+                        
+                        print(result)
+                        CellData.shared.getUserDataFromServer()
+                        
+                        // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "want2goUpdated"), object: nil)
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+        }
     }
     @objc private func checkInButtonTapped() {
         print("checkInButtonTapped")
@@ -586,92 +667,161 @@ final class PlateViewController: UIViewController {
         xButtonOfWriteReview.imageView?.contentMode = .scaleAspectFit
         xButtonOfWriteReview.addTarget(self, action: #selector(xButtonOfWriteReviewTapped), for: .touchUpInside)
         
+        // 맛있다! 괜찮다 별로 선택 뷰  && 리뷰 텍스트필드 올리는 뷰
+        let rateSelectAndWriteView = UIView()
+        writeReviewBackgroundView.addSubview(rateSelectAndWriteView)
+        rateSelectAndWriteView.snp.makeConstraints { (m) in
+            m.top.equalTo(writeReviewLabel.snp.bottom).offset(15)
+            m.leading.equalToSuperview().offset(30)
+            m.trailing.equalToSuperview().inset(30)
+            m.height.equalToSuperview().multipliedBy(0.4)
+        }
+        rateSelectAndWriteView.backgroundColor = .white
+        
+        // goodButton
+        goodButton.setImage(UIImage(named: "GoodFace"), for: .normal)
+        goodButton.contentVerticalAlignment = .fill
+        goodButton.contentHorizontalAlignment = .fill
+        rateSelectAndWriteView.addSubview(goodButton)
+        goodButton.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(10)
+            m.centerX.equalTo(rateSelectAndWriteView).offset(-100)
+            m.width.height.equalTo(rateSelectAndWriteView.snp.width).multipliedBy(0.15)
+        }
+        goodButton.addTarget(self, action: #selector(reviewGoodButtonTapped), for: .touchUpInside)
+        rateSelectAndWriteView.addSubview(goodButtonLabel)
+        goodButtonLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(goodButton.snp.bottom).offset(5)
+            m.leading.trailing.equalTo(goodButton)
+            m.height.equalTo(20)
+        }
+        goodButtonLabel.text = "맛있다!"
+        goodButtonLabel.font = UIFont(name: "Helvetica", size: 15)
+        goodButtonLabel.textColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        goodButtonLabel.textAlignment = .center
+        
+        // SoSo button
+        sosoButton.setImage(UIImage(named: "SosoFace"), for: .normal)
+        sosoButton.contentVerticalAlignment = .fill
+        sosoButton.contentHorizontalAlignment = .fill
+        rateSelectAndWriteView.addSubview(sosoButton)
+        sosoButton.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(10)
+            m.centerX.equalTo(rateSelectAndWriteView).offset
+            m.width.height.equalTo(rateSelectAndWriteView.snp.width).multipliedBy(0.15)
+        }
+        sosoButton.addTarget(self, action: #selector(reviewSosoButtonTapped), for: .touchUpInside)
+        
+        rateSelectAndWriteView.addSubview(sosoButtonLabel)
+        sosoButtonLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(sosoButton.snp.bottom).offset(5)
+            m.leading.trailing.equalTo(sosoButton)
+            m.height.equalTo(20)
+        }
+        sosoButtonLabel.text = "괜찮다"
+        sosoButtonLabel.font = UIFont(name: "Helvetica", size: 15)
+        sosoButtonLabel.textColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        sosoButtonLabel.textAlignment = .center
+        
+        // bad button
+        badButton.setImage(UIImage(named: "BadFace"), for: .normal)
+        badButton.contentVerticalAlignment = .fill
+        badButton.contentHorizontalAlignment = .fill
+        rateSelectAndWriteView.addSubview(badButton)
+        badButton.snp.makeConstraints { (m) in
+            m.top.equalToSuperview().offset(10)
+            m.centerX.equalTo(rateSelectAndWriteView).offset(100)
+            m.width.height.equalTo(rateSelectAndWriteView.snp.width).multipliedBy(0.15)
+        }
+        badButton.addTarget(self, action: #selector(reviewBadButtonTapped), for: .touchUpInside)
+        
+        rateSelectAndWriteView.addSubview(badButtonLabel)
+        badButtonLabel.snp.makeConstraints { (m) in
+            m.top.equalTo(badButton.snp.bottom).offset(5)
+            m.leading.trailing.equalTo(badButton)
+            m.height.equalTo(20)
+        }
+        badButtonLabel.text = "별로"
+        badButtonLabel.font = UIFont(name: "Helvetica", size: 15)
+        badButtonLabel.textColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        badButtonLabel.textAlignment = .center
+        
+        sosoButton.alpha = 0.2
+        sosoButtonLabel.alpha = 0.2
+        badButton.alpha = 0.2
+        badButtonLabel.alpha = 0.2
+        
+        // textField config
+        reviewTextField.backgroundColor = #colorLiteral(red: 0.913626194, green: 0.9137828946, blue: 0.9136161804, alpha: 1)
+        rateSelectAndWriteView.addSubview(reviewTextField)
+        reviewTextField.snp.makeConstraints { (m) in
+            m.top.equalTo(goodButtonLabel.snp.bottom).offset(5)
+            m.leading.equalToSuperview().offset(5)
+            m.trailing.bottom.equalToSuperview().inset(5)
+        }
+        reviewTextField.textAlignment = .justified
+        reviewTextField.addTarget(self, action: #selector(PlateViewController.textFieldDidChange(textField:)), for: .editingChanged)
+        
+        
         // 포토라이브러리 이미지뷰 세팅
         photoLibraryImageView.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
         writeReviewBackgroundView.addSubview(photoLibraryImageView)
         photoLibraryImageView.snp.makeConstraints { (m) in
-            m.top.equalTo(writeReviewLabel.snp.bottom).offset(15)
+            m.top.equalTo(rateSelectAndWriteView.snp.bottom).offset(15)
             m.leading.equalToSuperview().offset(30)
             m.trailing.equalToSuperview().inset(30)
             m.height.equalToSuperview().multipliedBy(0.3)
         }
-        
-        // 맛있다! 괜찮다 별로 선택 뷰
-        let rateSelectAndWriteView = UIView()
-        writeReviewBackgroundView.addSubview(rateSelectAndWriteView)
-        rateSelectAndWriteView.snp.makeConstraints { (m) in
-            m.top.equalTo(photoLibraryImageView.snp.bottom).offset(15)
-            m.leading.trailing.equalTo(photoLibraryImageView)
-            m.height.equalToSuperview().multipliedBy(0.5)
+        // 포토라이브러리 이미지뷰에서 바텀까지 centerY를 잡는 뷰
+        let centerYView = UIView()
+        writeReviewBackgroundView.addSubview(centerYView)
+        centerYView.snp.makeConstraints { (m) in
+            m.leading.trailing.equalToSuperview()
+            m.top.equalTo(photoLibraryImageView.snp.bottom)
+            m.bottom.equalToSuperview()
         }
-        rateSelectAndWriteView.backgroundColor = .white
         
-        let goodButton = UIButton()
-        let goodButtonLabel = UILabel()
-        let sosoButton = UIButton()
-        let sosoButtonLabel = UILabel()
-        let badButton = UIButton()
-        let badButtonLabel = UILabel()
-        
-        writeReviewBackgroundView.addSubview(goodButton)
-        goodButton.snp.makeConstraints { (m) in
-            m.top.equalToSuperview().offset(10)
-            m.leading.equalToSuperview().offset(10)
-            m.width.height.equalTo(writeReviewBackgroundView.snp.width).multipliedBy(0.3)
+        // 포토라이브러리 불러오기 버튼
+        let photoLibraryLoadButton = UIButton()
+        writeReviewBackgroundView.addSubview(photoLibraryLoadButton)
+        photoLibraryLoadButton.snp.makeConstraints { (m) in
+            m.leading.equalToSuperview().offset(40)
+            m.centerY.equalTo(centerYView)
+            m.width.equalTo(80)
+            m.height.equalTo(50)
         }
-        writeReviewBackgroundView.addSubview(goodButtonLabel)
+        photoLibraryLoadButton.setTitle("내 사진", for: .normal)
+        photoLibraryLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        photoLibraryLoadButton.addTarget(self, action: #selector(photoLibraryLoadButtonTapped), for: .touchUpInside)
+        photoLibraryLoadButton.layer.cornerRadius = 10
         
-//
-//        // 포토라이브러리 이미지뷰에서 바텀까지 centerY를 잡는 뷰
-//        let centerYView = UIView()
-//        uploadPicBackgroundView.addSubview(centerYView)
-//        centerYView.snp.makeConstraints { (m) in
-//            m.leading.trailing.equalToSuperview()
-//            m.top.equalTo(photoLibraryImageView.snp.bottom)
-//            m.bottom.equalToSuperview()
-//        }
-//
-//        // 포토라이브러리 불러오기 버튼
-//        let photoLibraryLoadButton = UIButton()
-//        uploadPicBackgroundView.addSubview(photoLibraryLoadButton)
-//        photoLibraryLoadButton.snp.makeConstraints { (m) in
-//            m.leading.equalToSuperview().offset(40)
-//            m.centerY.equalTo(centerYView)
-//            m.width.equalTo(80)
-//            m.height.equalTo(50)
-//        }
-//        photoLibraryLoadButton.setTitle("내 사진", for: .normal)
-//        photoLibraryLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
-//        photoLibraryLoadButton.addTarget(self, action: #selector(photoLibraryLoadButtonTapped), for: .touchUpInside)
-//        photoLibraryLoadButton.layer.cornerRadius = 10
-//
-//        // 카메라 불러오기 버튼
-//        let cameraLoadButton = UIButton()
-//        uploadPicBackgroundView.addSubview(cameraLoadButton)
-//        cameraLoadButton.snp.makeConstraints { (m) in
-//            m.trailing.equalToSuperview().inset(40)
-//            m.centerY.equalTo(centerYView)
-//            m.width.equalTo(80)
-//            m.height.equalTo(50)
-//        }
-//        cameraLoadButton.setTitle("카메라", for: .normal)
-//        cameraLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
-//        cameraLoadButton.addTarget(self, action: #selector(cameraLoadButtonTapped), for: .touchUpInside)
-//        cameraLoadButton.layer.cornerRadius = 10
-//
-//        // 업로드 확정 버튼
-//        let uploadButton = UIButton()
-//        uploadPicBackgroundView.addSubview(uploadButton)
-//        uploadButton.snp.makeConstraints { (m) in
-//            m.centerY.equalTo(centerYView)
-//            m.centerX.equalToSuperview()
-//            m.width.height.equalTo(80)
-//        }
-//        let uploadImage = UIImage(named: "uploadCloud")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-//        uploadButton.setImage(uploadImage, for: .normal)
-//        uploadButton.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
-//        uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
-//
+        // 카메라 불러오기 버튼
+        let cameraLoadButton = UIButton()
+        writeReviewBackgroundView.addSubview(cameraLoadButton)
+        cameraLoadButton.snp.makeConstraints { (m) in
+            m.trailing.equalToSuperview().inset(40)
+            m.centerY.equalTo(centerYView)
+            m.width.equalTo(80)
+            m.height.equalTo(50)
+        }
+        cameraLoadButton.setTitle("카메라", for: .normal)
+        cameraLoadButton.backgroundColor =  #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        cameraLoadButton.addTarget(self, action: #selector(cameraLoadButtonTapped), for: .touchUpInside)
+        cameraLoadButton.layer.cornerRadius = 10
+        
+        // 업로드 확정 버튼
+        let uploadButton = UIButton()
+        writeReviewBackgroundView.addSubview(uploadButton)
+        uploadButton.snp.makeConstraints { (m) in
+            m.centerY.equalTo(centerYView)
+            m.centerX.equalToSuperview()
+            m.width.height.equalTo(80)
+        }
+        let uploadImage = UIImage(named: "uploadCloud")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        uploadButton.setImage(uploadImage, for: .normal)
+        uploadButton.tintColor = #colorLiteral(red: 0.9768021703, green: 0.478310287, blue: 0.1709150374, alpha: 1)
+        uploadButton.addTarget(self, action: #selector(reviewUploadButtonTapped), for: .touchUpInside)
+        
     }
     @objc private func xButtonOfWriteReviewTapped() {  // 리뷰쓰기의 x버튼 실행 시
         let xButtonAlert = UIAlertController(title: nil, message: "현재 화면을 닫을 경우 리뷰가 더이상 업로드되지 않습니다", preferredStyle: .actionSheet)
@@ -683,6 +833,94 @@ final class PlateViewController: UIViewController {
         }))
         self.present(xButtonAlert, animated: true)
     }
+    
+    @objc private func reviewGoodButtonTapped() {
+        print("goodButtonTapped")
+        reviewRateValue = 5
+        
+        goodButton.alpha = 1.0
+        goodButtonLabel.alpha = 1.0
+        sosoButton.alpha = 0.2
+        sosoButtonLabel.alpha = 0.2
+        badButton.alpha = 0.2
+        badButtonLabel.alpha = 0.2
+        
+        print("reviewContentLabel", reviewContentLabel.text)
+    }
+    @objc private func reviewSosoButtonTapped() {
+        print("sosoButtonTapped")
+        reviewRateValue = 3
+        
+        goodButton.alpha = 0.2
+        goodButtonLabel.alpha = 0.2
+        sosoButton.alpha = 1.0
+        sosoButtonLabel.alpha = 1.0
+        badButton.alpha = 0.2
+        badButtonLabel.alpha = 0.2
+    }
+    @objc private func reviewBadButtonTapped() {
+        print("badButtonTapped")
+        reviewRateValue = 1
+        
+        goodButton.alpha = 0.2
+        goodButtonLabel.alpha = 0.2
+        sosoButton.alpha = 0.2
+        sosoButtonLabel.alpha = 0.2
+        badButton.alpha = 1.0
+        badButtonLabel.alpha = 1.0
+    }
+    @objc func reviewUploadButtonTapped() { // --> 업로드 버튼 탭!!!
+        let uploadButtonAlert = UIAlertController(title: nil, message: "리뷰를 올리시겠습니까?", preferredStyle: .actionSheet)
+        uploadButtonAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        uploadButtonAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
+            // 컨펌 했을 때 액션
+            guard let restaurantPk = self.selectedColumnData?.pk else { return }
+            print(" restaurantPk", "=",restaurantPk )
+            guard let userToken = UserDefaults.standard.string(forKey: "userToken") else { return }
+            print(" userToken", "=",userToken )
+            
+            let url = "https://fastplate.xyz/api/posts/list/"
+            let header: HTTPHeaders = [
+                "Authorization" : "token \(userToken)"
+            ]
+            let params: Parameters = [
+                "restaurant": restaurantPk,
+                "content": "\(self.reviewContentLabel.text ?? "리뷰가 없습니다")",
+                "rate": self.reviewRateValue
+            ]
+            
+            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header)
+                .validate()
+                .responseData { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let result = try! JSONDecoder().decode(PostData.self, from: value)
+                        
+                        self.resultFromServer = result
+                        
+                        // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "getPostPk"), object: nil)
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+            
+            self.writeReviewBackgroundView.removeFromSuperview()
+            self.writeReviewBackgroundView.subviews.forEach { $0.removeFromSuperview() }
+            self.photoLibraryImageView.image = nil
+            
+            let uploadConfirmAlert = UIAlertController(title: nil, message: "완료 되었습니다.", preferredStyle: .alert)
+            self.present(uploadConfirmAlert, animated: true)
+            
+            let when = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: when){
+                uploadConfirmAlert.dismiss(animated: true, completion: nil)
+            }
+        }))
+        self.present(uploadButtonAlert, animated: true)
+    }
+    
     @objc private func uploadPicButtonTapped() {
         // 베이스 백그라운드 뷰(흐릿)
         view.addSubview(uploadPicBackgroundView)
@@ -798,7 +1036,6 @@ final class PlateViewController: UIViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     @objc func cameraLoadButtonTapped() {
-        print("camera light action")
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
         
@@ -809,9 +1046,38 @@ final class PlateViewController: UIViewController {
         uploadButtonAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         uploadButtonAlert.addAction(UIAlertAction(title: "확인", style: .default, handler: { (UIAlertAction) in
             // 컨펌 했을 때 액션
+            guard let restaurantPk = self.selectedColumnData?.pk else { return }
+            print(" restaurantPk", "=",restaurantPk )
+            guard let userToken = UserDefaults.standard.string(forKey: "userToken") else { return }
+            print(" userToken", "=",userToken )
             
+            let url = "https://fastplate.xyz/api/posts/list/"
+            let header: HTTPHeaders = [
+                "Authorization" : "token \(userToken)"
+            ]
+            let params: Parameters = [
+                "restaurant": restaurantPk,
+                "content": "이미지만 올려주신 리뷰 입니다",
+                "rate": 3
+            ]
             
-            ////////
+            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header)
+                .validate()
+                .responseData { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        let result = try! JSONDecoder().decode(PostData.self, from: value)
+                        
+                        self.resultFromServer = result
+                        
+                        // 위에 처리(result 가져오기)가 끝나면 노티피케이션을 띄우겠습니다.//
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "getPostPk"), object: nil)
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+            }
+            
             self.uploadPicBackgroundView.removeFromSuperview()
             self.uploadPicBackgroundView.subviews.forEach { $0.removeFromSuperview() }
             self.photoLibraryImageView.image = nil
@@ -825,6 +1091,67 @@ final class PlateViewController: UIViewController {
             }
         }))
         self.present(uploadButtonAlert, animated: true)
+    }
+    @objc private func uploadPostImage() {
+        guard let postPk = resultFromServer?.postPk else { return }
+        
+        let token = UserDefaults.standard.string(forKey: "userToken") ?? ""
+        
+        let url = URL(string: "https://fastplate.xyz/api/posts/image/")!
+        let urlRequest = try! URLRequest(url: url, method: .post, headers: [
+            "content-type": "application/json",
+            "Authorization": "token \(token)"
+            ])
+        
+        let imageData = picForUpload!.pngData()
+        
+        Alamofire.upload(multipartFormData: {
+            let pkData = String(postPk).data(using: .utf8)!
+            print(pkData)
+            $0.append(pkData, withName: "post" as String)
+            
+            if let data = imageData {
+                $0.append(data, withName: "image", fileName: "image.png", mimeType: "image/png")
+            }
+        }, with: urlRequest) { (encodingResult) in
+            switch encodingResult {
+            case .success(request: let upload, _, _):
+                upload.responseJSON(completionHandler: { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        print(value)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                })
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+        //        Alamofire.upload(multipartFormData: { (multipartFormData) in
+        //            for (key, value) in params {
+        //                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key as String)
+        //            }
+        //            if let data = imageData {
+        //                multipartFormData.append(data, withName: "image", fileName: "image.png", mimeType: "image/png")
+        //            }
+        //        }, with: urlRequest) { (encodingResult) in
+        //            switch encodingResult {
+        //            case .success(request: let upload, _, _):
+        //                upload.responseJSON(completionHandler: { (response) in
+        //                    switch response.result {
+        //                    case .success(let value):
+        //                        print(value)
+        //                    case .failure(let error):
+        //                        print(error.localizedDescription)
+        //                    }
+        //                })
+        //            case .failure(let error):
+        //                print(error.localizedDescription)
+        //            }
+        //        }
+        ////// 이미지 포스트 끝
     }
     private func youTubeWebView() {
         guard let youTubeUrl = selectedColumnData?.youTubeUrl else { return }  // 유튜브 URL에 "youtube" 포함되어 있으면이 유튜브 플레이어 표시, 없으면 높이 1 스크롤 가이드뷰를 생성
@@ -1109,7 +1436,7 @@ final class PlateViewController: UIViewController {
         // 메뉴
         guard let menuText = selectedColumnData?.menuText else { return }
         if menuText != "" { // 메뉴 텍스트가 "" 가 아닐때(메뉴 정보가 있을 때)
-          let menuLabel = UILabel() // "메뉴 텍스트" 콘피그
+            let menuLabel = UILabel() // "메뉴 텍스트" 콘피그
             restaurantInfoAndMenuView.addSubview(menuLabel)
             menuLabel.snp.makeConstraints { (m) in
                 m.top.equalTo(moreInfoButton.snp.bottom)
@@ -1622,6 +1949,12 @@ extension PlateViewController: UIImagePickerControllerDelegate & UINavigationCon
         if let pickedImage = info[.originalImage] as? UIImage {
             photoLibraryImageView.contentMode = .scaleAspectFit
             photoLibraryImageView.image = pickedImage
+            picForUpload = pickedImage
+        }
+        if let pickedImage = info[.editedImage] as? UIImage {
+            photoLibraryImageView.contentMode = .scaleAspectFit
+            photoLibraryImageView.image = pickedImage
+            picForUpload = pickedImage
         }
         dismiss(animated: true, completion: nil)
     }
@@ -1630,3 +1963,17 @@ extension PlateViewController: UIImagePickerControllerDelegate & UINavigationCon
     }
 }
 
+extension PlateViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        reviewTextField.resignFirstResponder()
+        return true;
+    }
+    func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        reviewTextField.resignFirstResponder()
+        self.view.endEditing(true)
+    }
+    
+    @objc func textFieldDidChange(textField : UITextField){
+        reviewContentLabel.text = reviewTextField.text
+    }
+}

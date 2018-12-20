@@ -60,8 +60,6 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         NotificationCenter.default.addObserver(self, selector: #selector(currentPlaceButtonConfig), name: NSNotification.Name(rawValue: "addressSet"), object: nil)
     }
-    
-    
     private func tabBarIndicatorCreator() {
         // 탭바 주황색 인디케이터 실행 펑션
         guard let tabBar = self.tabBarController?.tabBar else { return }

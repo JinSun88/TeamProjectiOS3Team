@@ -50,7 +50,13 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
         connection.add(graphRequest) { (connection, response, error) -> Void in
             let data = response as! [String : AnyObject]
             let FBid = data["id"] as! String
+            let userDefaultAuthFBid = UserDefaults.standard
+            userDefaultAuthFBid.set(FBid, forKey: "authFBid")
+            userDefaultAuthFBid.synchronize()
             let token = result.token.tokenString!
+            let userDefaultAuthToken = UserDefaults.standard
+            userDefaultAuthToken.set(token, forKey: "authToken")
+            userDefaultAuthToken.synchronize()
             
 //            print("id: ", FBid)
 //            print("token :", token)
