@@ -45,6 +45,7 @@
 		AF05B65521A4F15C00D8D2A4 /* MainCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */; };
 		AF05B65721A4FEA900D8D2A4 /* PlateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */; };
 		AF261BF121C337F7007DA8AA /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */; };
+		AF301B4121CC6D0C002C2EB5 /* EasterEggViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF301B4021CC6D0C002C2EB5 /* EasterEggViewController.swift */; };
 		AF73581A21CA7A82002B695B /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF73581921CA7A82002B695B /* PostData.swift */; };
 		AF80FC0821C7DCB8003BB551 /* ReviewOnlyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */; };
 		AF95617121BDF2D4002F3288 /* PlateMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */; };
@@ -96,6 +97,7 @@
 		AF05B65421A4F15C00D8D2A4 /* MainCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellData.swift; sourceTree = "<group>"; };
 		AF05B65621A4FEA900D8D2A4 /* PlateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateViewController.swift; sourceTree = "<group>"; };
 		AF261BF021C337F7007DA8AA /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
+		AF301B4021CC6D0C002C2EB5 /* EasterEggViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasterEggViewController.swift; sourceTree = "<group>"; };
 		AF73581921CA7A82002B695B /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewOnlyViewController.swift; sourceTree = "<group>"; };
 		AF95617021BDF2D4002F3288 /* PlateMoreInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateMoreInfoViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				2FA18A6F21CB9E58009F9721 /* EatDealEndViewController.swift */,
 				AF80FC0721C7DCB8003BB551 /* ReviewOnlyViewController.swift */,
 				A0A8C39B21CB8B7F00EC891B /* MainSearchViewController.swift */,
+				AF301B4021CC6D0C002C2EB5 /* EasterEggViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				AFFEA06A21993C4300FF7AF5 /* MainCollectionViewCell.swift in Sources */,
 				AF0342E921A6A70D00DC6289 /* PlateCollectionViewCell.swift in Sources */,
 				A0A5618B21C257B900934FDD /* PurchasedEatDealViewController.swift in Sources */,
+				AF301B4121CC6D0C002C2EB5 /* EasterEggViewController.swift in Sources */,
 				A0A5618F21C257E800934FDD /* MyRestaurantViewController.swift in Sources */,
 				A0F42CEF21CA254100A605EA /* LoginData.swift in Sources */,
 				A0B8CC6421B1164C00B01784 /* MyInfoViewController.swift in Sources */,

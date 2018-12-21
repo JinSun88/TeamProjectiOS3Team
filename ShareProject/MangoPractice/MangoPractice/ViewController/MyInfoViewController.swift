@@ -20,6 +20,7 @@ class MyInfoViewController: UIViewController {
     let wantToGoButton = UIButton()
     let myRestaurantButton = UIButton()
     let settingButton = UIButton()
+    let easterEggButton = UIButton()
     let nextButtonView = UIView()
     let nextButton = UIButton()
     let nextButtonView1 = UIView()
@@ -173,7 +174,24 @@ class MyInfoViewController: UIViewController {
         nextButtonView3.backgroundColor = .white
         
         settingButton.addTarget(self, action: #selector(settingButtonDidTap), for: .touchUpInside)
-
+        
+        
+        //// 대놓고 이스터 에그
+        easterEggButton.setTitle("     대놓고 이스터에그~", for: .normal)
+        easterEggButton.setTitleColor(UIColor.black, for: .normal)
+        easterEggButton.titleLabel?.font = UIFont(name: "Helvetica", size: 18)
+        easterEggButton.backgroundColor = .white
+        easterEggButton.contentHorizontalAlignment = .left
+        
+        easterEggButton.addTarget(self, action: #selector(easterEggButtonDidTap), for: .touchUpInside)
+        view.addSubview(easterEggButton)
+        easterEggButton.snp.makeConstraints {
+            $0.top.equalTo(settingButton.snp.bottom).offset(15)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(12)
+        }
+        /////
         
         purchasedEatDealButton.snp.makeConstraints {
             $0.top.equalTo(topView.snp.bottom).offset(15)
@@ -277,6 +295,19 @@ class MyInfoViewController: UIViewController {
 
     }
 
-
+    @objc func easterEggButtonDidTap(){
+        print("easterEgg")
+        
+        let destination = EasterEggViewController()
+        
+        // 화면 전환 액션
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(destination, animated: false, completion: nil)
+    }
 
 }
